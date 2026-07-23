@@ -1,0 +1,562 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+<section class="section text-center p-0">
+    <div class="container">
+        <!-- <div class="columns is-multiline"> -->
+        <div class="row">
+            <!-- <div class="column is-8-tablet is-text-centered">
+            </div> -->
+            <div class="column is-12-tablet is-text-centered">
+                {% include 'aix/app/operations/page_header.html' with entity=entity %}
+            </div>
+            <div class="col-7">
+                <table width="100%">
+                    <tr>
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>Tasks</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_tasks }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2.5%"></td> -->
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>Assets</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_assets }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2.5%"></td> -->
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>Personnel</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_personnel }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td><p></p></td></tr>
+                    <tr>
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>Activities</b></th></tr>
+                                <tr><td>{{ wo_digest.kpi_ops_qs.count }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="5%"></td> -->
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>Equipment.</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_onoff }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="5%"></td> -->
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>POB</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_pob }}</td></tr>
+                            </table>
+                            <table class="border w-100">
+                                <tr>
+                                    <td>
+                                        <table class="border w-100">
+                                            <tr><th><b>SN</b></th></tr>
+                                            <tr><td>{{ wo_digest.stat_nox_pob_SN }}</td></tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="border w-100">
+                                            <tr><th><b>NN</b></th></tr>
+                                            <tr><td>{{ wo_digest.stat_nox_pob_NN }}</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>TRIPS</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops.count }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>OPS-TR</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_TR.count }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>OPS-REP</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_REP.count }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>OPS-LF</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_LF.count }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b></b></th></tr>
+                                <tr><td></td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>STB</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_STB.count }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>BRKD</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_BRKD.count }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>OFFHIRE</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_OFFHIRE.count }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>CARGO</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops.count }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>KMSPASSED</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_TR.count }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>FUEL</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_REP.count }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b></b></th></tr>
+                                <tr><td></td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>ROUTINE</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_STB.count }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>SIMPLE</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_BRKD.count }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>COMPLICATED</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_OFFHIRE.count }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>COMPLEX</b></th></tr>
+                                <tr><td>{{ wo_digest.stat_nox_ops_OFFHIRE.count }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>MAN-HRS</b></th></tr>
+                                <tr><td>{% widthratio wo_digest.stat_nox_pobs_MH 1 12 %}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>SN</b></th></tr>
+                                <tr><td>{% widthratio wo_digest.stat_nox_pobs_SN 1 12 %}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>NN</b></th></tr>
+                                <tr><td>{% widthratio wo_digest.stat_nox_pobs_NN 1 12 %}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                
+                <table width="100%">
+                    <tr>
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>Activities</b></th></tr>
+                                <tr><td>{{ wo_digest.kpi_ops_qs.count }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2.5%"></td> -->
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>Assets</b></th></tr>
+                                <tr><td>{{ wo_digest.wo_task_asset_qs.count }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2.5%"></td> -->
+                        <td width="30%">
+                            <table class="border w-100">
+                                <tr><th><b>Personnel</b></th></tr>
+                                <tr><td>{{ wo_digest.wo_task_asset_qs.count }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>TRIPS</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.hrs_trips.trip_activity__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>KMSPASSED</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.kms_passed.kms_passed__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>FUEL</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.consol_fuel.consol_fuel__sum }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">HRS</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>OPS-TR</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.hrs_ops.section2_time_taken__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>OPS-REP</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.hrs_rep.section2_time_taken__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>OPS-LF</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.hrs_lf.section2_time_taken__sum }}</td></tr>
+                            </table>
+                        </td>
+                    <!-- </tr>
+                    <tr> -->
+                        <!-- <td width="2%"></td> -->
+                        <!-- <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b></b></th></tr>
+                                <tr><td></td></tr>
+                            </table>
+                        </td> -->
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>STB</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.hrs_stb.section2_time_taken__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>BRKD</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.hrs_brkd.section2_time_taken__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>OFFHIRE</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.hrs_offhire.section2_time_taken__sum }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>CARGO</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.ton_cargo.section2_ton_cargo__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>NO-LIFTS</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.no_lifts.section2_time_taken__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>TON-LIFTS</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.ton_lifts.section2_time_taken__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b></b></th></tr>
+                                <tr><td></td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Lifting Operations - [#]</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>ROUTINE</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.no_routine.no_routine__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>SIMPLE</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.no_simple.no_simple__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>COMPLICATED</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.no_complicated.no_complicated__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>COMPLEX</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.no_routine.no_routine__sum }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Lifting Operations - [Tons]</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>ROUTINE</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.ton_routine.ton_routine__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>SIMPLE</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.ton_simple.ton_simple__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>COMPLICATED</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.ton_complicated.ton_complicated__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="border w-100">
+                                <tr><th><b>COMPLEX</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.ton_routine.ton_routine__sum }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Lifted/ Location [Ton]</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>DSB</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.llt_dsb.llt_dsb__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>TGI</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.llt_tgi.llt_tgi__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#1</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.llt_rig1.llt_rig1__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#2</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.llt_rig2.llt_rig2__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#3</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.llt_rig3.llt_rig3__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>OTHER</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.llt_other.llt_other__sum }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Transported / Location [Ton]</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>DSB</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.tlt_dsb.tlt_dsb__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>TGI</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.tlt_tgi.tlt_tgi__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#1</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.tlt_rig1.tlt_rig1__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#2</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.tlt_rig2.tlt_rig2__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#3</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.tlt_rig3.tlt_rig3__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>OTHER</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.tlt_other.tlt_other__sum }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Lifted/ Transported Totals</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>DSB</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.dnt_dsb.dnt_dsb__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>TGI</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.dnt_tgi.dnt_tgi__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#1</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.dnt_rig1.dnt_rig1__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#2</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.dnt_rig2.dnt_rig2__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>RIG#3</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.dnt_rig3.dnt_rig3__sum }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="border w-100">
+                                <tr><th><b>OTHER</b></th></tr>
+                                <tr><td>{{ wo_digest.ops_digest.dnt_other.dnt_other__sum }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+</section>
+{% endblock %}
+
+
+

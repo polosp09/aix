@@ -1,0 +1,81 @@
+{% load aix %}
+{% load trans from i18n %}
+
+
+        <div class="row">
+            <div class="col-6 text-center">
+                <div class="card-body mb-0">
+                    <ul class="nav nav-pills pricing-nav-tabs">
+                        <li class="nav-item">
+                            <h5 class="mb-0 is-size-4 text-light">
+                            <a class="nav-link active" href="#">
+                                {% if has_year and not has_month and not has_quarter %}{% trans 'Fiscal Year' %}{% endif %}
+                                {% if has_month %}{% trans 'Fiscal Month' %}{% endif %}
+                                {% if has_quarter %}{% trans 'Fiscal Quarter' %}{% endif %}
+                                {% if has_date %}{% trans 'Fiscal Date' %}{% endif %}
+                            </a></h5>
+                        </li>
+                        <li class="nav-item">
+                            <h5 class="mb-0 is-size-4">
+                            <a class="nav-link" href="#">
+                                {% if has_year and not has_month and not has_quarter %}{{ to_date.year }}{% endif %}
+                                {% if has_month %}{{ to_date | date:"F Y" }}{% endif %}
+                                {% if has_quarter %}Q{{ quarter }} {{ year }}{% endif %}
+                                {% if has_date %}{{ to_date | date }}{% endif %}
+                            </a></h5>
+                        </li>
+                    </ul>
+                </div>
+                <p class="text-center mb-2">
+                    <a href="{{ previous_year_url }}" class="btn btn-secondary"><i class="mdi mdi-arrow-left  text-light align-middle me-1"></i> {{ previous_year }}</a> |
+                    <a href="{{ current_year_url }}" class="btn btn-success">{{ year }}</a> |
+                    <a href="{{ next_year_url }}" class="btn btn-info">{{ next_year }} <i class="mdi mdi-arrow-right  text-light align-middle me-1"></i></a>
+                </p>
+            </div>
+
+            <div class="col-6 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                        <p class="col-6 text-cente mb-0">
+                            {% for q_url in quarter_urls %}
+                                <a href="{{ q_url.url }}" class="btn btn-dark is-size-4 px-4">{{ q_url.quarter_name }}</a> {% if not forloop.last %}|{% endif %}
+                            {% endfor %}
+                        </p>
+
+                        {% if has_date %}
+                            <p class="col-6 has-date is-italic is-size-5 mt-2">{{ from_date | date:"m/d/Y" }}</p>
+                        {% else %}
+                            <p class="col-6 has-date is-size-5 is-italic mt-2">
+                                <span class="is-bold text-weight-bold">{{ from_date | date:"m/d/Y" }}</span>
+                                {% trans 'thru' %}
+                                <span class="is-bold text-weight-bold">{{ to_date | date:"m/d/Y" }}</span></p>
+                        {% endif %}
+
+                        <p class="col-6 text-center mt-2">
+                            {% for m_url in month_urls %}
+                                <a href="{{ m_url.url }}" class="btn btn-secondary mt-0 ms-1 mb-0">{{ m_url.month_abbr }} {{ forloop.counter }}</a>
+                                {% if not forloop.last %} {% endif %} {% if forloop.counter == 6 %} </p><p class="col-6 text-center mt-2"></p></p><p class="col-6 text-center mt-2"> {% endif %}
+                            {% endfor %}
+                        </p>
+
+                        <!-- <p class="col-6 text-centered mt-5">
+                        </p>
+
+                        <p class="col-6 text-centered mt-5">
+                        </p> -->
+
+                        <p class="col-6 text-center mt-2">
+                            <a href="{{ current_month_url }}" class="btn-sm btn-dark">{% trans 'Go To Current Month' %}</a>
+                        </p>
+                        {% comment %}
+                        <p class="col-6 text-centered mb-5">
+                            {% date_picker date_navigation_url %}
+                        </p>
+                        {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

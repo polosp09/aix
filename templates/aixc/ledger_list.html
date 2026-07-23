@@ -1,0 +1,14 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load static %}
+{% load aix %}
+
+{% block view_content %}
+    <div class="card">
+        <div class="card-body">
+        <a class="btn btn-primary is-outlined"
+           href="{% url 'aix:ledger-create' entity_slug=view.kwargs.entity_slug %}">Add</a>
+        <a class="btn btn-dark"
+           href="{% url 'aix:entity-dashboard' entity_slug=view.kwargs.entity_slug %}">Back</a>
+        {% ledgers_table %}
+    </div>
+{% endblock %}

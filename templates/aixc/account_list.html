@@ -1,0 +1,31 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <h1 class="is-size-4 text-weight-thin">{% trans 'CHART OF ACCOUNTS' %}</h1>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a href="{% url 'aix:account-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success btn-outlined">
+                            <i class="mdi mdi-plus"></i> {% trans 'Create Account' %}</a>
+                    </div>
+                    <div class="level-item">
+                        <a href="{% url 'aix:entity-dashboard' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">
+                            <i class="mdi mdi-arrow-left"></i> {%  trans 'Back' %}</a>
+                    </div>
+                </div>
+            </div>
+            {% accounts_table asset_accounts 'Asset Accounts' %}
+            {% accounts_table liability_accounts 'Liability Accounts' %}
+            {% accounts_table equity_accounts 'Equity Accounts' %}
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block view_content %}
+    <div class="columns is-centered">
+        <div class="column is-4">
+            <div class="card">
+        <div class="card-body">
+                <form method="post"
+                      action="{% url 'aix:je-create' entity_slug=view.kwargs.entity_slug ledger_pk=view.kwargs.ledger_pk %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-outlined is-primary is-fullwidth djetler_my_1" type="submit">Create
+                    </button>
+                    <a class="btn-sm btn-dark is-fullwidth"
+                       href="{% url 'aix:je-list' entity_slug=view.kwargs.entity_slug ledger_pk=view.kwargs.ledger_pk %}">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <style>
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{
+      margin:0;padding:0}
+
+      h1,h2,h3,h4,h5,h6{
+      font-size:100%;font-weight:normal}
+
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{
+          margin:0;padding:0}
+      
+      h1,h2,h3,h4,h5,h6{
+      font-size:100%;font-weight:normal}
+      
+      ul{
+      list-style:none}
+      
+      button,input,select,textarea{
+      margin:0}
+      
+      html{
+      box-sizing:border-box}
+      
+      *,*::before,*::after{
+      box-sizing:inherit}
+      
+      img,video{
+      height:auto;max-width:100%}
+      
+      iframe{
+      border:0}
+      
+      table{
+      border-collapse:collapse;border-spacing:0}
+      
+      td,th{
+      padding:0}
+      
+      /* td:not([align]),th:not([align]){
+      text-align:inherit}
+      */
+      html{
+      background-color:#fff;font-size:16px;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;min-width:300px;overflow-x:hidden;overflow-y:scroll;text-rendering:optimizeLegibility;text-size-adjust:100%}
+      
+      article,aside,figure,footer,header,hgroup,section{
+      display:block}
+      
+      body,button,input,optgroup,select,textarea{
+      /* font-family:BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif */
+      font-family: "Raleway","Lucida Grande","Lucida Sans Unicode","Lucida Sans";  
+      }
+      
+      code,pre{
+      -moz-osx-font-smoothing:auto;-webkit-font-smoothing:auto;font-family:monospace}
+      
+      body{
+      color:#4a4a4a;font-size:1em;font-weight:550;line-height:1.5}
+      
+      a{
+      color:#485fc7;cursor:pointer;text-decoration:none}
+      
+      a strong{
+      color:currentColor}
+      
+      a:hover{
+      color:#363636}
+      
+      code{
+      background-color:#f5f5f5;color:#da1039;font-size:.875em;font-weight:normal;padding:0.25em 0.5em 0.25em}
+      
+      hr{
+      background-color:#f5f5f5;border:none;display:block;height:2px;margin:1.5rem 0}
+      
+      img{
+      height:auto;max-width:100%}
+      
+      input[type="checkbox"],input[type="radio"]{
+      vertical-align:baseline}
+      
+      small{
+      font-size:.875em}
+      
+      span{
+      font-style:inherit;font-weight:inherit}
+      
+      strong{
+      color:#363636;font-weight:700}
+      
+      fieldset{
+      border:none}
+      
+      pre{
+      -webkit-overflow-scrolling:touch;background-color:#f5f5f5;color:#4a4a4a;font-size:.875em;overflow-x:auto;padding:1.25rem 1.5rem;white-space:pre;word-wrap:normal}
+      
+      pre code{
+      background-color:transparent;color:currentColor;font-size:1em;padding:0}
+      
+      table td,table th{
+      vertical-align:top}
+      
+      /* table td:not([align]),table th:not([align]){
+      text-align:inherit} */
+      
+      table th{
+      color:#363636}
+      
+      /* @keyframes spinAround{
+      from{
+      transform:rotate(0deg)}
+      
+      to{
+      transform:rotate(359deg)}
+      
+      } */
+      
+      .table{
+      background-color:#fff;color:#363636}
+      
+      /* .table td,.table th{
+      border:1px solid #dbdbdb;border-width:0 0 1px;padding:0.5em 0.75em;vertical-align:top} */
+      .table td,.table th{
+      border:0.025em solid #354f71;border-width:0 0 0.025em;padding: 0;vertical-align:top;text-align: left;}
+      
+      .table td.is-white,.table th.is-white{
+      background-color:#fff;border-color:#fff;color:#0a0a0a}
+      
+      .table td.is-black,.table th.is-black{
+      background-color:#0a0a0a;border-color:#0a0a0a;color:#fff}
+      
+      .table td.is-light,.table th.is-light{
+      background-color:#f5f5f5;border-color:#f5f5f5;color:rgba(0,0,0,0.7)}
+      
+      .table td.is-dark,.table th.is-dark{
+      background-color:#363636;border-color:#363636;color:#fff}
+      
+      .table td.is-primary,.table th.is-primary{
+      background-color:#00d1b2;border-color:#00d1b2;color:#fff}
+      
+      .table td.is-link,.table th.is-link{
+      background-color:#485fc7;border-color:#485fc7;color:#fff}
+      
+      .table td.is-info,.table th.is-info{
+      background-color:#3e8ed0;border-color:#3e8ed0;color:#fff}
+      
+      .table td.is-success,.table th.is-success{
+      background-color:#48c78e;border-color:#48c78e;color:#fff}
+      
+      .table td.is-warning,.table th.is-warning{
+      background-color:#ffe08a;border-color:#ffe08a;color:rgba(0,0,0,0.7)}
+      
+      .table td.is-danger,.table th.is-danger{
+      background-color:#f14668;border-color:#f14668;color:#fff}
+      
+      .table td.is-narrow,.table th.is-narrow{
+      white-space:nowrap;width:1%}
+      
+      .table td.is-selected,.table th.is-selected{
+      background-color:#00d1b2;color:#fff}
+      
+      .table td.is-selected a,.table td.is-selected strong,.table th.is-selected a,.table th.is-selected strong{
+      color:currentColor}
+      
+      .table td.is-vcentered,.table th.is-vcentered{
+      vertical-align:middle}
+      
+      .table th{
+      color:#363636}
+      
+      /* .table th:not([align]){
+      text-align:left} */
+      
+      .table tr.is-selected{
+      background-color:#00d1b2;color:#fff}
+      
+      .table tr.is-selected a,.table tr.is-selected strong{
+      color:currentColor}
+      
+      .table tr.is-selected td,.table tr.is-selected th{
+      border-color:#fff;color:currentColor}
+      
+      .table thead{
+      background-color:rgba(0,0,0,0)}
+      
+      .table thead td,.table thead th{
+      border-width:0 0 2px;color:#363636}
+      
+      .table tfoot{
+      background-color:rgba(0,0,0,0)}
+      
+      .table tfoot td,.table tfoot th{
+      border-width:2px 0 0;color:#363636}
+      
+      .table tbody{
+      background-color:rgba(0,0,0,0)}
+      
+      .table tbody tr:last-child td,.table tbody tr:last-child th{
+      border-bottom-width:0}
+      
+      .table.is-bordered td,.table.is-bordered th{
+      border-width:0.025em}
+      
+      .table.is-bordered tr:last-child td,.table.is-bordered tr:last-child th{
+      border-bottom-width:0.025em}
+      
+      .table.is-fullwidth{
+      width:100%}
+      
+      /* .table.is-hoverable tbody tr:not(.is-selected):hover{
+      background-color:#fafafa}
+      
+      .table.is-hoverable.is-striped tbody tr:not(.is-selected):hover{
+      background-color:#fafafa}
+      
+      .table.is-hoverable.is-striped tbody tr:not(.is-selected):hover:nth-child(even){
+      background-color:#f5f5f5}
+      */
+      .table.is-header{border:none}
+      .table.is-header p{padding:0.75em 0 0 0.85em}
+      .table.is-header .img{padding-bottom:0.75em;width: auto}
+      .table.is-section td{padding:0.75em 0.55em 0.55em 0.55em;border-bottom:none}
+      .table.is-list p{padding:0.45em 0.55em 0 0.55em}
+      .table.is-header td, .table.is-section td, .table.is-list td{border-left:none;border-bottom:none}
+      .table.is-header th, .table.is-section th, .table.is-list th{border-left:none;border-bottom:none}
+
+      .table .is-th-bg{background-color: #e2e2e2; color: #354f71;} /**#354f71**/
+      .table.is-no-border td{border:none;}
+      .table .is-no-border-left{border-left:none;}
+      .table .is-no-border-right{border-left:none;}
+      
+      /* .table.is-striped tbody tr:not(.is-selected):nth-child(even){
+      background-color:#fafafa}
+      */
+      .table-container{
+      -webkit-overflow-scrolling:touch;overflow:auto;overflow-y:hidden;max-width:100%;border:1px solid #ccc}
+
+      /* td.number, th.number{text-align: right;} */
+      .text{text-align: left;}
+      .number{text-align: right;}
+      
+      .is-size-1{
+      font-size:2.7rem !important}
+      
+      .is-size-2{
+      font-size:1.5rem !important}
+      
+      .is-size-3{
+      font-size:1.7rem !important}
+      
+      .is-size-4{
+      font-size:0.84rem !important}
+      
+      .is-size-5{
+      font-size:0.55rem !important;line-height: 1.25em}
+      
+      .is-size-6{
+      font-size:0.91rem !important;font-weight: bold}
+      
+      .is-size-7{
+      font-size:.75rem !important;font-weight: bold}
+      
+      b{
+          color: #296fa8;
+      }
+
+    .dexa-title{ font-size: 0.52em; }
+    .tablex { 
+        border-bottom: 1px solid #4a4a4a; 
+        /* background-color: #e2e2e2; */
+        padding: 3px;
+    }
+    .headerx{
+        padding-top: 0.47em;
+    }
+    
+    </style>
+</head>
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <table class="is-header">
+                        <tr>
+                            <td style="width: 30%">
+                                <table class="is-no-border">
+                                  <tr>
+                                    <td style="width: 30%"><p class="is-size-5 text-weight-bold img pl-2">
+                                      <img src="static/images/logo-sm-dark.png" alt="logo-sm-dark" height="37" /></p>
+                                      <img src="static/images/logo_totalenergies.png" alt="logo-total-energies" /></p>
+                                    </td>
+                                    <td style="width: 70%; padding: 5px;">
+                                      <p class="is-size-5 text-weight-bold img">{{work_order.entity}}<br />
+                                        {{work_order.entity.address_1}}<br />
+                                        {{work_order.entity.email}}<br />
+                                        {{work_order.entity.website}}</p>
+                                    </td>
+                                  </tr>
+                                </table>
+                            </td>
+                            <td style="width: 30%">
+                                <table class="is-section">
+                                    <tr>
+                                        <td class="number is-size-4">WORK ORDER:</td>
+                                        <td class="number">
+                                            <h2 class="is-size-7 text-weight-bold is-header">
+                                                {{ work_order.order_no }}
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="number is-size-5">TYPE:</td>
+                                        <td class="number">
+                                            <h2 class="is-size-5 text-weight-bold is-header">
+                                                {{ work_order.wo_type }}
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="number is-size-5">CATEGORY:</td>
+                                        <td class="number">
+                                            <h2 class="is-size-5 text-weight-bold is-header">
+                                                {{ work_order.category }}
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width: 40%">
+                                <table class="is-section">
+                                    <tr>
+                                        <td class="number">
+                                            <h1 class="is-size-5 text-weight-bold is-header">START DATE:</h1>
+                                        </td>
+                                        <td class="number">
+                                            <h2 class="is-size-5 text-weight-bold is-header">
+                                                {{ work_order.start_date }}
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="number">
+                                            <h1 class="is-size-5 text-weight-bold is-header">END DATE:</h1>
+                                        </td>
+                                        <td class="number">
+                                            <h2 class="is-size-5 text-weight-bold is-header">
+                                                {{ work_order.end_date }}
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="number">
+                                            <h1 class="is-size-5 text-weight-bold is-header">STATUS:</h1>
+                                        </td>
+                                        <td class="number" width="20%">
+                                            <h2 class="is-size-5 text-weight-bold is-header">
+                                                {{ work_order.status }}
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="tablex" width="100%"></td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr>
+                            <td width="25%">
+                                <table class="w-100">
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">ASSETS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">2</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">INSPECTIONS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">{{ inspections }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">INCIDENTS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">{{ incidents}}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="25%" mx-2>
+                                <table class="w-100">
+                                    <tr>
+                                        <th width="40%"><p class="is-size-5 text-weight-bold">PERSONNEL</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">2</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="40%"><p class="is-size-5 text-weight-bold">TRIPS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">{{ wo_digest.ops_digest.hrs_trips.trip_activity__sum }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="40%"><p class="is-size-5 text-weight-bold">DISTANCE COVERED</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">{{ wo_digest.ops_digest.kms_passed.kms_passed__sum }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="25%">
+                                <table class="w-100">
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">FUEL</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">{{ wo_digest.ops_digest.consol_fuel.consol_fuel__sum }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">INCIDENTS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">0</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">INSPECTIONS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">0</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="25%">
+                                <table class="w-100">
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">INACTIVE-DAYS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">0</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">ACTIVE-DAYS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">0</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="is-size-5 text-weight-bold">WO-STATUS</p></th>
+                                        <td><p class="is-size-5 text-weight-light number">{{ work_order.wostatus }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><p></p></th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <tbody>
+            <tr>
+                <td class="tablex"><p class="is-size-5 text-weight-bold text">HRS</p></td>
+                <td class="tablex"><p></p></td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr>
+                            <th width="30%"><p class="is-size-5 text-weight-bold">OPS-TR</p></th>
+                            <td><p class="is-size-5 text-weight-light text">{{ wo_digest.ops_digest.hrs_ops.section2_time_taken__sum }}</p></td>
+                        </tr>
+                        <tr>
+                            <th width="50%"><p class="is-size-5 text-weight-bold">OPS-REP</p></th>
+                            <td><p class="is-size-5 text-weight-light text">{{ wo_digest.ops_digest.hrs_rep.section2_time_taken__sum }}</p></td>
+                        </tr>
+                        <tr>
+                            <th width="50%"><p class="is-size-5 text-weight-bold">OPS-LF</p></th>
+                            <td><p class="is-size-5 text-weight-light text">{{ wo_digest.ops_digest.hrs_lf.section2_time_taken__sum }}</p></td>
+                        </tr>
+                        <tr>
+                            <th width="50%"><p class="is-size-5 text-weight-bold">STB</p></th>
+                            <td><p class="is-size-5 text-weight-light text">{{ wo_digest.ops_digest.hrs_stb.section2_time_taken__sum }}</p></td>
+                        </tr>
+                        <tr>
+                            <th><p></p></th>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr>
+                            <th width="50%"><p class="is-size-5 text-weight-bold">BRKD</p></th>
+                            <td><p class="is-size-5 text-weight-light text">{{ wo_digest.ops_digest.hrs_brkd.section2_time_taken__sum }}</p></td>
+                        </tr>
+                        <tr>
+                            <th width="50%"><p class="is-size-5 text-weight-bold">OFF-HIRE</p></th>
+                            <td><p class="is-size-5 text-weight-light text">{{ wo_digest.ops_digest.hrs_offhire.section2_time_taken__sum }}</p></td>
+                        </tr>
+                        <tr>
+                            <th width="50%"><p class="is-size-5 text-weight-bold">CARGO TRANSPORTED</p></th>
+                            <td><p class="is-size-5 text-weight-light text">{{ wo_digest.ops_digest.ton_cargo.section2_time_taken__sum }}</p></td>
+                        </tr>
+                        <tr>
+                            <th><p></p></th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table is-list w-100">
+        <tbody>
+            <tr>
+                <td><p class="tablex is-size-5 text-weight-bold text">Lifting Operations - [#]</p></td>
+                <td><p class="tablex is-size-5 text-weight-bold text">Lifting Operations - [Tons]</p></td>
+                <td><p class="tablex is-size-5 text-weight-bold text">Lifted/ Location [Ton]</p></td>
+                <td><p class="tablex is-size-5 text-weight-bold text">Transported / Location [Ton]</p></td>
+                <td><p class="tablex is-size-5 text-weight-bold text">Lifted/ Transported Totals</p></td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">ROUTINE</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.no_routine.no_routine__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">SIMPLE</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.no_simple.no_simple__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">COMPLICATED</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.no_complicated.no_complicated__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">COMPLEX</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.no_complex.no_complex__sum }}</p></th></tr>
+                        
+                        <!-- <tr></tr>
+                        <tr><td><p class="is-size-5 text-weight-light text">0</p></td></tr>
+                        <tr><td><p class="is-size-5 text-weight-light text">0</p></td></tr>
+                        <tr><td><p class="is-size-5 text-weight-light text">0</p></td></tr> -->
+                        
+                        <tr>
+                            <th><p></p></th>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">ROUTINE</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.ton_routine.ton_routine__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">SIMPLE</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.ton_simple.ton_simple__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">COMPLICATED</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.ton_complicated.ton_complicated__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">COMPLEX</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.ton_complex.ton_complex__sum }}</p></th></tr>
+                    </table>
+                </td>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">DSB</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.llt_dsb.llt_dsb__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">TGI</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.llt_tgi.llt_tgi__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#1</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.llt_rig1.llt_rig1__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#2</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.llt_rig2.llt_rig2__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#3</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.llt_rig3.llt_rig3__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">OTHER</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.llt_other.llt_other__sum }}</p></th></tr>
+                    </table>
+                </td>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">DSB</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.tlt_dsb.tlt_dsb__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">TGI</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.tlt_tgi.tlt_tgi__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#1</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.tlt_rig1.tlt_rig1__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#2</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.tlt_rig2.tlt_rig2__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#3</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.tlt_rig3.tlt_rig3__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">OTHER</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.tlt_other.tlt_other__sum }}</p></th></tr>
+                    </table>
+                </td>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">DSB</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.dnt_dsb.dnt_dsb__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">TGI</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.dnt_tgi.dnt_tgi__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#1</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.dnt_rig1.dnt_rig1__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#2</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.dnt_rig2.dnt_rig2__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">RIG#3</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.dnt_rig3.dnt_rig3__sum }}</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">OTHER</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">{{ wo_digest.ops_digest.dnt_other.dnt_other__sum }}</p></th></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr><td></td></tr>
+        </tbody>
+    </table>
+    <table class="table is-list w-100">
+        <tbody>
+            <tr>
+                <td><h1 class="is-size-6 p-1">Equipment</h1></td>
+        </tbody>
+    </table>
+    <table class="table is-list w-100">
+        <tbody>
+            <tr>
+                <td style="margin-left: 4px; width: 96%;">
+                    <table class="table  w-100">
+                        <thead>
+                            <tr>
+                                <th><p class="tablex is-size-5 text-weight-bold text">License No.#</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Activity Date</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Location</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Allocation</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Status</p></th>
+                            </tr>
+                        </thead>
+                    
+                        <tbody>
+                            {% for onoff in onoffs %}
+                            <tr>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{onoff.asset.license_plate}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{onoff.activity_date}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{onoff.location.name}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{onoff.allocation}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{onoff.status}}</p></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr><td style="color: #fff;">-</td></tr>
+        </tbody>
+    </table>
+    <table>
+        <tbody>
+            <tr>
+                <td style="margin-left: 4px; width: 70%;">
+                    <h1 class="is-size-6">POB</h1>
+                    <table class="table is-list w-100">
+                        <thead>
+                            <tr>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Date</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Allocation</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Rotation1</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Rotation2</p></th>
+                            </tr>
+                        </thead>
+                    
+                        <tbody>
+                            {% for pob in pobs %}
+                            <tr>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{pob.activity_date}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{pob.allocation}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{pob.rotation1}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{pob.rotation2}}</p></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr><td><h1 style="color: #fff;">-</h1></td></tr>
+            <tr>
+                <td style="margin-left: 4px; width: 70%;">
+                    <h1 class="is-size-6">Assigned Assets</h1>
+                    <table class="table is-list w-100">
+                        <thead>
+                            <tr>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Asset</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Start Date</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">End Date</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Type</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Status</p></th>
+                            </tr>
+                        </thead>
+                    
+                        <tbody>
+                            {% for asset in assets %}
+                            <tr>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{asset.asset.license_plate}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{asset.startdate}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{asset.enddate}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{asset.asset.vehicle_type_name}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{asset.status}}</p></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr><td><h1 style="color: #fff;">-</h1></td></tr>
+            <tr>
+                <td style="margin-left: 4px; width: 100%;">
+                    <h1 class="is-size-6">Assigned Personnel</h1>
+                    <table class="table is-list w-100">
+                        <thead>
+                            <tr>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Staff</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Designation</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Start Date</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">End Date</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Deployed</p></th>
+                                <th><p class="tablex is-size-5 text-weight-bold text">Relieved</p></th>
+                                <th><p class="tablex is-size-5 text-weght-bold text">Status</p></th>
+                            </tr>
+                        </thead>
+                    
+                        <tbody>
+                            {% for person in personnel %}
+                            <tr>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{person.employee.name}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{person.employee.designation}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{person.startdate}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{person.enddate}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{person.deploydate}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{person.relievedate}}</p></td>
+                                <td><p class="tablex is-size-5 text-weight-bold text">{{person.status}}</p></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr class="mb-4">
+                <td></td><td></td><td></td><td></td><td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+
+{% block content %}
+    <section class="section text-center mt-0">
+        <div class="container">
+            <div class="columns is-multiline">
+                <div class="row">
+                    {% for entity in entities %}
+                        <div class="column is-8-tablet is-text-centered">
+                            {% include 'aix/includes/card_entity.html' with entity=entity %}
+                        </div>
+                    {% endfor %}
+                    {% if 'aix.view_entitymodel' in perms %}
+                    <div class="column is-12-tablet is-text-centered">
+                        <span class="is-4-tablet"></span>
+                        {% if 'aix.add_entitymodel' in perms %}<a href="{% url 'aix:entity-create' %}" class="btn btn-success btn-fullwidth btn-outlined">
+                                <i class="mdi mdi-plus"></i> {% trans 'New Company' %}</a></span>{% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

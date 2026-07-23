@@ -1,0 +1,19 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card text-light">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="card-text">
+                            <a href="{% url  'aix:customer-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">CUSTOMER LIST</a>
+                            <a href="{% url  'aix:customer-location-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">LOCATIONS</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

@@ -1,0 +1,36 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load aix %}
+
+
+{% block view_content %}
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                {% include 'aix/includes/card_customer.html' with customer=estimate.customer %}
+            </div>
+            <div class="column is-12">
+                {% include 'aix/estimate/includes/card_estimate.html' with estimate_model=estimate style='estimate-detail' entity_slug=view.kwargs.entity_slug %}
+                <form action="{% url 'aix:customer-estimate-update' entity_slug=view.kwargs.entity_slug ce_pk=view.kwargs.ce_pk %}"
+                      method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit"
+                            class="btn btn-primary is-fullwidth djetler_my_1">{% trans 'Save Estimate' %}</button>
+
+                    {#                    <a href="{% url 'aix:bill-detail' entity_slug=view.kwargs.entity_slug bill_pk=bill_model.uuid %}"#}
+                    {#                       class="btn-sm btn-dark is-fullwidth mt-2">{% trans 'Back to Bill Detail' %}</a>#}
+                    {#                    <a href="{% url 'aix:bill-list' entity_slug=view.kwargs.entity_slug %}"#}
+                    {#                       class="btn-sm is-info is-fullwidth mt-2">{% trans 'Bill List' %}</a>#}
+                    {#                    <a href="{% url 'aix:entity-dashboard' entity_slug=view.kwargs.entity_slug %}"#}
+                    {#                       class="btn-sm is-info is-outlined is-fullwidth mt-2">{% trans 'Go To Dashboard' %}</a>#}
+
+                </form>
+            </div>
+
+            <div class="column is-12">
+                {% customer_estimate_item_formset cj_formset %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

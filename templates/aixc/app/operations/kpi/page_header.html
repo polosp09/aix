@@ -1,0 +1,22 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card bg-secondary text-light">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <p>
+                            <a href="{% url  'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-warning">LIST</a>
+                            <a href="{% url  'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">NEW</a>
+                            <a href="{% url  'aix:work-order-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">WO Type</a>
+                            <a href="{% url  'aix:work-category-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Work Category</a>
+                            <a href="{% url  'aix:work-order-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">WO Status</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

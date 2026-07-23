@@ -1,0 +1,37 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+
+    <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for fet in fet_list %}
+            <tr>
+                <td>{{ fet.code }}</td>
+                <td>{{ fet.location.name }}</td>
+                <td>{{ fet.fet_date }}</td>
+                <td>{{ fet.fet_status }}</td>
+                <td>
+                    <a href="{% url 'aix:fet-detail' entity_slug=entity_slug fet_pk=fet.uuid %}"
+                        class="btn-sm text-success">Details</a>
+                    <a href="{% url 'aix:fet-delete' entity_slug=entity_slug fet_pk=fet.uuid %}"
+                        class="btn-sm text-weight-bold text-danger">{% trans ' Delete' %}</a>
+                    <a class="btn btn-danger"
+                        href="{% url 'aix:fet-rpt' entity_slug=entity_slug fet_pk=fet.uuid %}">
+                        {% trans 'Print Report' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>

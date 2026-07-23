@@ -1,0 +1,18 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card bg-secondary text-light">
+            <div class="card-body">
+                <p class="card-text">
+                    <a href="{% url  'aix:invoice-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">New Invoice</a>
+                    <a href="{% url  'aix:invoice-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Statuses</a>
+                    <a href="{% url  'aix:tax-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Taxes</a>
+                    <a href="{% url  'aix:invoice-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Types</a>
+                    <a href="{% url  'aix:requisition-workflow-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Requisition Workflow Actions</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

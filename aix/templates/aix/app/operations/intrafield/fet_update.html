@@ -1,0 +1,39 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+{% include 'aix/includes/messages.html' with messages=messages %}
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column">
+                {% include 'aix/includes/card_fet.html' with style='fet-detail' fet_model=fet_model entity_slug=view.kwargs.entity_slug %}
+            </div>
+            <div class="column is-12">
+                <form action="{% url 'aix:fet-update' entity_slug=view.kwargs.entity_slug fet_pk=fet_model.uuid %}"
+                      method="post">
+                    <div class="columns is-multiline">
+                        <div class="column is-12">
+                            {% csrf_token %}
+                            {{ form }}
+                            <button type="submit"
+                                    class="btn btn-primary is-fullwidth djetler_my_1">{% trans 'Save FET' %}
+                            </button>
+                            <a href="{% url 'aix:fet-detail' entity_slug=view.kwargs.entity_slug fet_pk=fet_model.uuid %}"
+                               class="btn-sm btn-dark is-fullwidth mt-2">{% trans 'Back to FET Detail' %}</a>
+                            <a href="{% url 'aix:fet-list' entity_slug=view.kwargs.entity_slug work_order_pk=fet_model.work_order.uuid %}"
+                               class="btn-sm is-info is-fullwidth mt-2">{% trans 'FET List' %}</a>
+                            <a href="{% url 'aix:entity-dashboard' entity_slug=view.kwargs.entity_slug %}"
+                               class="btn-sm is-info is-outlined is-fullwidth mt-2">{% trans 'Go To Dashboard' %}</a>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="p-2">
+            {% fet_item_formset_table item_formset %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

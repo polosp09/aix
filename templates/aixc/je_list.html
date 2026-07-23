@@ -1,0 +1,19 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="columns">
+        <div class="column">
+            <div class="card">
+        <div class="card-body">
+                <a class="btn btn-primary is-outlined"
+                   href="{% url 'aix:je-create' entity_slug=view.kwargs.entity_slug ledger_pk=view.kwargs.ledger_pk %}">Add</a>
+                <a class="btn btn-dark"
+                   href="{% url 'aix:ledger-list' entity_slug=view.kwargs.entity_slug %}">Back</a>
+                {% jes_table %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

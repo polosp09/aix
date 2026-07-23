@@ -1,0 +1,93 @@
+{% block content_documents %}
+{% load crispy_forms_tags%}
+                    <div>
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <h4 class="mb-0">Documents</h4>
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item text-center pr-2">
+                                    {% for group in request.user.groups.all %}
+                                    {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                    <a href="{% url 'aix:document-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success mb-2" data-bs-toggle="modal" data-bs-target="#document_form"><i class="mdi mdi-plus me-2"></i> Add Document</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>           
+                        <div class="modal fade" id="document_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                {% if upload == 'wo' %}
+                                <form action="{% url 'aix:document-upload-wo' entity_slug=view.kwargs.entity_slug work_order_pk=view.kwargs.work_order_pk %}" method="post" enctype="multipart/form-data" autocomplete="off">
+                                {% elif upload == 'task' %}
+                                <form action="{% url 'aix:document-upload-wo-task' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}" method="post" enctype="multipart/form-data" autocomplete="off">
+                                {% elif upload == 'activity' %}
+                                <form action="{% url 'aix:document-upload-wo-activity' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" method="post" enctype="multipart/form-data" autocomplete="off">
+                                {% endif %}
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalScrollable-title">New Document</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {%csrf_token%}
+                                        {% if upload == 'wo' %}
+                                        {{work_order_forms.frm_document|crispy}}
+                                        {% elif upload == 'task' %}
+                                        {{task_forms.document_form|crispy}}
+                                        {% elif upload == 'activity' %}
+                                        {{activity_forms.document_form|crispy}}
+                                        {% endif %}
+                                        <input type="file" id="multiFiles" name="files[]" multiple="multiple"/>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save changes</button>
+                                    </div>
+                                </form>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20px;">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="checkboxall">
+                                            <label class="form-check-label mb-0" for="checkboxall">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Extension</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for document in wo_document_qs %}
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input type="checkbox" name="chkbox" class="form-check-input" id="checkboxall1">
+                                            <label class="form-check-label mb-0" for="checkboxall1">&nbsp;</label>
+                                        </div>
+                                    </td>
+                                    <td>{{document.updated}}</td>
+                                    <td>{{document.name}}</td>
+                                    <td>{{document.doc_type.name}}</td>
+                                    <td>{{document.extension}}</td>
+                                    <td>{{document.size}} bytes</td>
+                                    <td>
+                                        <a href="{% url  'aix:document-update' entity_slug=document.entity.slug document_pk=document.uuid %}" class="btn-sm btn-dark">edit</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{% endblock content_documents %}

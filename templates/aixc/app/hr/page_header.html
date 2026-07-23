@@ -1,0 +1,36 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card bg-secondary text-light">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="card-text mb-2">
+                            <a href="{% url  'aix:salary-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">LIST</a>
+                            <a href="{% url  'aix:salary-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">NEW</a>
+                            <a href="{% url  'aix:department-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Departments</a>
+                            <a href="{% url  'aix:court-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Courts</a>
+                            <a href="{% url  'aix:practice-area-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Practice Areas</a>
+                            <a href="{% url  'aix:task-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Tasks</a>
+                        </p>
+                        <p class="card-text mb-2">
+                            <a href="{% url  'aix:payment-mode-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payment Modes</a>
+                            <a href="{% url  'aix:payroll-advance-request-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Actions</a>
+                            <a href="{% url  'aix:payroll-advance-request-detail-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Details</a>
+                            <a href="{% url  'aix:payroll-advance-request-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Statuses</a>
+                        </p>
+                        <p class="card-text mb-2">
+                            <a href="{% url  'aix:payroll-advance-request-workflow-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Workflow Actions</a>
+                            <a href="{% url  'aix:payroll-advance-request-workflow-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Workflows</a>
+                            <a href="{% url  'aix:payroll-advance-request-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Requests</a>
+                            <a href="{% url  'aix:practice-area-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Practice Areas</a>
+                        </p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

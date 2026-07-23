@@ -1,0 +1,351 @@
+{% load aix %}
+{% load i18n %}
+<div class="d-flex">
+    <div class="flex-1 overflow-hidden">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="text-center font-size-14 mb-2">
+                            <span>{% trans 'Accounting Period' %}</span><br /></h4>
+                        <h4 class="text-center font-size-14 mb-2">
+                            {% if not has_date %}
+                                <span class="text-centered text-success is-size-5">{{ from_date | date }}</span> 
+                                <span class="is-italic text-dark">{% trans 'thru' %}</span> 
+                                <span class="text-centered text-success is-size-5">{{ to_date | date }}</span>
+                            {% else %}
+                                <span class="text-centered text-success is-size-5">{{ from_date | date }}</span>
+                            {% endif %}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="text-center font-size-14 mb-2">
+                            <span>{% trans 'Cash-At-Hand' %}</span><br /></h4>
+                        <h4 class="text-center is-size-5 mb-2">
+                            {% currency_symbol %}{{ tx_digest.role_balance.ASSET_CA_CASH | currency_format }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-weight-light is-size-5">{% trans 'BILL COUNTER' %}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-info text-weight-light">{% trans 'ALL' %}</h4>
+                                        <h2 class="text-info text-weight-light is-size-5">
+                                            {{ fiscal_digest.bill_digest.bill_count_all }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="text-success text-weight-light">{% trans 'CLEARED' %}</h5>
+                                        <h2 class="text-success text-weight-light is-size-5">
+                                            {{ fiscal_digest.bill_digest.bill_count_cleared }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-danger text-weight-light">{% trans 'PENDING' %}</h4>
+                                        <h2 class="text-danger text-weight-light is-size-5">
+                                            {{ fiscal_digest.bill_digest.bill_count_pending }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-weight-light is-size-5">{% trans 'INVOICE COUNTER' %}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-info text-weight-light">{% trans 'ALL' %}</h4>
+                                        <h2 class="text-info text-weight-light is-size-5">
+                                            {{ fiscal_digest.invoice_digest.invoice_count_all }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="text-success text-weight-light">{% trans 'CLEARED' %}</h5>
+                                        <h2 class="text-success text-weight-light is-size-5">
+                                            {{ fiscal_digest.invoice_digest.invoice_count_cleared }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-danger text-weight-light">{% trans 'PENDING' %}</h4>
+                                        <h2 class="text-danger text-weight-light is-size-5">
+                                            {{ fiscal_digest.invoice_digest.invoice_count_pending }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-weight-light is-size-5">{% trans 'BILL-TOTALS' %}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-info text-weight-light">{% trans 'ALL' %}</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-info text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.bill_digest.bill_total_all | currency_format }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="text-success text-weight-light">{% trans 'CLEARED' %}</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-success text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.bill_digest.bill_total_cleared | currency_format }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-danger text-weight-light">{% trans 'PENDING' %}</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-danger text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.bill_digest.bill_total_pending | currency_format }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-weight-light is-size-5">{% trans 'INVOICE-TOTALS' %}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-info text-weight-light">{% trans 'ALL' %}</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-info text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.invoice_digest.invoice_total_all | currency_format }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="text-success text-weight-light">{% trans 'CLEARED' %}</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-success text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.invoice_digest.invoice_total_cleared | currency_format }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-danger text-weight-light">{% trans 'PENDING' %}</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-danger text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.invoice_digest.invoice_total_pending | currency_format }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-weight-light is-size-5">{% trans 'PO COUNTER' %}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-info text-weight-light">{% trans 'ALL' %}</h4>
+                                        <h2 class="text-info text-weight-light is-size-5">
+                                            {{ fiscal_digest.po_digest.po_count_all }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="text-success text-weight-light">{% trans 'CLEARED' %}</h5>
+                                        <h2 class="text-success text-weight-light is-size-5">
+                                            {{ fiscal_digest.po_digest.po_count_cleared }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-danger text-weight-light">{% trans 'PENDING' %}</h4>
+                                        <h2 class="text-danger text-weight-light is-size-5">
+                                            {{ fiscal_digest.po_digest.po_count_pending }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-weight-light is-size-5">{% trans 'PO-TOTALS' %}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-info text-weight-light">{% trans 'ALL' %}</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-info text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.po_digest.po_total_all | currency_format }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="text-success text-weight-light">{% trans 'CLEARED' %}</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-success text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.po_digest.po_total_cleared | currency_format }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-danger text-weight-light">{% trans 'PENDING' %}</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-danger text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.po_digest.po_total_pending | currency_format }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-weight-light is-size-5">{% trans 'JOB.CARD COUNTER' %}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-info text-weight-light">{% trans 'ALL' %}</h4>
+                                        <h2 class="text-info text-weight-light is-size-5">
+                                            {{ fiscal_digest.jobcard_digest.jobcard_count_all }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="text-success text-weight-light">{% trans 'CLEARED' %}</h5>
+                                        <h2 class="text-success text-weight-light is-size-5">
+                                            {{ fiscal_digest.jobcard_digest.jobcard_count_cleared }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-danger text-weight-light">{% trans 'PENDING' %}</h4>
+                                        <h2 class="text-danger text-weight-light is-size-5">
+                                            {{ fiscal_digest.jobcard_digest.jobcard_count_pending }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="text-weight-light is-size-5">{% trans 'JOB.CARD-TOTALS' %}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-info text-weight-light">{% trans 'ALL' %}</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-info text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.jobcard_digest.jobcard_total_all | currency_format }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 class="text-success text-weight-light">{% trans 'CLEARED' %}</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-success text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.jobcard_digest.jobcard_total_cleared | currency_format }}
+                                        </h2>
+                                    </div>
+                                    <div class="col-4">
+                                        <h4 class="text-danger text-weight-light">{% trans 'PENDING' %}</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <h2 class="text-danger text-weight-light">
+                                            {% currency_symbol %}{{ fiscal_digest.jobcard_digest.jobcard_total_pending | currency_format }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body bg-secondary">
+                                <div class="d-flex text-center">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class="text-truncate text-light font-size-14 mb-2">{% trans 'SUPPLIER COUNTER' %}</p>
+                                        <h5 class="mb-0 text-centered is-size-5 text-light">
+                                            {{ fiscal_digest.vendor_count_all }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body bg-secondary">
+                                <div class="d-flex text-center">
+                                    <div class="flex-1 overflow-hidden">
+                                        <p class=" text-light font-size-14 mb-2">{% trans 'CUSTOMER COUNTER' %}</p>
+                                        <h5 class="mb-0 is-size-5 text-light">
+                                            {{ fiscal_digest.customer_count_all }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body bg-secondary">
+                        <div class="d-flex text-center">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate text-light font-size-14 mb-2">{% trans 'WORK.ORDER COUNTER' %}</p>
+                                <h5 class="mb-0 text-centered is-size-5 text-light">
+                                    {{ fiscal_digest.wo_count_all }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

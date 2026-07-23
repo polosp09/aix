@@ -1,0 +1,37 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+
+    <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for faw in faw_list %}
+            <tr>
+                <td>{{ faw.code }}</td>
+                <td>{{ faw.location.name }}</td>
+                <td>{{ faw.faw_date }}</td>
+                <td>{{ faw.faw_status }}</td>
+                <td>
+                    <a href="{% url 'aix:faw-detail' entity_slug=entity_slug faw_pk=faw.uuid %}"
+                        class="btn-sm text-success">Details</a>
+                    <a href="{% url 'aix:faw-delete' entity_slug=entity_slug faw_pk=faw.uuid %}"
+                        class="btn-sm text-weight-bold text-danger">{% trans ' Delete' %}</a>
+                    <a class="btn btn-danger"
+                        href="{% url 'aix:faw-rpt' entity_slug=entity_slug faw_pk=faw.uuid %}">
+                        {% trans 'Print Report' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>

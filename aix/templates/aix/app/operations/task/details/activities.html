@@ -1,0 +1,60 @@
+{% block content_tasks %}
+{% load aix %}
+{% load crispy_forms_tags%}
+                    <div>
+                        <div class="row">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <b>Activities</b>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item text-center">
+                                        {% for group in request.user.groups.all %}
+                                        {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                        <a href="{% url 'aix:work-order-activity-create-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=task.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Activity</a>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-1">
+                        <!-- <table id="state-saving-datatable" class="table dt-responsive nowrap w-100" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> -->
+                        <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Date</th>
+                                    <th>Start Location</th>
+                                    <th>End Location</th>
+                                    <th>Option</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for activity in activities %}
+                                <tr>
+                                <td><b>{{ activity.code }}</b></td>
+                                <td>{{ activity.activity_date }}</td>
+                                <!-- <td>{{ activity.trip_code }}</td> -->
+                                <td>{{ activity.from_location }}</td>
+                                <td>{{ activity.to_location }}</td>
+                                <td>
+                                    {# comment #}
+                                    {% for group in usr_groups %}
+                                    {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                    <a href="{% url  'aix:work-order-activity-update' entity_slug=entity_slug work_order_activity_pk=activity.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                    {% endif %}{% endfor %}
+                                    <a href="{% url  'aix:work-order-activity-details' entity_slug=entity_slug work_order_activity_pk=activity.uuid %}" class="btn-sm btn-dark">Details</a>
+                                    
+                                    {# endcomment #}
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{% endblock content_tasks %}

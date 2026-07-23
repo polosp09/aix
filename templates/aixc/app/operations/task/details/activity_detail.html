@@ -1,0 +1,397 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row">
+            <div class="col-12">
+                {% block page_header %}
+                {% include '../page_header.html' %}
+                {% endblock page_header %}
+            </div>
+            <div class="col-7 pr-1">
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>ACTIVITY</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>TASK</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>DATE</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-danger text-h3 text-light text-center"><b>{{ kpiops.code}}</b></div>
+                    <div class="col-4 bg-danger text-h3 text-light text-center"><b>{{ kpiops.task.tripno}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ kpiops.activity_date}}</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>DISTANCE</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>START-LOCATION</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>END-LOCATION</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ kpiops.task.tripdistance}} km</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ kpiops.from_location}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ kpiops.to_location}}</b></div>
+                </div>
+                <!-- <span class="col-lg-3 bg-danger pa-2 text-h2"><b>START-DATE: {{ kpiops.startdate}}</b></span>
+                <span class="col-lg-3 bg-danger pa-2 text-h2"><b>END-DATE: {{ kpiops.enddate}}</b></span> -->
+            <!-- </div>
+            <div class="col-7"> -->
+                <table width="100%">
+                    <tr>
+                        <td width="30%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ETD</b></th></tr>
+                                <tr><td>{{ kpiops.etd }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2.5%"></td> -->
+                        <td width="30%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ETA</b></th></tr>
+                                <tr><td>{{ kpiops.eta }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2.5%"></td> -->
+                        <td width="30%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ATD</b></th></tr>
+                                <tr><td>{{ kpiops.atd }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="30%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ATA</b></th></tr>
+                                <tr><td>{{ kpiops.ata }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td><p></p></td></tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>TIME</b></th></tr>
+                                <tr><td>{{ kpiops.activity_time }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>KMSPASSED</b></th></tr>
+                                <tr><td>{{ kpiops.kms_passed }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>FUEL</b></th></tr>
+                                <tr><td>{{ kpiops.consol_fuel }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>OPERATOR</b></th></tr>
+                                <tr><td>{{ kpiops.operator }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>BANKSMAN</b></th></tr>
+                                <tr><td>{{ kpiops.banksman }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#1</b></th></tr>
+                                <tr><td>{{ kpiops.rigger1 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#2</b></th></tr>
+                                <tr><td>{{ kpiops.rigger2 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#3</b></th></tr>
+                                <tr><td>{{ kpiops.rigger3 }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>CARGO</b></th></tr>
+                                <tr><td>{{ kpiops.section2_ton_cargo }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th width="100%"><b>TIME</b></th></tr>
+                                <tr><td width="100%">{{ kpiops.section2_time_taken }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>NO-LIFTS</b></th></tr>
+                                <tr><td>{{ kpiops.section2_number_lifts }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>TON-LIFTS</b></th></tr>
+                                <tr><td>{{ kpiops.section2_ton_lifts }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Lifting Operations - [#]</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ROUTINE</b></th></tr>
+                                <tr><td>{{ kpiops.no_routine }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>SIMPLE</b></th></tr>
+                                <tr><td>{{ kpiops.no_simple }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>COMPLICATED</b></th></tr>
+                                <tr><td>{{ kpiops.no_complicated }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>COMPLEX</b></th></tr>
+                                <tr><td>{{ kpiops.no_routine }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Lifting Operations - [Tons]</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ROUTINE</b></th></tr>
+                                <tr><td>{{ kpiops.ton_routine }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>SIMPLE</b></th></tr>
+                                <tr><td>{{ kpiops.ton_simple }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>COMPLICATED</b></th></tr>
+                                <tr><td>{{ kpiops.ton_complicated }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>COMPLEX</b></th></tr>
+                                <tr><td>{{ kpiops.ton_complex }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Lifted/ Location [Ton]</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>DSB</b></th></tr>
+                                <tr><td>{{ kpiops.llt_dsb }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>TGI</b></th></tr>
+                                <tr><td>{{ kpiops.llt_tgi }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#1</b></th></tr>
+                                <tr><td>{{ kpiops.llt_rig1 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#2</b></th></tr>
+                                <tr><td>{{ kpiops.llt_rig2 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#3</b></th></tr>
+                                <tr><td>{{ kpiops.llt_rig3 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>OTHER</b></th></tr>
+                                <tr><td>{{ kpiops.llt_other }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Transported / Location [Ton]</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>DSB</b></th></tr>
+                                <tr><td>{{ kpiops.tlt_dsb }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>TGI</b></th></tr>
+                                <tr><td>{{ kpiops.tlt_tgi }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#1</b></th></tr>
+                                <tr><td>{{ kpiops.tlt_rig1 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#2</b></th></tr>
+                                <tr><td>{{ kpiops.tlt_rig2 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#3</b></th></tr>
+                                <tr><td>{{ kpiops.tlt_rig3 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>OTHER</b></th></tr>
+                                <tr><td>{{ kpiops.tlt_other }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="100%"><p class="dexa-title">Lifted/ Transported Totals</p></td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <!-- <td width="2%"></td> -->
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>DSB</b></th></tr>
+                                <tr><td>{{ kpiops.dnt_dsb }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>TGI</b></th></tr>
+                                <tr><td>{{ kpiops.dnt_tgi }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#1</b></th></tr>
+                                <tr><td>{{ kpiops.dnt_rig1 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#2</b></th></tr>
+                                <tr><td>{{ kpiops.dnt_rig2 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG#3</b></th></tr>
+                                <tr><td>{{ kpiops.dnt_rig3 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="16.6%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>OTHER</b></th></tr>
+                                <tr><td>{{ kpiops.dnt_other }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-5 p-0">
+                <div class="row pl-2 mb-2">
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                            </div>
+                        </div>
+                        <div class="level-right pr-4">
+                            <div class="level-item text-center">
+                                <a href="{% url  'aix:kpi-ops-update-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=kpiops.task.uuid kpi_ops_pk=kpiops.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                <a href="{% url 'aix:work-order-task-details' entity_slug=view.kwargs.entity_slug work_order_task_pk=kpiops.task.uuid %}"
+                                    class="btn-sm btn-dark is-fullwidth ml-1">{% trans 'Back' %}</a>
+                                <a href="{% url  'aix:kpi-ops-rpt' entity_slug=view.kwargs.entity_slug kpi_ops_pk=kpiops.uuid %}" 
+                                    class="card-footer-item btn-sm btn-danger text-center col-md-4 w-100 ml-1">Print Report</a>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dexa-border mt-4 p-0">
+                        <h1 class="p-2">REASON</h1>
+                        <p class="p-2">{{ kpiops.reason }}</p>
+                    </div>
+                    <div class="mt-4">
+                        <h1>COMMENTS</h1>
+                        <p class="p-2">{{ kpiops.reason }}</p>
+                    </div>
+                </div>
+                <div class="px-2">
+                </div>
+            </div>
+        </div>
+{%endblock content%}

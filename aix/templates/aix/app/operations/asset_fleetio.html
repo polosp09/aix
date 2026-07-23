@@ -1,0 +1,134 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block extra_css %}
+        <!-- Sweet Alert-->
+        <link href="{% static 'libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        <div class="col-12">
+            {% block page_header %}
+            {% include './page_header_asset.html' %}
+            {% endblock page_header %}
+        </div>
+        {% if not assets %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    <form action="{% url 'aix:asset-create' entity_slug=view.kwargs.entity_slug %}"
+                          method="post">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                <form action="{% url 'aix:report-filter-results' entity_slug=view.kwargs.entity_slug %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group col-md-2">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                                </form>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                            <a href="{% url 'aix:asset-list' entity_slug=view.kwargs.entity_slug %}"
+                               class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                        </div>
+                        {% endif %}
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if assets %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12 m-2">
+                    <div class="card mr-4">
+                        <div class="card-body px-2">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <!-- <h1 class="is-size-1 text-weight-thin">{% trans 'Asset List' %}</h1> -->
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                
+                            <!-- <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> -->
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Group Name</th>
+                                        <th>License Plate</th>
+                                        <th>Type</th>
+                                        <th>Make</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for asset in assets %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url  'aix:asset-details' entity_slug=view.kwargs.entity_slug asset_pk=asset.uuid %}" class="btn-sm btn-dark">
+                                                {{asset.vehicle_id}}</a></td>
+                                        <td>{{asset.name}}</td>
+                                        <td>{{asset.group_name}}</td>
+                                        <td>{{asset.license_plate}}</td>
+                                        <td>{{asset.vehicle_type_name}}</td>
+                                        <td>{{asset.year}} - {{asset.make}}</td>
+                                        <td>
+                                            <a href="{% url  'aix:asset-details' entity_slug=view.kwargs.entity_slug asset_pk=asset.uuid %}" class="btn-sm btn-dark">Details</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}
+{% block extra_javascript %}
+        <!-- Sweet Alerts js -->
+        <script src="{% static 'libs/sweetalert2/sweetalert2.min.js' %}"></script>
+
+        <!-- Sweet alert init js-->
+        <script src="{% static 'js/pages/sweet-alerts.init.js' %}"></script>
+
+        <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.f.write.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+       <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script> 
+       <script src="{% static 'js/pages/datatables.init.js' %}"></script>
+{% endblock extra_javascript %}

@@ -1,0 +1,55 @@
+{% block content_assets %}
+{% load aix %}
+{% load crispy_forms_tags%}
+                    <div>
+                        <div class="row">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <b>Asset</b>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item text-center">
+                                        {% for group in request.user.groups.all %}
+                                        {% if group.name == 'Admins' or group.name == 'OperationsManager' %}
+                                        <a href="{% url 'aix:work-order-asset-create-wo' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Asset</a>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-1">
+                        <!-- <table id="state-saving-datatable" class="table dt-responsive nowrap w-100" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> -->
+                        <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>License</th>
+                                    <th>Group</th>
+                                    <th>Status</th>
+                                    <th>Option</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for woasset in wo_asset_qs %}
+                                <tr>
+                                <td>{{ woasset.asset.vehicle_id }}</td>
+                                <td>{{ woasset.asset.license_plate }}</td>
+                                <td>{{ woasset.asset.vehicle_type_name }}</td>
+                                <td>{{  woasset.asset.status }}</td>
+                                <td>
+                                    {# comment #}
+                                    <a href="{% url  'aix:work-order-asset-update-wo' entity_slug=entity_slug work_order_pk=view.kwargs.work_order_pk work_order_asset_pk=woasset.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                    <a href="{% url  'aix:work-order-asset-details' entity_slug=entity_slug work_order_asset_pk=woasset.uuid %}" class="btn-sm btn-dark">Details</a>
+                                    {# endcomment #}
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{% endblock content_assets %}

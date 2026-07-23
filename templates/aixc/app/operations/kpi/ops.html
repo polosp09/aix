@@ -1,0 +1,301 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row pt-2">
+        <div class="col-12 is-centered">
+            <div class="columns is-multiline is-centered">
+                <div class="column is-9 mb-2">
+                    {% if kpiops %}
+                    <h2 class="title">{{ kpiops.code }} {% trans 'Activity For' %} {{ task.code }}</h2>
+                    <h3 class="subtitle text-weight-light">{% trans 'Description:' %} {{ task.description }}
+                    <p>Location: {{ task.startlocation }} - {{ task.endlocation }}</p>
+                    </h3>
+                    {% else %}
+                    <h2 class="title">{% trans 'Activity for' %} {{ task }}</h2>
+                    <h3 class="subtitle text-weight-light">{% trans 'Description:' %} {{ task.description }}
+                    <p>Location: {{ task.startlocation }} - {{ task.endlocation }}</p>
+                    </h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if not activities %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-9">
+                <div class="card p-2">
+                    {% if kpiops %}
+                    <form action="{% url 'aix:kpi-ops-update-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=kpiops.task.uuid kpi_ops_pk=kpiops.uuid %}" method="post">
+                    {% else %}
+                    <form action="{% url 'aix:kpi-ops-create-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}" method="post">
+                    {% endif %}
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            {% if not kpiops %}
+                                            <a href="{% url 'aix:kpi-ops-create-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> {% trans 'New Activity' %}</a>
+                                            {% endif %}
+                                        </div>
+                        </div>
+                        {% if form %}
+                            {{ form.as_p }}
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                        {% endif %}
+                        {% if form %}
+                            <!-- Form Errors -->
+                            {% if form.errors %}
+                            <ul class="errors">
+                            {% for error in form.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                        {% endif %}
+                        {% if forms %}
+                        <div class="card-body dexa-form-table">
+                            <table class="dexa-form-table w-100 p-2">
+                                <tr>
+                                    <td width="33.3%"><table width="100%"><th width="25%">Activity Date</td><td>{{ form.activity_date }}</td></table></td>
+                                    <td width="33.3%"><table width="100%"><th width="25%">Trip Activity</td><td>{{ form.trip_activity }}</td></table></td>
+                                    <td width="33.3%"><table width="100%"><th width="25%"></td><td>{{ form.trip_code }}</td></table></td>
+                                </tr>
+                                <tr>
+                                    <td width="33.3%"><table width="100%"><th width="25%">Start Location</td><td>{{ form.from_location }}</td></table></td>
+                                    <td width="33.3%"><table width="100%"><th width="25%">End Location</td><td>{{ form.to_location }}</td></table></td>
+                                    <td width="33.3%"><table width="100%"><th width="25%"></td><td></td></table></td>
+                                </tr>
+                            </table>
+                            <table class="dexa-form-table w-100 p-2">
+                                <tr>
+                                    <td width="33.3%">
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <table width="100%">
+                                                        <tr><th width="25%">ETD</td><td>{{ form.etd }}</td></tr>
+                                                        <tr><th width="25%">ETA</td><td>{{ form.eta }}</td></tr>
+                                                        <tr><th width="25%">ATD</td><td>{{ form.atd }}</td></tr>
+                                                        <tr><th width="25%">ATA</td><td>{{ form.ata }}</td></tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td width="33.3%">
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <table width="100%">
+                                                        <tr><th width="25%">TIME</td><td>{{ form.activity_time }}</td></tr>
+                                                        <tr><th width="25%">KMS PASSED</td><td>{{ form.kms_passed }}</td></tr>
+                                                        <tr><th width="25%">CONSOL FUEL</td><td>{{ form.consol_fuel }}</td></tr>
+                                                        <tr><th width="25%">Operator</td><td>{{ form.operator }}</td></tr>
+                                                        <tr><th width="25%">Banksman</td><td>{{ form.banksman }}</td></tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td width="33.3%">
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+                                                    <table width="100%">
+                                                        <tr><th width="25%">Rigger #1</td><td>{{ form.rigger1 }}</td></tr>
+                                                        <tr><th width="25%">Rigger #2</td><td>{{ form.rigger2 }}</td></tr>
+                                                        <tr><th width="25%">Rigger #3</td><td>{{ form.rigger3 }}</td></tr>
+                                                        <tr><th width="25%">Rigger #4</td><td>{{ form.rigger4 }}</td></tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="w-100 p-2">
+                                <tr>
+                                    <td>
+                                        <table width="100%">
+                                            <tr>
+                                                <td width="33.3%">
+                                                    <table>
+                                                        <tr><th width="25%">Description</td><td>{{ form.section2_description }}</td></tr>
+                                                        <tr><th width="25%">Time Taken</td><td>{{ form.section2_time_taken }}</td></tr>
+                                                        <tr><th width="25%">Ton Cargo</td><td>{{ form.section2_ton_cargo }}</td></tr>
+                                                        <tr><th width="25%">No. Lifts</td><td>{{ form.section2_number_lifts }}</td></tr>
+                                                        <tr><th width="25%">TON Lifts</td><td>{{ form.section2_ton_lifts }}</td></tr>
+                                                    </table>
+                                                </td>
+                                                <td width="33.3%">
+                                                    <table>
+                                                        <tr><th width="25%">Routine</td><td>{{ form.no_routine }}</td></tr>
+                                                        <tr><th width="25%">Simple</td><td>{{ form.no_simple }}</td></tr>
+                                                        <tr><th width="25%">Complicated</td><td>{{ form.no_complicated }}</td></tr>
+                                                        <tr><th width="25%">Complex</td><td>{{ form.no_complex }}</td></tr>
+                                                    </table>
+                                                </td>
+                                                <td width="33.3%">
+                                                    <table>
+                                                        <tr><th width="25%">Routine</td><td>{{ form.ton_routine }}</td></tr>
+                                                        <tr><th width="25%">Simple</td><td>{{ form.ton_simple }}</td></tr>
+                                                        <tr><th width="25%">Complicated</td><td>{{ form.ton_complicated }}</td></tr>
+                                                        <tr><th width="25%">Complex</td><td>{{ form.ton_complex }}</td></tr>
+                                                    </table>
+                                                </td>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr><th width="25%">Description</td><td>{{ form.section3_description }}</td></tr>
+                                            <tr><th width="25%">Time</td><td>{{ form.section3_time_taken }}</td></tr>
+                                            <tr><th width="25%">TON.Cargo</td><td>{{ form.section3_ton_cargo }}</td></tr>
+                                            <tr><th width="25%">No. Lifts</td><td>{{ form.section3_number_lifts }}</td></tr>
+                                            <tr><th width="25%">TON.Lifts</td><td>{{ form.section3_ton_lifts }}</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="w-100 p-2" width="100%">
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr><th width="25%">LLT-DSB</td><td>{{ form.llt_dsb }}</td></tr>
+                                            <tr><th width="25%">LLT-TGI</td><td>{{ form.llt_tgi }}</td></tr>
+                                            <tr><th width="25%">LLT-Rig1</td><td>{{ form.llt_rig1 }}</td></tr>
+                                            <tr><th width="25%">LLT-Rig2</td><td>{{ form.llt_rig2 }}</td></tr>
+                                            <tr><th width="25%">LLT-Rig3</td><td>{{ form.llt_rig3 }}</td></tr>
+                                            <tr><th width="25%">LLT-Other</td><td>{{ form.llt_other }}</td></tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr><th width="25%">TLT-DSB</td><td>{{ form.tlt_dsb }}</td></tr>
+                                            <tr><th width="25%">TLT-TGI</td><td>{{ form.tlt_tgi }}</td></tr>
+                                            <tr><th width="25%">TLT-Rig1</td><td>{{ form.tlt_rig1 }}</td></tr>
+                                            <tr><th width="25%">TLT-Rig2</td><td>{{ form.tlt_rig2 }}</td></tr>
+                                            <tr><th width="25%">TLT-Rig3</td><td>{{ form.tlt_rig3 }}</td></tr>
+                                            <tr><th width="25%">TLT-Other</td><td>{{ form.tlt_other }}</td></tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr><th width="25%">DNT-DSB</td><td>{{ form.dnt_dsb }}</td></tr>
+                                            <tr><th width="25%">DNT-TGI</td><td>{{ form.dnt_tgi }}</td></tr>
+                                            <tr><th width="25%">DNT-Rig1</td><td>{{ form.dnt_rig1 }}</td></tr>
+                                            <tr><th width="25%">DNT-Rig2</td><td>{{ form.dnt_rig2 }}</td></tr>
+                                            <tr><th width="25%">DNT-Rig3</td><td>{{ form.dnt_rig3 }}</td></tr>
+                                            <tr><th width="25%">DNT-Other</td><td>{{ form.dnt_other }}</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="w-100">
+                                <tr>
+                                    <td>
+                                        <table width="100%">
+                                            <tr>
+                                                <td>REASON<br />
+                                                    {{ form.reason }}
+                                                </td>
+                                                <td>REASON<br />
+                                                    {{ form.activity_description }}
+                                                </td>
+                                                <td>COMMENTS<br />
+                                                    {{ form.comments }}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                            {% if kpiops %}
+                                <a href="{% url 'aix:work-order-task-details' entity_slug=view.kwargs.entity_slug work_order_task_pk=kpiops.task.uuid %}"
+                                        class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                            {% else %}
+                                <a href="{% url 'aix:work-order-task-details' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}"
+                                        class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </form>    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if activities %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <h1 class="is-size-4 text-weight-thin">{% trans 'Activity List' %}</h1>
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item">
+                                    {% for group in usr_groups %}
+                                    {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                    <a href="{% url 'aix:kpi-ops-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                        <i class="mdi mdi-plus"></i> {% trans 'New Activity' %}</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>Code.#</th>
+                                    <th>Start Date</th>
+                                    <th>Task</th>
+                                    <th>Start Location</th>
+                                    <th>End Location</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+                                {% for kpiops in activities %}
+                                <tr>
+                                    <td>{{kpiops.code}}</td>
+                                    <td>{{kpiops.activity_date}}</td>
+                                    <td>{{kpiops.task.tripno}}</td>
+                                    <td>{{kpiops.from_location}}</td>
+                                    <td>{{kpiops.to_location}}</td>
+                                    <td>
+                                        {% for group in usr_groups %}
+                                        {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                        <a href="{% url  'aix:kpi-ops-update-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=kpiops.task.uuid kpi_ops_pk=kpiops.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                        {% endif %}{% endfor %}
+                                        <a href="{% url  'aix:kpi-ops-details' entity_slug=view.kwargs.entity_slug kpi_ops_pk=kpiops.uuid %}" class="btn-sm btn-dark">Details</a>
+                                        
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
+            </div>
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}

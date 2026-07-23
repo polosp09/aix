@@ -1,0 +1,170 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        <div class="col-12">
+            {% block page_header %}
+            {% include './page_header_asset.html' %}
+            {% endblock page_header %}
+        </div>
+        {% if asset %}
+        <div class="col-12">
+            <!-- {% if asset %}
+            <a href="{% url  'aix:asset-rpt' entity_slug=view.kwargs.entity_slug asset_pk=asset.uuid %}" 
+                class="card-footer-item btn-sm btn-danger text-center col-md-4 w-100 mb-1 ml-1 mr-2">Print</a>
+            {% endif %} -->
+            <table class="dexa-table w-100">
+                <tr>
+                    <table class="w-100">
+                        <tr>
+                            <td width="33.3%" mx-2>
+                                <table class="dexa-table w-100">
+                                    <tr>
+                                        <th width="30%">VEHICLE ID</th>
+                                        <td>{{ asset.vehicle_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">NAME</th>
+                                        <td>{{ asset.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">LICENSE PLATE</th>
+                                        <td>{{ asset.license_plate }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="33.3%">
+                                <table class="dexa-table w-100">
+                                    <tr>
+                                        <th width="30%">GROUP NAME</th>
+                                        <td>{{ asset.group_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">TYPE</th>
+                                        <td>{{ asset.vehicle_type_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">Model</th>
+                                        <td>{{ asset.model }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="33.3%">
+                                <table class="dexa-table w-100">
+                                    <tr>
+                                        <th width="30%">MAKE</th>
+                                        <td>{{ asset.make }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">YEAR</th>
+                                        <td>{{ asset.year }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%">STATUS</th>
+                                        <td>{{ asset.status }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                </table>
+            </tr>
+            {% endif %}
+            <tr>
+                <table class="dexa-table w-100">
+                    <tr>
+                        <td width="33.3%">
+                            <table class="dexa-table w-100">
+                                <tr>
+                                    <th width="30%">Assignments</th>
+                                    <td>{{ asset_assignments }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Status</th>
+                                    <td>{{ asset_status }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="33.3%">
+                            <table class="dexa-table w-100">
+                                <tr>
+                                    <th width="30%">Trips</th>
+                                    <td>{{ asset_assignments }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Distance Traveled (kms)</th>
+                                    <td>{{ asset_status }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="33.3%">
+                            <table class="dexa-table w-100">
+                                <tr>
+                                    <th width="30%">Fuel (ltrs)</th>
+                                    <td>{{ asset_assignments }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">STATUS</th>
+                                    <td>{{ asset_status }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </tr>
+        </table>
+        <table class="dexa-table w-100">
+            <tr>
+                <table class="dexa-table w-100">
+                    <tr>
+                        <td width="33.3%">
+                            <table class="dexa-table w-100">
+                                <tr>
+                                    <th width="30%">Assignments</th>
+                                    <td>{{ wasset_details }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Status</th>
+                                    <td>{{ asset_status }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="33.3%">
+                            <table class="dexa-table w-100">
+                                <tr>
+                                    <th width="30%">Trips</th>
+                                    <td>{{ asset_assignments }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">Distance Traveled (kms)</th>
+                                    <td>{{ asset_status }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="33.3%">
+                            <table class="dexa-table w-100">
+                                <tr>
+                                    <th width="30%">Fuel (ltrs)</th>
+                                    <td>{{ asset_assignments }}</td>
+                                </tr>
+                                <tr>
+                                    <th width="30%">STATUS</th>
+                                    <td>{{ asset_status }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </tr>
+        </table>
+        </div>
+        <div class="col-12 dexa-border-2 mx-3 mr-7">
+            <div class="text-center">
+                <img class="dexa-img" src="{{ asset.imageurl }}" />
+            </div>
+        </div>
+    </div> <!-- end row -->
+{%endblock content%}

@@ -1,0 +1,99 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load trans from i18n %}
+{% load static %}
+{% load aix %}
+
+{% block view_content %}
+    <div class="columns p-2">
+        <div class="column is-4">
+            <div class="columns is-multiline">
+                <div class="column is-12">
+                    {% include 'aix/includes/card_fet.html' with fet_model=fet_model entity_slug=view.kwargs.entity_slug style='fet-detail' %}
+                </div>
+                <div class="column is-12">
+                    <a class="btn btn-info is-fullwidth is-outlined"
+                       href="{% url 'aix:fet-list' entity_slug=view.kwargs.entity_slug work_order_pk=fet_model.work_order.uuid %}">
+                        {% trans 'FET List' %}
+                    </a>
+                    <a class="btn btn-danger is-fullwidth is-outlined"
+                       href="{% url 'aix:fet-rpt' entity_slug=view.kwargs.entity_slug fet_pk=fet_model.uuid %}">
+                        {% trans 'Print Report' %}
+                    </a>
+                    <a class="btn btn-primary is-fullwidth is-outlined"
+                       href="{% url 'aix:entity-dashboard' entity_slug=view.kwargs.entity_slug %}">
+                        {% trans 'Go To Dashboard' %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-8">
+
+            <nav class="level">
+                <div class="level-item text-centered">
+                    <div>
+                        <p class="heading">{% trans 'FAW' %}:
+                        <p class="title">
+                            {{ fet_model.code }}</p>
+                    </div>
+                </div>
+                <div class="level-item text-centered">
+                    <div>
+                        <p class="heading">{% trans 'Location' %}:</p>
+                        <p class="title text-success">
+                            {{ fet_model.location.name }}</p>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="columns is-multiline">
+                <div class="column is-12">
+                    <h3 class="is-size-3 text-weight-light">{{ fet_model.date }}</h3>
+                </div>
+                <div class="column is-12">
+                    <div class="table-container">
+                        <table class="table is-fullwidth is-striped is-narrow is-bordered">
+                            <thead>
+                            <tr class="has- text-centered">
+                                <th>{% trans 'Equipment' %}</th>
+                                <th>{% trans 'Code' %}</th>
+                                <th>{% trans 'Status' %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in fet_items %}
+                                <tr>
+                                    <td>{{ item.equipment_model }}</td>
+                                    <td class="has- text-centered">{{ item.attendance_code }}</td>
+                                    <td class="{% if item.is_cancelled %}djl-is-strikethrough{% endif %} text-centered">
+                                        {{ item.fet_status }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class=" column is-12">
+                    <div class="card">
+                        <div class="card-header bg-dark">
+                            <h5 class="text-light text-weight-light">{% if title %}{{ title }}{% else %}
+                                {% trans 'Notes' %}
+                            {% endif %}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="content">
+                                {% if notes_html %}
+                                    {% autoescape off %}
+                                        {{ notes_html | safe }}
+                                    {% endautoescape %}
+                                {% else %}
+                                    <p>{% trans 'No available notes to display...' %}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

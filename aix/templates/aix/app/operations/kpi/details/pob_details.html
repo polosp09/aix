@@ -1,0 +1,99 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row p-2">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body border-danger">
+                                <h2 class="text-h3">POB: <b>{{ kpipob.rotation1.name }} - {{ kpipob.rotation2.name }} - {{ kpipob.rotation3.name }}</b></h2>
+                                <table class="table is-list" width="100%">
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <th>Code</th>
+                                                <td><b>{{ kpipob.code }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Activity Date</th>
+                                                <td><b>{{ kpipob.activity_date }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Description</th>
+                                                <td><b>{{ kpipob.activity_description }}</b></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <th>Category</th>
+                                                <td><b>{{ kpipob.category }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Location</th>
+                                                <td><b>{{ kpipob.activity_location }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <a href="{% url  'aix:work-order-task-details' entity_slug=view.kwargs.entity_slug work_order_task_pk=kpipob.task.uuid %}" class="btn-sm dexa-btn-default text-light">Back</a>
+                                                </th>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            
+                                        </table>
+                                    </td>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="table is-list" width="100%">
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th>Allocation</th>
+                                            <td><b>{{ kpipob.allocation }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Work Order</th>
+                                            <td><b>{{ kpipob.task.work_order.order_no }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Task</th>
+                                            <td><b>{{ kpipob.task.tripno }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td><b>{{ kpipob.status }}</b></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th>Rotaion #1</th>
+                                            <td><b>{{ kpipob.rotation1.name }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Rotaion #2</th>
+                                            <td><b>{{ kpipob.rotation2.name }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Rotaion #3</th>
+                                            <td><b>{{ kpipob.rotation3.name }}</b></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+{%endblock content%}

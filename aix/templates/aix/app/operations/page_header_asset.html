@@ -1,0 +1,54 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card text-lights">
+            <div class="card-body dexa-titles dexa-border-bottom">
+                <div class="row">
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <span class="text-dark text-h2 pl-1"><b>{{page_title}}</b></span>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <div class="level-item text-center">
+                                {% for group in request.user.groups.all %}
+                                {% if group.name == 'TotalProjectManager' or group.name == 'Admins' %}
+                                <a href="{% url  'aix:asset-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm dexa-btn-default text-light ml-1">Assets</a>
+                                {% endif %}
+                                {% endfor %}
+                                {% for group in request.user.groups.all %}
+                                {% if group.name == 'Admins' %}
+                                <a href="{% url  'aix:asset-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm dexa-btn-default text-light ml-1">New Asset</a>
+                                <!-- <a href="{% url  'aix:asset-pull' entity_slug=view.kwargs.entity_slug %}" class="btn-sm dexa-btn-default text-light ml-1">Pull Assets</a> -->
+                                <form action="{% url 'aix:asset-pull' entity_slug=view.kwargs.entity_slug %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <button type="submit" class="btn-sm btn-secondary text-light ml-1">Pull Assets</button>
+                                    </div>
+                                </form>
+                                {% endif %}
+                                {% endfor %}
+                                {% if asset %}
+                                <a href="{% url  'aix:asset-rpt' entity_slug=view.kwargs.entity_slug asset_pk=asset.uuid %}" 
+                                    class="card-footer-item btn-sm btn-danger text-center col-md-4 w-100 ml-1 mr-2">Print</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10">
+                        <p>
+                            <!-- <a href="{% url  'aix:work-order-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">WO Type</a>
+                            <a href="{% url  'aix:work-category-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">WO Category</a>
+                            <a href="{% url  'aix:work-order-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">WO Status</a> -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

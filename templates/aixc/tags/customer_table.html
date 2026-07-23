@@ -1,0 +1,38 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+    <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Telephone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Business</th>
+            <th>City</th>
+            <th>Nation</th>
+            <th class="has- text-centered">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for customer in customers %}
+            <tr class="has- text-centered">
+                <td>{{customer.customer_name}}</td>
+                <td>{{customer.phone}}</td>
+                <td>{{customer.email}}</td>
+                <td>{{customer.address_1}}</td>
+                <td>{{customer.business_industry.name}}</td>
+                <td>{{customer.city}}</td>
+                <td>{{customer.nation.name}}</td>
+                <td>
+                    <a href="{% url 'aix:customer-details' entity_slug=view.kwargs.entity_slug customer_pk=customer.uuid %}"
+                    class="btn-sm text-weight-bold text-blue">{% trans 'Details' %}</a>
+                    <a href="{% url 'aix:customer-update' entity_slug=view.kwargs.entity_slug customer_pk=customer.uuid %}"
+                        class="btn-sm text-weight-bold text-primary">{% trans 'Update' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

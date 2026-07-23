@@ -1,0 +1,23 @@
+{% load trans from i18n %}
+{% load aix %}
+
+{% if style == 'card_1' %}
+    <div class="card">
+        <div class="card-header bg-dark">
+            <h5 class="text-light text-weight-light">{% if title %}{{ title }}{% else %}
+                {% trans 'Notes' %}
+            {% endif %}</h5>
+        </div>
+        <div class="card-body">
+            <div class="content">
+                {% if notes_html %}
+                    {% autoescape off %}
+                        {{ notes_html | safe }}
+                    {% endautoescape %}
+                {% else %}
+                    <p>{% trans 'No available notes to display...' %}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}

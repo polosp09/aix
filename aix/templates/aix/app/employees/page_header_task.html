@@ -1,0 +1,17 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-secondary text-light">
+            <div class="card-body">
+                <p class="card-text">
+                    <a href="{% url  'aix:task-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-info">Task List</a>
+                    <a href="{% url  'aix:task-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success"><i class="mdi mdi-plus"></i> NEW</a>
+                    <a href="{% url  'aix:task-assignee-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Task Assignees</a>
+                    <a href="{% url  'aix:task-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Task Statuses</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

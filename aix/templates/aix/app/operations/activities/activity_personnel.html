@@ -1,0 +1,101 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+    <div class="row p-2">
+        {% if not persons %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    {% if work_order_activity_personnel %}
+                    <form action="{% url 'aix:work-order-activity-personnel-update-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk work_order_activity_personnel_pk=work_order_activity_personnel.uuid %}" method="post">
+                    {% else %}
+                    <form action="{% url 'aix:work-order-activity-personnel-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" method="post">
+                    {% endif %}
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}-{{work_order_activity_personnel}}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:work-order-activity-personnel-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> Assign New Personnelx</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                Save
+                            </button>
+                            <a href="{% url 'aix:work-order-activity-details' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}"
+                               class="btn-sm btn-dark is-fullwidth">Back</a>
+                        </div>
+                        {% endif %}
+                    </form>    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if persons %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="is-size-4 text-weight-thin">Personnel List</h1>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a href="{% url 'aix:work-order-activity-personnel-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" class="btn-sm btn-success">
+                                            <i class="mdi mdi-plus"></i> New Personnel</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Activity No.#</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Deployed</th>
+                                        <th>Relieved</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for person in persons %}
+                                    <tr>
+                                        <td>{{person.code}}</td>
+                                        <td>{{person.start_date}}</td>
+                                        <td>{{person.end_date}}</td>
+                                        <td>{{person.deploy_date}}</td>
+                                        <td>{{person.relieve_date}}</td>
+                                        <td>{{person.status}}</td>
+                                        <td>
+                                            <a href="{% url  'aix:work-order-activity-personnel-update-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=activity.uuid work_order_personnel_pk=person.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                            <a href="{% url  'aix:work-order-activity-personnel-details' entity_slug=view.kwargs.entity_slug work_order_activity_pk=activity.uuid work_order_personnel_pk=person.uuid %}" class="btn-sm btn-dark">Details</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}

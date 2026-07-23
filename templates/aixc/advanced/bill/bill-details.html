@@ -1,0 +1,51 @@
+{%block content%}
+                <div class="card">
+                    <div class="card-header bg-secondary text-light border-danger">
+                        <div class="row">
+                            <div class="col-4"><h5 class="my-0 text-light"><i class="mdi mdi-view-list me-3"></i>BILL</h5></b></div>
+                            <div class="col-4"><h5 class="my-0 text-light text-center">{{abill.bill_no}}</h5></div>
+                            <div class="col-4 justify-content-end">
+                                <a href="{% url  'bill-update' abill.id %}" class="btn-sm btn-dark align-right">Edit</a>
+                                <!--<a href="{% url  'bill-update' abill.id %}" class="btn-sm btn-dark align-right" data-bs-toggle="modal" data-bs-target="#edit-bill">Edit</a>-->
+                                {% if abill.status == '1' %}
+                                <span><i class="mdi mdi-circle text-info align-middle me-1"></i> Active</span>
+                                {% elif abill.status == '2' %}
+                                <span><i class="mdi mdi-circle text-success align-middle me-1"></i> Approved</span>
+                                {% elif abill.status == '3' %}
+                                <span><i class="mdi mdi-circle text-danger align-middle me-1"></i> Dropped</span>
+                                {% else %}
+                                <span><i class="mdi mdi-circle text-dark me-1"></i> </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p></p>
+                            <p class="border-bottom border-light"></p>
+                            <div class="col-3">
+                                <p>
+                                Date: <br />
+                                Cost: <br />
+                                Amount-Due: <br />
+                                Amount-Paid: <br />
+                                Pay. Mode: </p>
+                            </div>
+                            <div class="col-5">
+                                <p>
+                                    <b>{{ abill.date }}</b><br />
+                                    <b>{{ abill.cost }}</b><br />
+                                    <b>{{ abill.amount_due }}</b><br />
+                                    <b>{{ abill.amount_paid }}</b><br />
+                                    <b>{{ abill.payment_type }}</b><br />
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <p>
+                                    <span class="border-bottom border-light"><b>Job-Card</b></span><br />
+                                    No.#: <b> {{ abill.jobcard.jobcard_no }}</b><br />
+                                    Date: <b> {{ abill.date }}</b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+{%endblock content%}

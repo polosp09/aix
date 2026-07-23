@@ -1,0 +1,26 @@
+{% load static %}
+{% load aix %}
+{% now "Y" as current_year %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row text-center">
+            <div class="product-color mt-3">
+                <a href="#" class="not-active">
+                    <div class="product-color-item mt-2">
+                        <img src="{% static 'images/logo_totalenergies.png' %}" alt="img-1" class="avatar-md m-2">
+                    </div>
+                </a>
+                <p class="title text-weight-light">
+                    {{ entity.name }}
+                </p>
+                <p class="subtitle">{{ entity.address_1 }}</p>
+                <p>Created: {{ entity.created | timesince }} ago</p>
+                <p class="m-5"></p>
+                <p>
+                    <a href="{{ entity.get_staff_dashboard_url }}" class="text-light btn-sm btn-primary">Dashboard</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

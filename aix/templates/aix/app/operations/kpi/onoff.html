@@ -1,0 +1,106 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        <div class="col-12">
+            {% block page_header %}
+            {% include './page_header.html' %}
+            {% endblock page_header %}
+        </div>
+        {% if not onoffs %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    {% if kpionoff %}
+                    <form action="{% url 'aix:kpi-onoff-update-wo' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk kpi_onoff_pk=kpionoff.uuid %}" method="post">
+                    {% else %}
+                    <form action="{% url 'aix:kpi-onoff-create-wo' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}" method="post">
+                    {% endif %}
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:kpi-onoff-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> {% trans 'New Equipment' %}</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                            <a href="{% url 'aix:work-order-task-details' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}"
+                               class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                        </div>
+                        {% endif %}
+                    </form>    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if onoffs %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="is-size-4 text-weight-thin">{% trans 'OnOff Record List' %}</h1>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a href="{% url 'aix:kpi-onoff-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                            <i class="mdi mdi-plus"></i> {% trans 'New OnOff Record' %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Task No.#</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Start Mileage</th>
+                                        <th>End Mileage</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for onoff in onoffs %}
+                                    <tr>
+                                        <td>{{onoff.code}}</td>
+                                        <td>{{onoff.activity_date}}</td>
+                                        <td>{{onoff.start_time}}</td>
+                                        <td>{{onoff.end_time}}</td>
+                                        <td>{{onoff.status}}</td>
+                                        <td>
+                                            <a href="{% url  'aix:kpi-onoff-update' entity_slug=view.kwargs.entity_slug kpi_onoff_pk=onoff.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                            <a href="{% url  'aix:kpi-onoff-details' entity_slug=view.kwargs.entity_slug kpi_onoff_pk=onoff.uuid %}" class="btn-sm btn-dark">Details</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}

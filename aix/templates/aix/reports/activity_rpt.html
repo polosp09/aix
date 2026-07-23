@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1in;
+        }
+        .table td:first-child, .table th:first-child {
+            width: 30%!important;
+        }
+        .table td, .table th { width:5%; }
+        td, th {
+            padding: 0.3em 0 0 0;
+            text-align: center;
+        }
+        th{
+            background-color: #f0f0f0;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        .border{
+            border:1px solid #333;
+        }
+        .border td, .border th{
+            border:1px solid #333;
+        }
+        .is-title{
+            /* font-size: 1.2em; */
+            font-weight: bold;
+            background-color: #a3a3a3;
+            text-align: center;
+        }
+        .is-header{
+            font-size: 1em;
+            font-weight: bold;
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <table class="table-container border is-title" width="100%"><tr><th class="is-title">ACTIVITY DETAILS</th></tr></table>
+    <table class="table-container border" width="100%">
+        <tr>
+            <th class="is-header">ACTIVITY</th>
+            <th class="is-header">TASK</th>
+            <th class="is-header">DATE</th>
+        </tr>
+        <tr>
+            <td class="is-section">{{ activity.code}}</td>
+            <td class="is-section">{{ activity.task.tripno}}</td>
+            <td class="is-section">{{ activity.activity_date}}</td>
+        </tr>
+        <tr>
+            <th class="is-header">DISTANCE</th>
+            <th class="is-header">START-LOCATION</th>
+            <th class="is-header">END-LOCATION</th>
+        </tr>
+        <tr>
+            <td class="is-section">{{ activity.task.tripdistance}} km</td>
+            <td class="is-section">{{ activity.from_location}}</td>
+            <td class="is-section">{{ activity.to_location}}</td>
+        </tr>
+    </table>
+    <table class="table-container border" width="100%">
+        <tr>
+            <th>ETD</th>
+            <th>ETA</th>
+            <th>ATD</th>
+            <th>ETA</th>
+        </tr>
+        <tr>
+            <td>{{ activity.etd }}</td>
+            <td>{{ activity.eta }}</td>
+            <td>{{ activity.atd }}</td>
+            <td>{{ activity.ata }}</td>
+        </tr>
+    </table>
+    <table class="table-container border" width="100%"><tr><th class="is-title">LIFTING DETAILS</th></tr></table>
+    <table class="table-container border" width="100%">
+        <thead>
+            <tr>
+                <th>Equipment</th>
+                <th>Type</th>
+                <th>Supervisors</th>
+                <th>Operator</th>
+                <th>Banksmen</th>
+                <!-- <th>Equipment</th> -->
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lifting in activity_digest.liftings %}
+            <tr>
+                <td>{{ lifting.equipment.name }}</td>
+                <td>{{ lifting.equipment.vehicle_type_name }}</td>
+                <td>{{ lifting.supervisor }}</td>
+                <td>{{ lifting.operator.name }} {{ lifting.designation }}</td>
+                <td>{{ lifting.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="table-container border" width="100%"><tr><th class="is-title">TRANSPORT DETAILS</th></tr></table>
+    <table class="table-container border" width="100%">
+        <thead>
+            <tr>
+                <th>Equipment</th>
+                <th>Type</th>
+                <th>Driver</th>
+                <th>Assistant</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transport in activity_digest.transports %}
+            <tr>
+                <td>{{ transport.vehicle.name }}</td>
+                <td>{{ transport.vehicle.vehicle_type_name }}</td>
+                <td>{{ transport.driver.name }} {{ transport.driver.designation }}</td>
+                <td>{{ transport.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="table-container border" width="100%"><tr><th class="is-title">ASSIGNED PERSONNEL DETAILS</th></tr></table>
+    <table class="table-container border" width="100%">
+        <thead>
+            <tr>
+                <th>Personnel</th>
+                <th>Designation</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Deployed</th>
+                <th>Relieved</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for personnel in activity_digest.personnel %}
+            <tr>
+                <td>{{ personnel.employee.name }}</td>
+                <td>{{ personnel.employee.designation }}</td>
+                <td>{{ personnel.start_date }}</td>
+                <td>{{ personnel.end_date }}</td>
+                <td>{{ personnel.deploy_date }}</td>
+                <td>{{ personnel.relieve_date }}</td>
+                <td>{{ personnel.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="table-container border" width="100%"><tr><th class="is-title">ASSIGNED ASSET DETAILS</th></tr></table>
+    <table class="table-container border" width="100%">
+        <thead>
+            <tr>
+                <th>Asset</th>
+                <th>Type</th>
+                <th>Registration</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asset in activity_digest.assets %}
+            <tr>
+                <td>{{ asset.asset.name }}</td>
+                <td>{{ asset.asset.vehicle_type_name }}</td>
+                <td>{{ asset.asset.license_plate }}</td>
+                <td>{{ asset.start_date }}</td>
+                <td>{{ asset.end_date }}</td>
+                <td>{{ asset.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

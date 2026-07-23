@@ -1,0 +1,67 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+
+    <div class="columns">
+
+        <div class="column is-12">
+            <div class="rows columns is-multiline">
+                <div class="column is-4">
+                    {% include 'aix/includes/card_customer.html' with customer=customer %}
+                </div>
+                <div class="column is-2">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h4>INVOICED</h4>
+                            <h2 class="text-info text-weight-light is-size-4">{% currency_symbol %}{{ total_invoiced }}</h2>
+                        </div>
+                        <div class="card-body text-center">
+                            <h4>OWED</h4>
+                            <h2 class="text-danger text-weight-light is-size-4">{% currency_symbol %}{{ total_owed }}</h2>
+                        </div>
+                        <div class="card-body text-center">
+                            <h4>PAID</h4>
+                            <h2 class="text-weight-light is-size-4">
+                                <a class="text-success is-fullwidth is-outlined"
+                                href="{% url 'aix:customer-details-invoice-totals' entity_slug=view.kwargs.entity_slug customer_pk=customer.uuid customer_total='owed' %}">
+                                {% currency_symbol %}{{ total_paid }}
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="card-body text-center">
+                            <h4>CLEARED</h4>
+                            <h2 class="text-weight-light is-size-4">
+                                <a class="text-success is-fullwidth is-outlined"
+                                href="{% url 'aix:customer-details-invoice-totals' entity_slug=view.kwargs.entity_slug customer_pk=customer.uuid customer_total='cleared' %}">
+                                {{ total_paid_invoices }}
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="card-body text-center">
+                            <h4>PENDING</h4>
+                            <h2 class="text-weight-light is-size-4">
+                                <a class="text-secondary is-fullwidth is-outlined"
+                                href="{% url 'aix:customer-details-invoice-totals' entity_slug=view.kwargs.entity_slug customer_pk=customer.uuid customer_total='pending' %}">
+                                {{ total_paid_invoices }}
+                                </a>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    {% invoice_adv_table invoices %}
+                    {#{% include 'aix/includes/card_invoice.html' with invoice=invoice entity_slug=view.kwargs.entity_slug style='invoice-detail' %}#}
+                </div>
+                <div class="column is-12">
+                    <a class="btn btn-info is-fullwidth is-outlined"
+                       href="{% url 'aix:customer-list' entity_slug=view.kwargs.entity_slug %}">
+                        {% trans 'Customer List' %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

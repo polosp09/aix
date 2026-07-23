@@ -1,0 +1,18 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card bg-secondary text-light">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-10">
+                    </div>
+                    <div class="col-lg-2 text-align-right">
+                        <p><a href="{% url  'aix:settings-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-info">Back to All Settings</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

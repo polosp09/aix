@@ -1,0 +1,7 @@
+{% load aix %}
+                    <p>Progressed: {{ inv_progress }}%</p>
+                    <progress class="progress is-medium is-success bg-dark"
+                              value="{{ inv_progress }}"
+                              max="100">
+                        {{ inv_progress | percentage }}
+                    </progress>

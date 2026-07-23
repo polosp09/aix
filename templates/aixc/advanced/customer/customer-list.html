@@ -1,0 +1,258 @@
+{% extends 'aix/partials/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% block extra_css %}
+        <link href="{% static 'libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'libs/datatables.net-select-bs4/css//select.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+{%block content%}
+        <div class="row">
+            <div class="col-12">
+                {% block page_header %}
+                {% include './page-header.html' %}
+                {% endblock page_header %}
+            </div>
+            {% if is_advanced %}
+            <div class="col-4">
+            {% else %}
+            <div class="col-12">
+            {% endif %}
+                <div class="card">
+                    <div class="card-body">
+                        {% customer_table %}
+                        <div class="modal fade" id="new-customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <form action="" method="post" autocomplete="off">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalScrollableTitle">New Customer</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% comment %}
+                                            {% load crispy_forms_tags%}
+                                            {%csrf_token%}
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    {{ Customer_forms.frm_new.name|as_crispy_field }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ Customer_forms.frm_new.telephone|as_crispy_field }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ Customer_forms.frm_new.address|as_crispy_field }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ Customer_forms.frm_new.email|as_crispy_field }}
+                                                </div>
+                                            </div>
+                                            {% endcomment %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                        </div>
+                                    </form>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                    </div>
+                </div>
+            </div>
+            {% if col_left_width > 0 %}
+            <div class="col-6">
+                <div class="modal fade" id="edit-customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <form action="" method="post" autocomplete="off">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalScrollableTitle">Edit Customer</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% comment %}
+                                    {% load crispy_forms_tags%}
+                                    {%csrf_token%}
+                                    <div class="row">
+                                    <div class="col-6">
+                                        {{ Customer_forms.frm_edit.name|as_crispy_field }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ Customer_forms.frm_edit.telephone|as_crispy_field }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ Customer_forms.frm_edit.address|as_crispy_field }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ Customer_forms.frm_edit.email|as_crispy_field }}
+                                    </div>
+                                    </div>
+                                    {% endcomment %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                </div>
+                            </form>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <div class="card border border-danger">
+                    <div class="card-header bg-danger text-light border-danger">
+                        <div class="row">
+                            <div class="col-10"><h5 class="my-0 text-light"><i class="mdi mdi-account me-3"></i>{{ Customer_details.name }}</h5></div>
+                            <div class="col-2">
+                                <a href="javascript:void(0);" class="btn-sm btn-dark mb-2" data-bs-toggle="modal" data-bs-target="#edit-customer">Edit</a>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <p></p>
+                                    <div class="col-4"><b>{{ Customer_details.telephone }}</b></div>
+                                    <div class="col-4"><b>{{ Customer_details.email }}</b></div>
+                                    <div class="col-4"><b>{{ Customer_details.address }}</b></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p></p>
+                        <p class="border-bottom border-light"></p>
+                        <div class="row">
+                            <div class="col-4"><h5 class="my-0 text-light"><i class="mdi mdi-view-list me-3"></i>Job-Cards</h5></b></div>
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <div class="d-grid">
+                                    <!--<button type="button" class="btn-sm btn-light waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#add-jobcard">NEW JOB-CARD</button>-->
+                                    <a href="{% url  'jobcard-customer-insert' Customer_details.id %}" class="btn-sm btn-dark"><i class="mdi mdi-plus text-danger"></i> Add Jobcard</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    {% if col_left_width > 0 and Jobcard_list %}
+                    <div class="card-body">
+                        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Product</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for Jobcard in Jobcard_list %}
+                                <tr>
+                                    <td>{{Jobcard.jobcard_no}}</td>
+                                    <td>{{Jobcard.date}}</td>
+                                    <td>{{Jobcard.amount}}</td>
+                                    <td>{{Jobcard.product.name}}</td>
+                                    <td>
+                                        <a href="{% url  'jobcard-update' Jobcard.id %}" class="btn"><i class="mdi mdi-square-edit-outline text-danger"></i></a>
+                                        <!--<div class="d-grid">
+                                            <button type="button" class="btn-sm btn-light waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#edit-jobcard">
+                                                <i class="mdi mdi-square-edit-outline text-danger"></i></button>
+                                        </div>-->
+                                        <a href="javascript:void(0);" class="btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#view-jobcard-{{Jobcard.id}}">View Jobcard</a>
+                                               
+                                        <div class="modal fade" id="view-jobcard-{{Jobcard.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-scrollable">
+                                                <div class="modal-content">
+                                                    {% load crispy_forms_tags%}
+                                                    <form action="" method="post" autocomplete="off">
+                                                        {%csrf_token%}
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalScrollableTitle">JOBCARD DETAILS - {{ Jobcard.jobcard_no }}</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    No.#: <b>{{ Jobcard.jobcard_no }}</b>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    Date: <b>{{ Jobcard.date }}</b>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    Product: <b>{{ Jobcard.product }}</b>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    Cost: <b>{{ Jobcard.product.price }}</b>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    Amount: <b>{{ Jobcard.amount }}</b>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="modal fade" id="add-jobcard" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            {% load crispy_forms_tags%}
+                            <form action="{% url 'jobcard-customer-insert' 4 %}" method="post" autocomplete="off">
+                                {%csrf_token%}
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalScrollableTitle">NEW JOBCARD</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {{ Customer_forms.frm_add_jobcard.date|as_crispy_field }}
+                                        </div>
+                                        <div class="col-6">
+                                            {{ Customer_forms.frm_add_jobcard.product|as_crispy_field }}
+                                        </div>
+                                        <div class="col-6">
+                                            {{ Customer_forms.frm_add_jobcard.product.price }}
+                                        </div>
+                                        <div class="col-6">
+                                            {{ Customer_forms.frm_add_jobcard.amount|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Save changes</button>
+                                </div>
+                            </form>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+            {% endif %}
+        </div>
+{%endblock content%}
+{% block extra_javascript %}
+        <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.f.write.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+       <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script> 
+       <script src="{% static 'js/pages/datatables.init.js' %}"></script>
+{% endblock extra_javascript %}

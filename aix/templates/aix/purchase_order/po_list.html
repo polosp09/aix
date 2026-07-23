@@ -1,0 +1,136 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        {% if month %}
+                            <h1 class="is-size-4 text-weight-thin">{{ month | date:'F Y' }}</h1>
+                        {% elif year %}
+                            <h1 class="is-size-4 text-weight-thin">Year {{ year | date:'Y' }}
+                                Bills</h1>
+                        {% else %}
+                            {% if po_active_module == 'fuel' %}
+                                <h1 class="is-size-4 text-weight-thin">{% trans 'Latest Fuel Orders' %}</h1>
+                            {% else %}
+                                <h1 class="is-size-4 text-weight-thin">{% trans 'Latest Purchase Orders' %}</h1>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        {% if po_active_module == 'fuel' %}
+                            <a href="{% url 'aix:po-create-fuel' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                <i class="mdi mdi-plus"></i> {% trans 'New Fuel Order' %}</a></a>
+                        {% else %}
+                            <a href="{% url 'aix:po-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                <i class="mdi mdi-plus"></i> {% trans 'New Purchase Order' %}</a></a>
+                        {% endif %}
+                    </div>
+
+                    {% if previous_month %}
+                        <div class="level-item">
+                            <a class="btn-sm btn-dark is-outlined"
+                               href="{% url 'aix:po-list-month' year=previous_month.year month=previous_month.month entity_slug=view.kwargs.entity_slug %}">
+                                <span class="icon is-small">{#{% icon 'ant-design:left-circle-outlined' 16 %}#}</span>
+                                <span>{{ previous_month | date:'F Y' }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
+                    {% if next_month %}
+                        <div class="level-item">
+                            <a class="btn-sm btn-dark is-outlined"
+                               href="{% url 'aix:po-list-month' year=next_month.year month=next_month.month entity_slug=view.kwargs.entity_slug %}">
+                                <span class="icon is-small">{#{% icon 'ant-design:right-circle-outlined' 16 %}#}</span>
+                                <span>{{ next_month | date:'F Y' }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if previous_year %}
+                        <div class="level-item">
+                            <a class="btn-sm btn-dark is-outlined"
+                               href="{% url 'aix:po-list-year' year=previous_year.year entity_slug=view.kwargs.entity_slug %}">
+                                <span class="icon is-small">{#{% icon 'ant-design:left-circle-outlined' 16 %}#}</span>
+                                <span>{{ previous_year | date:'Y' }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if next_year %}
+                        <div class="level-item">
+                            <a class="btn-sm btn-dark is-outlined"
+                               href="{% url 'aix:po-list-year' year=next_year.year entity_slug=view.kwargs.entity_slug %}">
+                                <span class="icon is-small">{#{% icon 'ant-design:right-circle-outlined' 16 %}#}</span>
+                                <span>{{ next_year | date:'Y' }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if page_obj %}
+                        {% if page_obj.has_previous %}
+                            <div class="level-item">
+                                <a href="?page={{ page_obj.previous_page_number }}"
+                                   class="btn-sm btn-dark is-outlined">
+                                    <span class="icon is-small">{#{% icon 'ant-design:left-circle-outlined' 24 %}#}</span>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <div class="level-item">
+                            <p class="is-italic">page {{ page_obj.number }}
+                                of {{ page_obj.paginator.num_pages }}</p>
+                        </div>
+                        {% if page_obj.has_next %}
+                            <div class="level-item">
+                                <a href="?page={{ page_obj.next_page_number }}"
+                                   class="btn-sm btn-dark is-outlined">
+                                    <span class="icon is-small">{#{% icon 'ant-design:right-circle-outlined' 24 %}#}</span>
+                                </a>
+                            </div>
+                        {% endif %}
+
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if po_active_module == 'fuel' %}
+                {% po_fuel_table po_list po_active_module=po_active_module %}
+            {% else %}
+                {% po_table po_list %}
+            {% endif %}
+
+            {% if year %}
+                <h5 class="is-size-5">{% trans 'Go to month:' %}</h5>
+                <p>
+                    <a href="{% url 'aix:po-list' entity_slug=view.kwargs.entity_slug %}">
+                        {% trans 'All' %} |
+                    </a>
+                    {% for date in date_list %}
+                        <a href="{% url 'aix:po-list-month' entity_slug=view.kwargs.entity_slug year=date.year month=date.month %}">
+                            {{ date | date:'F' }} {% if not forloop.last %}>{% endif %}
+                        </a>
+                    {% endfor %}
+                </p>
+            {% else %}
+                <h5 class="is-size-5">{% trans 'Go to year:' %}</h5>
+                <p>
+                    <a href="{% url 'aix:po-list' entity_slug=view.kwargs.entity_slug %}">
+                        {% trans 'All' %} |
+                    </a>
+                    {% for date in date_list %}
+                        <a href="{% url 'aix:po-list-year' entity_slug=view.kwargs.entity_slug year=date.year %}">
+                            {{ date.year }} {% if not forloop.last %}>{% endif %}
+                        </a>
+                    {% endfor %}
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

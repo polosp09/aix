@@ -1,0 +1,25 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <h1 class="is-size-4 text-weight-thin">{% trans 'Products & Services List' %}</h1></div>
+                    <div class="level-item">
+                        <a href="{% url 'aix:product-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                            <i class="mdi mdi-plus"></i> Add Unit</a></a>
+                    </div>
+                </div>
+            </div>
+
+            {% items_table pns_list %}
+
+        </div>
+    </div>
+{% endblock %}
+

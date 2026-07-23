@@ -1,0 +1,54 @@
+{% load aix %}
+{% load trans from i18n %}
+
+{% if style == 'desktop' %}
+    
+
+            {% for link in links %}
+                {% if link.type == 'link' %}
+                    <li class="{{ link.title }}-title dexa-border-bottom" key="t-{{ link.title }}">
+                        <a href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                {% elif link.type == 'links' %}
+                    <li>
+                        <a class="has-arrow waves-effect">{{ link.title }}</a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            {% for l in link.links %}
+                                <li>
+                                    <a href="{{ l.url }}">{{ l.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+{# A menu that renders only on mobile devices when the burger menu is opened #}
+{% elif style == 'mobile' %}
+    <div class="navbar-start">
+        <div class="navbar-item text-weight-bold is-hidden-desktop">{{ entity.name | upper }}</div>
+        {% for link in links %}
+
+            {% if link.type == 'link' %}
+                <a class="navbar-item is-hidden-desktop"
+                   href="{{ link.url }}">{{ link.title }}</a>
+
+            {% elif link.type == 'links' %}
+                <div class="navbar-item has-dropdown is-hoverable is-hidden-desktop">
+                    <a class="navbar-link">{{ link.title }}</a>
+                    <div class="navbar-dropdown">
+
+                        {% for l in link.links %}
+                            <a class="navbar-item"
+                               href="{{ l.url }}">{{ l.title }}</a>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    </div>
+
+
+{% endif %}

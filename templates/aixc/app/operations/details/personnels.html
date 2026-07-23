@@ -1,0 +1,59 @@
+{% block content_personnels %}
+{% load aix %}
+{% load crispy_forms_tags%}
+                    <div>
+                        <div class="row">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <b>Personnel</b>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item text-center">
+                                        {% for group in request.user.groups.all %}
+                                        {% if group.name == 'Admins' or group.name == 'OperationsManager' %}
+                                        <a href="{% url 'aix:work-order-personnel-create-wo' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Personnel</a>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-1">
+                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <!-- <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> -->
+                        
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Deployed</th>
+                                    <th>Relieved</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+                                {% for person in wo_personnel_qs %}
+                                <tr>
+                                    <td>{{person.code}}</td>
+                                    <td>{{person.startdate}}</td>
+                                    <td>{{person.enddate}}</td>
+                                    <td>{{person.deploydate}}</td>
+                                    <td>{{person.relievedate}}</td>
+                                    <td>{{person.status}}</td>
+                                <td>
+                                    {# comment #}
+                                    <a href="{% url  'aix:work-order-personnel-update-wo' entity_slug=entity_slug work_order_pk=view.kwargs.work_order_pk work_order_personnel_pk=person.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                    <a href="{% url  'aix:work-order-personnel-details' entity_slug=entity_slug work_order_personnel_pk=person.uuid %}" class="btn-sm btn-dark">Details</a>
+                                    {# endcomment #}
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{% endblock content_personnels %}

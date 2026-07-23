@@ -1,0 +1,99 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        <div class="col-12">
+            {% block page_header %}
+            {% include './page_header.html' %}
+            {% endblock page_header %}
+        </div>
+        {% if not leave_request_workflows %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    <form action="{% url 'aix:leave-request-workflow-create' entity_slug=view.kwargs.entity_slug %}"
+                          method="post">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:leave-request-workflow-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> {% trans 'New Leave Request Workflow' %}</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                            <a href="{% url 'aix:leave-request-workflow-list' entity_slug=view.kwargs.entity_slug %}"
+                               class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                        </div>
+                        {% endif %}
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if leave_request_workflows %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="is-size-1 text-weight-thin">{% trans 'Leave Request Workflow List' %}</h1>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a href="{% url 'aix:leave-request-workflow-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                            <i class="mdi mdi-plus"></i> {% trans 'New Leave Request Workflow' %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for leave_request_workflow in leave_request_workflows %}
+                                    <tr>
+                                        <td>{{leave_request_workflow.code}}</td>
+                                        <td>{{leave_request_workflow.name}}</td>
+                                        <td>{{leave_request_workflow.description}}</td>
+                                        <td>
+                                            <a href="{% url  'aix:leave-request-workflow-update' entity_slug=view.kwargs.entity_slug leave_request_workflow_pk=leave_request_workflow.uuid %}" class="btn-sm btn-dark">edit</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}
+

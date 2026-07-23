@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1in;
+        }
+        .table td:first-child, .table th:first-child {
+            width: 30%!important;
+        }
+        .table td, .table th { width:5%; }
+        td, th {
+            padding: 0.3em 0.1em;
+            text-align: center;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        .border{
+            border:1px solid #333;
+        }
+      </style>
+</head>
+<body>
+<div class="table-container border">
+    {{ faw_items_df|safe }}
+</div>
+</body>

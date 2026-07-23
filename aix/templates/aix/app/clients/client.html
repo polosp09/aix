@@ -1,0 +1,65 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        <div class="col-12">
+            {% block page_header %}
+            {% include 'clients/page_header.html' %}
+            {% endblock page_header %}
+        </div>
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+    
+                    <h2 class="card-title">CLIENT INFO</h2>
+                    <p class="card-title-desc">Create a new client</p>
+                    <form action="" method="post" autocomplete="off">
+                        {%csrf_token%}
+                        <div class="row">
+                           <div class="col-6">
+                               {{ form.client_type|as_crispy_field }}
+                           </div>
+                           <div class="col-6">
+                               {{ form.name|as_crispy_field }}
+                           </div>
+                           <div class="col-6">
+                               {{ form.number|as_crispy_field }}
+                           </div>
+                           <div class="col-6">
+                               {{ form.tin|as_crispy_field }}
+                           </div>
+                           <div class="col-6">
+                               {{ form.email|as_crispy_field }}
+                           </div>
+                           <div class="col-6">
+                               {{ form.telephone|as_crispy_field }}
+                           </div>
+                           <div class="col-6">
+                               {{ form.business_industry|as_crispy_field }}
+                           </div>
+                           <div class="col-6">
+                               {{ form.nation|as_crispy_field }}
+                           </div>
+                           <div class="col-12">
+                               {{ form.address|as_crispy_field }}
+                           </div>
+                        </div>
+                         <div class="row">
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">SAVE</button>
+                                <a href="{% url 'aix:client-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary"><b>back to list</b></a>
+                            </div>
+                         </div>
+                     </form>
+                </div>
+            </div>
+        </div> <!-- end col -->
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}
+

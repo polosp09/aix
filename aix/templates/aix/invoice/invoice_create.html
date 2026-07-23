@@ -1,0 +1,61 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="card p-2">
+        <div class="columns is-multiline is-centered">
+            {% if jcd_model %}
+                <div class="column is-6-desktop text-centered">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="title">{% trans 'Invoice for' %} {{ jcd_model.jcd_number }}</h2>
+                            <h3 class="subtitle text-weight-light">{% trans 'Invoice for' %} {{ jcd_model.jcd_title }}</h3>
+                            {% for jcd_item in jcd_items %}
+                                <p>{{ jcd_item }}</p>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="columns is-multiline is-centered">
+            {% if estimate_model %}
+                <div class="column is-12 text-centered">
+                    <h2 class="is-size-2">{% trans 'Invoice for Estimate' %}: {{ estimate_model.title }}</h2>
+                    <h3 class="is-size-3">{{ estimate_model.estimate_number }}</h3>
+                    <h4 class="is-size-4 mt-2">{{ estimate_model.customer }}</h4>
+                    <a class="btn btn-dark mt-2"
+                    href="{% url 'aix:customer-estimate-detail' entity_slug=view.kwargs.entity_slug ce_pk=estimate_model.uuid %}">
+                        {% trans 'Back to Estimate' %}</a>
+                </div>
+            {% endif %}
+            <div class="column is-6-desktop">
+                <div class="card">
+                    <form action="{{ form_action_url }}"
+                            method="post" id="djl-bill-create-form-id">
+                            {% csrf_token %}
+                            <div class="card-header">
+                                <h2 class="card-header-title">
+                                            <span class="icon is-medium">
+                                                {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                            </span>{{ page_title }}</h2>
+                            </div>
+                            <div class="card-body">
+                            {{ form }}
+                            <button type="submit"
+                                    id="djl-invoice-create-button"
+                                    class="btn btn-primary is-outlined is-fullwidth my-2">{% trans 'Create' %}
+                            </button>
+                            <a href="{% url 'aix:invoice-list' entity_slug=view.kwargs.entity_slug %}"
+                                id="djl-invoice-create-back-button"
+                                class="btn-sm btn-dark is-fullwidth">{% trans 'Cancel' %}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+
+    <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th class="has- text-centered">Supplier</th>
+            <th class="has- text-centered">Address</th>
+            <th class="has- text-centered">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for vendor in vendors %}
+            <tr class="has- text-centered">
+                <td>{{ vendor.vendor_name }}</td>
+                <td>{{ vendor.address_1 }}</td>
+                <td>
+                    <a href="{% url 'aix:vendor-update' entity_slug=view.kwargs.entity_slug vendor_pk=vendor.uuid %}"
+                        class="btn-sm text-weight-bold">{% trans 'Update' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,30 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+    <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th>UOM</th>
+            <th>Inventory Account</th>
+            <th>COGS Account</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for inv_item in inventory_item_list %}
+            <tr>
+                <td>{{ inv_item.name }}</td>
+                <td>{{ inv_item.uom }}</td>
+                <td>{{ inv_item.inventory_account }}</td>
+                <td>{{ inv_item.cogs_account }}</td>
+                <td>
+                    <a href="{% url 'aix:inventory-item-update' entity_slug=entity_slug item_pk=inv_item.uuid %}"
+                        class="btn-sm text-success">{% trans 'Update' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,1073 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        <div class="col-12">
+            {% block page_header %}
+            {% include './page_header.html' %}
+            {% endblock page_header %}
+        </div>
+        {% if not work_orders %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    {% if work_order %}
+                    <form action="{% url 'aix:work-order-update' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" method="post">
+                    {% else %}
+                    <form action="{% url 'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" method="post">
+                    {% endif %}
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> {% trans 'New Work Order' %}</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit" onclick="showLoader()"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                            {% for group in request.user.groups.all %}
+                            {% if group.name == 'TotalProjectManager' or group.name == 'Admins' %}
+                            <a href="{% url 'aix:home' %}"
+                               class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                            {% endif %}
+                            {% if group.name == 'OperationsManager' or group.name == 'Supervisor' or group.name == 'Clerks' %}
+                            <a href="{% url 'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}"
+                                class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                            {% endif %}
+                            {% endfor %}
+                        {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+                    </form>
+                    <div id="save-loader">
+                        <img src="{% static 'images/Alternative.gif'%}" alt="img-2" height="20" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if work_orders %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-6">
+                    {% if works %}
+                    <div id="accordion" class="custom-accordion">
+                        <div class="mb-1 shadow-none">
+                            <a href="#collapseMain" class=" text-dark collapsed" data-bs-toggle="collapse"
+                                            aria-expanded="false"
+                                            aria-controls="collapseMain">
+                                <div class="card-header" id="headingMain">
+                                    <h6 class="m-0 dexa-title w-100">
+                                        General Stats
+                                        <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                    </h6>
+                                </div>
+                            </a>
+                            <div id="collapseMain" class="collapse"
+                                    aria-labelledby="headingMain" data-bs-parent="#accordion">
+                                <div class="card-body">
+                                    <h2 class="dexa-title text-h2 pl-2">Main Dashboard Stats</h2>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>Tasks</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_tasks }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2.5%"></td> -->
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>Assets</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_assets }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2.5%"></td> -->
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>Personnel</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_personnel }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr><td><p></p></td></tr>
+                                        <tr>
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>Activities</b></th></tr>
+                                                    <tr><td>{{ wo_digest.kpi_ops_qs.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="5%"></td> -->
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>Equipment.</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_onoff }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="5%"></td> -->
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>POB</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_pob }}</td></tr>
+                                                </table>
+                                                <table class="border w-100">
+                                                    <tr>
+                                                        <td>
+                                                            <table class="border w-100">
+                                                                <tr><th><b>SN</b></th></tr>
+                                                                <tr><td>{{ wo_digest.stat_nox_pob_SN }}</td></tr>
+                                                            </table>
+                                                        </td>
+                                                        <td>
+                                                            <table class="border w-100">
+                                                                <tr><th><b>NN</b></th></tr>
+                                                                <tr><td>{{ wo_digest.stat_nox_pob_NN }}</td></tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>TRIPS</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OPS-TR</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_TR.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OPS-REP</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_REP.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OPS-LF</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_LF.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b></b></th></tr>
+                                                    <tr><td></td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>STB</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_STB.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>BRKD</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_BRKD.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OFFHIRE</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_OFFHIRE.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>CARGO</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>KMSPASSED</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_TR.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>FUEL</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_REP.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b></b></th></tr>
+                                                    <tr><td></td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>ROUTINE</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_STB.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>SIMPLE</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_BRKD.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>COMPLICATED</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_OFFHIRE.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>COMPLEX</b></th></tr>
+                                                    <tr><td>{{ wo_digest.stat_nox_ops_OFFHIRE.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>MAN-HRS</b></th></tr>
+                                                    <tr><td>{% widthratio wo_digest.stat_nox_pobs_MH 1 12 %}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>SN</b></th></tr>
+                                                    <tr><td>{% widthratio wo_digest.stat_nox_pobs_SN 1 12 %}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>NN</b></th></tr>
+                                                    <tr><td>{% widthratio wo_digest.stat_nox_pobs_NN 1 12 %}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                    
+                                    
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>Activities</b></th></tr>
+                                                    <tr><td>{{ wo_digest.kpi_ops_qs.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2.5%"></td> -->
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>Assets</b></th></tr>
+                                                    <tr><td>{{ wo_digest.wo_task_asset_qs.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2.5%"></td> -->
+                                            <td width="30%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>Personnel</b></th></tr>
+                                                    <tr><td>{{ wo_digest.wo_task_asset_qs.count }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>TRIPS</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.hrs_trips.trip_activity__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>KMSPASSED</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.kms_passed.kms_passed__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>FUEL</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.consol_fuel.consol_fuel__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1 shadow-none">
+                            <a href="#collapseHRS" class=" text-dark collapsed" data-bs-toggle="collapse"
+                                            aria-expanded="false"
+                                            aria-controls="collapseHRS">
+                                <div class="card-header" id="headingHRS">
+                                    <h6 class="m-0 dexa-title w-100">
+                                        HRS
+                                        <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                    </h6>
+                                </div>
+                            </a>
+                            <div id="collapseHRS" class="collapse" aria-labelledby="headingHRS"
+                                    data-bs-parent="#accordion">
+                                <div class="card-body">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OPS-TR</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.hrs_ops.section2_time_taken__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OPS-REP</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.hrs_rep.section2_time_taken__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OPS-LF</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.hrs_lf.section2_time_taken__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                        <!-- </tr>
+                                        <tr> -->
+                                            <!-- <td width="2%"></td> -->
+                                            <!-- <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b></b></th></tr>
+                                                    <tr><td></td></tr>
+                                                </table>
+                                            </td> -->
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>STB</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.hrs_stb.section2_time_taken__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>BRKD</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.hrs_brkd.section2_time_taken__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OFFHIRE</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.hrs_offhire.section2_time_taken__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>CARGO</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.ton_cargo.section2_ton_cargo__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>NO-LIFTS</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.no_lifts.section2_time_taken__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>TON-LIFTS</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.ton_lifts.section2_time_taken__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b></b></th></tr>
+                                                    <tr><td></td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1 shadow-none">
+                            <a href="#collapseLON" class=" text-dark collapsed" data-bs-toggle="collapse"
+                                            aria-expanded="false"
+                                            aria-controls="collapseLON">
+                                <div class="card-header" id="headingLON">
+                                    <h6 class="m-0 dexa-title w-100">
+                                        Lifting Operations - [#]
+                                        <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                    </h6>
+                                </div>
+                            </a>
+                            <div id="collapseLON" class="collapse" aria-labelledby="headingLON"
+                                    data-bs-parent="#accordion">
+                                <div class="card-body">
+                                    <table width="100%">
+                                        <tr>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>ROUTINE</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.no_routine.no_routine__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>SIMPLE</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.no_simple.no_simple__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>COMPLICATED</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.no_complicated.no_complicated__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>COMPLEX</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.no_routine.no_routine__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1 shadow-none">
+                            <a href="#collapseLOT" class=" text-dark collapsed" data-bs-toggle="collapse"
+                                            aria-expanded="false"
+                                            aria-controls="collapseLOT">
+                                <div class="card-header" id="headingLOT">
+                                    <h6 class="m-0 dexa-title w-100">
+                                        Lifting Operations - [Tons]
+                                        <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                    </h6>
+                                </div>
+                            </a>
+                            <div id="collapseLOT" class="collapse"
+                                    aria-labelledby="headingLOT" data-bs-parent="#accordion">
+                                <div class="card-body">
+                                    <table width="100%">
+                                        <tr>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>ROUTINE</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.ton_routine.ton_routine__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>SIMPLE</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.ton_simple.ton_simple__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>COMPLICATED</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.ton_complicated.ton_complicated__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="25%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>COMPLEX</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.ton_routine.ton_routine__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="mb-1 shadow-none">
+                            <a href="#collapseLLT" class=" text-dark collapsed" data-bs-toggle="collapse"
+                                            aria-expanded="false"
+                                            aria-controls="collapseLLT">
+                                <div class="card-header" id="headingLLT">
+                                    <h6 class="m-0 dexa-title w-100">
+                                        Lifted/ Location [Ton]
+                                        <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                    </h6>
+                                </div>
+                            </a>
+                            <div id="collapseLLT" class="collapse" aria-labelledby="headingLLT"
+                                    data-bs-parent="#accordion">
+                                <div class="card-body">
+                                    <table width="100%">
+                                        <tr>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>DSB</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.llt_dsb.llt_dsb__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>TGI</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.llt_tgi.llt_tgi__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#1</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.llt_rig1.llt_rig1__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#2</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.llt_rig2.llt_rig2__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#3</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.llt_rig3.llt_rig3__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OTHER</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.llt_other.llt_other__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-1 shadow-none">
+                            <a href="#collapseTLT" class=" text-dark collapsed" data-bs-toggle="collapse"
+                                            aria-expanded="false"
+                                            aria-controls="collapseTLT">
+                                <div class="card-header" id="headingTLT">
+                                    <h6 class="m-0 dexa-title w-100">
+                                        Transported / Location [Ton]
+                                        <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                    </h6>
+                                </div>
+                            </a>
+                            <div id="collapseTLT" class="collapse" aria-labelledby="headingTLT"
+                                    data-bs-parent="#accordion">
+                                <div class="card-body">
+                                    <table width="100%">
+                                        <tr>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>DSB</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.tlt_dsb.tlt_dsb__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>TGI</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.tlt_tgi.tlt_tgi__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#1</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.tlt_rig1.tlt_rig1__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#2</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.tlt_rig2.tlt_rig2__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#3</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.tlt_rig3.tlt_rig3__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OTHER</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.tlt_other.tlt_other__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-1 shadow-none">
+                            <a href="#collapseLTT" class=" text-dark collapsed" data-bs-toggle="collapse"
+                                            aria-expanded="false"
+                                            aria-controls="collapseLTT">
+                                <div class="card-header" id="headingLTT">
+                                    <h6 class="m-0 dexa-title w-100">
+                                        Lifted/ Transported Totals
+                                        <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                    </h6>
+                                </div>
+                            </a>
+                            <div id="collapseLTT" class="collapse" aria-labelledby="headingLTT"
+                                    data-bs-parent="#accordion">
+                                <div class="card-body">
+                                    <table width="100%">
+                                        <tr>
+                                            <!-- <td width="2%"></td> -->
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>DSB</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.dnt_dsb.dnt_dsb__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>TGI</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.dnt_tgi.dnt_tgi__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#1</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.dnt_rig1.dnt_rig1__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#2</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.dnt_rig2.dnt_rig2__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>RIG#3</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.dnt_rig3.dnt_rig3__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                            <td width="16.6%">
+                                                <table class="border w-100">
+                                                    <tr><th><b>OTHER</b></th></tr>
+                                                    <tr><td>{{ wo_digest.ops_digest.dnt_other.dnt_other__sum }}</td></tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end accordion-->
+                    {% endif %}
+                    
+                    <div class="card dexa-badge-lg">
+                        <table class="dexa-tablex">
+                            <tr>
+                                <th><a href="{% url 'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}">WORK ORDERS</a></td>
+                                <th><a href="{% url 'aix:invoice-list' entity_slug=view.kwargs.entity_slug %}">INVOICES</a></td>
+                                <th>JOB CARDS</td>
+                            </tr>
+                            <tr>
+                                <td><a href="{% url 'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}">{{wo_digest.wo_qs_count}}</a></td>
+                                <td><a href="{% url 'aix:invoice-list' entity_slug=view.kwargs.entity_slug %}">{{wo_digest.invoices_count}}</a></td>
+                                <td>{{wo_digest.jcd_qs_count}}</td>
+                            </tr>
+                            <tr>
+                                <th><a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}">ASSETS</a>
+                                    <a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}"><span class="badge bg-success p-2">{{wo_digest.wo_asset_qs_count}}</span></a></td>
+                                <th><a href="{% url 'aix:asset-list' entity_slug=view.kwargs.entity_slug %}">EQUIPMENT</a>
+                                    <a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}"><span class="badge bg-success p-2">{{wo_digest.wo_equipment_qs.count}}</span></a></td>
+                                <th><a href="{% url 'aix:employee-list' entity_slug=view.kwargs.entity_slug %}">PERSONNEL</a>
+                                    <a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}"><span class="badge bg-success p-2">{{wo_digest.wo_personnel_qs_count}}</span></a></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th><a href="#" class="text-success mb-2" data-bs-toggle="modal" data-bs-target="#wo-asset-active">Active</a></th>
+                                            <th><a href="#" class="text-success mb-2" data-bs-toggle="modal" data-bs-target="#wo-asset-inactive">Not-Active</a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div> 
+                                                        <a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}" class="mb-2" data-bs-toggle="modal" data-bs-target="#wo-asset-active">{{wo_digest.wo_asset_active.count}}</a>                       
+                                                        <div class="modal fade" id="wo-asset-active" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalScrollable-title">Active Assets - [ {{wo_digest.wo_asset_active.count}} ]</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-striped table-bordered">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Asset</th>
+                                                                                    <th>Type</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for asset in wo_digest.wo_asset_active %}
+                                                                                <tr>
+                                                                                    <td>{{ asset.asset.name }}</td>
+                                                                                    <td>{{ asset.asset.asset_type.name }}</td>
+                                                                                    <td>{{ asset.wostatus }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div><!-- /.modal-content -->
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div><!-- /.modal -->
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div> 
+                                                        <a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}" class="mb-2" data-bs-toggle="modal" data-bs-target="#wo-asset-inactive">{{wo_digest.wo_asset_inactive.count}}</a>                       
+                                                        <div class="modal fade" id="wo-asset-inactive" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalScrollable-title">Active Assets - [ {{wo_digest.wo_asset_inactive.count}} ]</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-striped table-bordered">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Asset</th>
+                                                                                    <th>Type</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for asset in wo_digest.wo_asset_inactive %}
+                                                                                <tr>
+                                                                                    <td>{{ asset.asset.name }}</td>
+                                                                                    <td>{{ asset.asset.asset_type.name }}</td>
+                                                                                    <td>{{ asset.wostatus }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div><!-- /.modal-content -->
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div><!-- /.modal -->
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th><a href="#" class="text-success mb-2" data-bs-toggle="modal" data-bs-target="#wo-equipment-active">Active</a></th>
+                                            <th><a href="#" class="text-success mb-2" data-bs-toggle="modal" data-bs-target="#wo-equipment-inactive">Not-Active</a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div> 
+                                                        <a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}" class="mb-2" data-bs-toggle="modal" data-bs-target="#wo-equipment-active">{{wo_digest.wo_equipment_active.count}}</a>                       
+                                                        <div class="modal fade" id="wo-equipment-active" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalScrollable-title">Active Equipment - [ {{wo_digest.wo_equipment_active.count}} ]</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-striped table-bordered">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Equipment</th>
+                                                                                    <th>Type</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for equipment in wo_digest.wo_equipment_active %}
+                                                                                <tr>
+                                                                                    <td>{{ equipment.reg_no }}</td>
+                                                                                    <td>{{ equipment.eq_type.name }}</td>
+                                                                                    <td>{{ equipment.status }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                        
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div><!-- /.modal-content -->
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div><!-- /.modal -->
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div> 
+                                                        <a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}" class="mb-2" data-bs-toggle="modal" data-bs-target="#wo-equipment-inactive">{{wo_digest.wo_equipment_inactive.count}}</a>                       
+                                                        <div class="modal fade" id="wo-equipment-inactive" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalScrollable-title">Not-Active Equipment - [ {{wo_digest.wo_equipment_inactive.count}} ]</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-striped table-bordered">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Equipment</th>
+                                                                                    <th>Type</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for equipment in wo_digest.wo_equipment_inactive %}
+                                                                                <tr>
+                                                                                    <td>{{ equipment.reg_no }}</td>
+                                                                                    <td>{{ equipment.eq_type.name }}</td>
+                                                                                    <td>{{ equipment.status }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div><!-- /.modal-content -->
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div><!-- /.modal -->
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th><a href="#" class="text-success mb-2" data-bs-toggle="modal" data-bs-target="#wo-personnel-active">Active</a></th>
+                                            <th><a href="#" class="text-success mb-2" data-bs-toggle="modal" data-bs-target="#wo-personnel-inactive">Not-Active</a></th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div> 
+                                                        <a href="{% url 'aix:employee-list' entity_slug=view.kwargs.entity_slug %}" class="mb-2" data-bs-toggle="modal" data-bs-target="#wo-personnel-active">{{wo_digest.wo_personnel_active.count}}</a>                       
+                                                        <div class="modal fade" id="wo-personnel-active" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalScrollable-title">Active Personnel- [ {{wo_digest.wo_personnel_active.count}} ]</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-striped table-bordered">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Personnel</th>
+                                                                                    <th>Designation</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for personnel in wo_digest.wo_personnel_active %}
+                                                                                <tr>
+                                                                                    <td>{{ personnel.employee.name }}</td>
+                                                                                    <td>{{ personnel.employee.designation }}</td>
+                                                                                    <td>{{ personnel.wostatus }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div><!-- /.modal-content -->
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div><!-- /.modal -->
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div> 
+                                                        <a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}" class="mb-2" data-bs-toggle="modal" data-bs-target="#wo-personnel-inactive">{{wo_digest.wo_personnel_inactive.count}}</a>                       
+                                                        <div class="modal fade" id="wo-personnel-inactive" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalScrollable-title">Active Personnel - [ {{wo_digest.wo_personnel_inactive.count}} ]</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-striped table-bordered">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Personnel</th>
+                                                                                    <th>Designation</th>
+                                                                                    <th>Status</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for personnel in wo_digest.wo_personnel_inactive %}
+                                                                                <tr>
+                                                                                    <td>{{ personnel.employee.name }}</td>
+                                                                                    <td>{{ personnel.employee.designation }}</td>
+                                                                                    <td>{{ personnel.wostatus }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div><!-- /.modal-content -->
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div><!-- /.modal -->
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <!-- <div class="card">
+                        <div class="card-body"> -->
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="is-size-4 text-weight-thin">{% trans 'Work Order List' %}</h1>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <!-- <a href="{% url 'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                            <i class="mdi mdi-plus"></i> {% trans 'New Work Order' %}</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Order No.#</th>
+                                        <th>Category</th>
+                                        <th>End-Date</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for work_order in work_orders %}
+                                    <tr>
+                                        <td><a href="{% url  'aix:work-order-details' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">{{work_order.order_no}}</a></td>
+                                        <td><b>{{work_order.category.name}}</b></td>
+                                        <td><b>{{work_order.end_date}}</b></td>
+                                        <td>
+                                            <a href="{% url  'aix:work-order-update' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                            <a href="{% url  'aix:work-order-details' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">Details</a>
+                                            <a href="{% url  'aix:jcd-list' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">Job Cards</a>
+                                            <a href="{% url  'aix:work-order-task-list' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">Tasks</a>
+                                            <a href="{% url  'aix:faw-list' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">FAW</a>
+                                            <a href="{% url  'aix:fet-list' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">FET</a>
+                                            <a href="{% url  'aix:equipment-fuel-list' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">Fuel</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+    
+                        <!--</div>  end card body-->
+                    <!--</div>  end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}
+{% block extra_javascript %}
+<script type="text/javascript">
+    function showLoaderOnClick(url) {
+        showLoader();   
+        // window.location=url;
+    }
+    function showLoader(){
+        var v = document.getElementById("save-loader");
+        v.className = "loading-spinner";
+        // alert(v.className)
+        // $("#load-icon").show();
+        setTimeout(function(){
+            v.className = "x";},3800);
+    }
+</script>
+{% endblock %}

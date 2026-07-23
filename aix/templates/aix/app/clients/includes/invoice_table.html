@@ -1,0 +1,55 @@
+{% load aix %}
+{% load i18n %}
+<div class="card">
+    <div class="card-header bg-dark">
+        <h2 class="text-light text-weight-light is-size-4">
+            <span class="icon is-small">
+                    {#{% icon 'bi:person-lines-fill' 36 %}#}</span>
+            {% trans 'Client Invoices' %}</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+                    <thead>
+                    <tr>
+                        <th>Invoice Number</th>
+                        <th>Status Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for invoice in invoices %}
+                        <tr>
+                            <td>{{ invoice.invoice_number }}</td>
+                            <td>{{ invoice.get_status_action_date }}</td>
+                            <td>{% currency_symbol %}{{ invoice.amount_due | currency_format }}</td>
+                            <td>{{ invoice.get_invoice_status_display }}
+                                <progress
+                                    class="progress {{ tx_digest.ratios.gross_profit_margin | fin_ratio_threshold_class:'gross_profit_margin' }}"
+                                    value="{{ invoice.amount_paid }}"
+                                    max="{{ invoice.amount_due }}">{{ amount_paid }}</progress>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a href="#" class="text-weight-bold btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        action <i class="mdi mdi-chevron-down"></i>
+                                    </a>
+        
+                                    <div class="dropdown-menu">
+                                        <a href="{% url 'aix:invoice-detail' entity_slug=entity_slug invoice_pk=invoice.uuid %}"
+                                            class="dropdown-item text-success">Details</a>
+                                        <a href="{% url 'aix:invoice-update' entity_slug=entity_slug invoice_pk=invoice.uuid %}"
+                                            class="dropdown-item text-success">Update</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

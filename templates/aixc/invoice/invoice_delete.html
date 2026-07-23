@@ -1,0 +1,36 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-6">
+            <form action="{% url 'aix:invoice-delete' entity_slug=view.kwargs.entity_slug invoice_pk=invoice.uuid %}"
+                  method="post">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-content text-centered">
+                        <p class="title text-weight-light">Are you sure you want to delete
+                            Invoice {{ invoice.invoice_number }}</p>
+                    </div>
+                    <div class="card-content text-centered">
+                        <p class="subtitle">All transactions associated with this invoice will be deleted.
+                            If you want to void the invoice instead, click here</p>
+                    </div>
+                    <div class="card-content text-centered">
+                        <a href="{% url 'aix:invoice-detail' entity_slug=view.kwargs.entity_slug invoice_pk=invoice.uuid %}"
+                           class="btn btn-primary">{% trans 'Go Back' %}</a>
+                        <button type="submit" class="btn btn-danger">{% trans 'Delete' %}</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+
+

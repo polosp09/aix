@@ -1,0 +1,345 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row">
+            <div class="col-12">
+                {% block page_header %}
+                {% include '../page_header.html' %}
+                {% endblock page_header %}
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body border-danger">
+                                <div class="row">
+                                    <div class="level">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <div class="col-12"><h5 class="my-0"><i class="mdi mdi-view-list me-3"></i>Customer</h5>
+                                                    <p><b>{{customer.customer_name}}</b></p></div>
+                                            </div>
+                                        </div>
+                                        <div class="level-right">
+                                            
+                                            <div class="level-item text-center">
+                                                <span class="is-size-4"><b>{{ customer.email }}</b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#home1" role="tab">
+                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                            <span class="d-none d-sm-block">Details</span> 
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#profiles" role="tab">
+                                            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                            <span class="d-none d-sm-block">Profiles</span> 
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#work-orders" role="tab">
+                                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                            <span class="d-none d-sm-block">Work Orders</span>   
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content p-3 text-muted">
+                                    <div class="tab-pane active" id="home1" role="tabpanel">
+                                        <p class="mb-0">
+                                            <div class="row">
+                                                <h5><b>Info. {{customer.file_name}}</b></h5>
+                                                <p class="border-bottom border-light"></p>
+                                                <div class="col-8">
+                                                    <p>
+                                                        <div class="row">
+                                                            <span class="col-lg-3 text-right">Name</span>
+                                                            <span class="col-lg-8"><b>{{customer.customer_name}}</b></span><br />
+                                                        </div>
+                                                        <div class="row">
+                                                            <span class="col-lg-3 text-right">Address</span>
+                                                            <span class="col-lg-8"><b>{{customer.address_1}}</b></span><br />
+                                                        </div>
+                                                        <div class="row">
+                                                            <span class="col-lg-3 text-right">Telephone</span>
+                                                            <span class="col-lg-8"><b>{{customer.phone}}</b></span><br />
+                                                        </div>
+                                                        <div class="row">
+                                                            <span class="col-lg-3 text-right">City</span>
+                                                            <span class="col-lg-8"><b>{{customer.city}}</b></span><br />
+                                                        </div>
+                                                        <div class="row">
+                                                            <span class="col-lg-3 text-right">Nation</span>
+                                                            <span class="col-lg-8"><b>{{customer.nation.name}}</b></span><br />
+                                                        </div>
+                                                        <div class="row">
+                                                            <span class="col-lg-3 text-right">Business</span>
+                                                            <span class="col-lg-8"><b>{{customer.business_industry.name}}</b></span><br />
+                                                        </div>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane" id="work-orders" role="tabpanel">
+                                    
+                                        <div class="card">
+                                            <div class="card-body">
+                
+                                                <h4 class="card-title">Total Count: {{wo_digest.wo_customer_qs.count}}</h4>
+                                                {% if wo_digest.wo_customer_qs.count < 1 %}
+                                                <a href="{% url 'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Work.Order</a>
+                                                {% endif %}
+                                                <div id="accordion" class="custom-accordion">
+                                                    {% for wo in wo_digest.wo_customer_qs %}
+                                                    <div class="card mb-0 shadow-none">
+                                                        <div class="row">
+                                                            <div class="cols col-8">
+                                                                <a href="#collapseThree{{wo.order_no}}" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                                                aria-expanded="false"
+                                                                                aria-controls="collapseThree{{wo.order_no}}">
+                                                                            <div class="card-header" id="headingThree{{wo.order_no}}">
+                                                                                <h6 class="m-0">
+                                                                                    {{wo.order_no}}
+                                                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                                                </h6>
+                                                                            </div>
+                                                                </a>
+                                                            </div>
+                                                            <div class="cols col-4 text-right">
+                                                                <a href="{% url 'aix:jcd-create-work-order' entity_slug=view.kwargs.entity_slug work_order_pk=wo.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Jobcard</a>
+                                                            </div>
+                                                        </div>
+                                                        <div id="collapseThree{{wo.order_no}}" class="collapse"
+                                                                aria-labelledby="headingThree{{wo.order_no}}" data-bs-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <!-- Nav tabs -->
+                                                                <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" data-bs-toggle="tab" href="#wo-details-{{wo.order_no}}" role="tab">
+                                                                            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                                                            <span class="d-none d-sm-block">Details</span> 
+                                                                        </a>
+                                                                    </li>
+                                                                    {% if wo_digest.jcd_qs %}
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" data-bs-toggle="tab" href="#jobcards-{{wo.order_no}}" role="tab">
+                                                                            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                                                            <span class="d-none d-sm-block">Jobcards</span> 
+                                                                        </a>
+                                                                    </li>
+                                                                    {% endif %}
+                                                                    {% if wo_digest.invoices %}
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" data-bs-toggle="tab" href="#invoices-{{wo.order_no}}" role="tab">
+                                                                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                                                            <span class="d-none d-sm-block">Invoices</span>   
+                                                                        </a>
+                                                                    </li>
+                                                                    {% endif %}
+                                                                </ul>
+                                                                <!-- WO Tab panes -->
+                                                                <div class="tab-content p-3 text-muted">
+                                                                    <div class="tab-pane active" id="wo-details-{{wo.order_no}}" role="tabpanel">
+                                                                        <p class="mb-0">
+                                                                            <div class="row">
+                                                                                <h5><b>WO. {{wo.order_no}}</b></h5>
+                                                                                <p class="border-bottom border-light"></p>
+                                                                                <div class="col-2">
+                                                                                    <p>
+                                                                                        Remarks<br />
+                                                                                        Description<br />
+                                                                                        Category<br />
+                                                                                        Customer
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="col-8">
+                                                                                    <p>
+                                                                                        {{wo.remarks}}<br />
+                                                                                        {{wo.description}}<br />
+                                                                                        {{wo.category.name}}<br />
+                                                                                        {{wo.customer}}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="jobcards-{{wo.order_no}}" role="tabpanel">
+                                                                        <p class="mb-0">
+                                                                            {% block content_jobcards %}
+                                                                            {% include './jobcards.html' with wo=wo jcd_qs=wo_digest.jcd_qs cf=customer %}
+                                                                            {% endblock content_jobcards %}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="invoices-{{wo.order_no}}" role="tabpanel">
+                                                                        <p class="mb-0">
+                                                                            {% block content_invoices %}
+                                                                            {% include './invoices.html' with wo=wo invoices=wo_digest.invoices %}
+                                                                            {% endblock content_invoices %}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="cardd">
+                    <div class="border-danger p-3">
+                        <div class="row">
+                            <a href="{% url  'aix:customer-update' entity_slug=view.kwargs.entity_slug customer_pk=customer.uuid %}" 
+                                class="card-footer-item btn-sm btn-dark text-center mb-3 col-6">Edit</a>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6 badge bg-light">Date Opened:</span>
+                            <span class="col-lg-6 badge bg-light">Date Closed:</b></span>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6 badge bg-light">{{ customer.date_opened }}</span>
+                            <span class="col-lg-6 badge bg-light"><b>{{ customer.date_closed }}</b></span>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6 badge bg-light">Financial Status</span>
+                            {% if customer.financial_status == '1' %}
+                                <span class="col-lg-6 badge bg-primary">Active</span>
+                            {% elif customer.financial_status == '2' %}
+                                <span class="col-lg-6 badge bg-success">Approved</span>
+                            {% elif customer.financial_status == '3' %}
+                                <span class="col-lg-6 badge bg-danger">Dropped</span>
+                            {% else %}
+                                <span class="col-lg-6 badge bg-light"><b>Normal</b></span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                        {% if not customer.can_archive %}
+                            {% if not customer.archived %}
+                            <span class="col-lg-6 badge bg-secondary mt-1 ml-1 col-5">NOT-ARCHIVED</span>
+                            {% else %}
+                            <span class="col-lg-6 badge bg-danger pt-2 mt-1 ml-1"><b>ARCHIVED</b></span>
+                            {% endif %}
+                            {% comment %}
+                            {% if not customer.is_active %}
+                            <span class="col-lg-5 badge bg-danger mt-1 ml-1"><b>CLOSED</b></span>
+                            {% else %}
+                            <span class="col-lg-5 badge bg-secondary mt-1 ml-1">ACTIVE</span>
+                            {% endif %}
+                            {% endcomment %}
+                        {% endif %}
+                            {# MARK ARCHIVE #}
+                            {% if customer.can_archive %}
+                                <a onclick="djLedger.toggleModal('{{ customer.get_mark_as_archive_html_id }}')"
+                                    id="{{ customer.get_mark_as_archive_html_id }}-button"
+                                    {% if not customer.archived %}
+                                        class="btn-sm btn-dark text-center mt-1 ml-1 col-6">
+                                        {% trans 'Mark as Archived' %}</a>
+                                    {% else %}
+                                        class="btn-sm btn-secondary text-center mt-1 ml-1 col-6">
+                                        {% trans 'Restore' %}</a>
+                                    {% endif %}
+                                {# MARK AS ARCHIVED MODAL #}
+                                {% modal_action_v2 customer customer.get_mark_as_archive_url customer.get_mark_as_archive_message customer.get_mark_as_archive_html_id %}
+                            {% endif %}
+                            {# MARK ACTIVE #}
+                            <a onclick="djLedger.toggleModal('{{ customer.get_mark_as_active_html_id }}')"
+                                id="{{ customer.get_mark_as_active_html_id }}-button"
+                                {% if not customer.is_active %}
+                                    class="btn-sm btn-secondary text-center mt-1 ml-1 col-5">
+                                    {% trans 'ACTIVATE' %}</a>
+                                {% else %}
+                                    class="btn-sm btn-success text-center mt-1 ml-1 col-5">
+                                    {% trans 'DE-ACTIVATE' %}</a>
+                                {% endif %}
+                            {# MARK AS ACTIVE MODAL #}
+                            {% modal_action_v2 customer customer.get_mark_as_active_url customer.get_mark_as_active_message customer.get_mark_as_active_html_id %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body border-danger">
+                        <div class="row">
+                            <span class="col-lg-3"><h5><b>In-Charge</b></h5></span>
+                            <span class="col-lg-9 text-right">
+                                <a href="javascript:void(0);" class="btn-sm btn-success mb-2" data-bs-toggle="modal" data-bs-target="#incharge">
+                                    <i class="mdi mdi-plus me-2"></i> Add In-Charge</a>
+                            </span>
+                        </div>
+                        {% for incharge in incharges %}
+                        <div class="row">
+                            <span class="col-lg-4"><b><a href="#" class="text-success mb-2" data-bs-toggle="modal" data-bs-target="#incharge-{{incharge.uuid}}">
+                                {{ incharge.employee.first_name }} - {{ incharge.employee.last_name }}</a>
+                            </b></span>
+                            <span class="col-lg-8"><b>{{ incharge.employee.personal_email }}</b></span>
+                            <div>                        
+                                <form action="{% url 'aix:client-in-charge-update' entity_slug=view.kwargs.entity_slug client_in_charge_pk=incharge.uuid customer_pk=customer.uuid %}" method="post" autocomplete="off">
+                                <div class="modal fade" id="incharge-{{incharge.uuid}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalScrollable-title">Update In-Charge</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {%csrf_token%}
+                                                {{ incharge.get_form }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary waves-effect waves-light">Save In-Charge</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+{%endblock content%}
+{% block extra_javascript %}
+        <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.f.write.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+       <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script> 
+       <script src="{% static 'js/pages/datatables.init.js' %}"></script>
+{% endblock extra_javascript %}

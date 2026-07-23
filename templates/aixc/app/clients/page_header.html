@@ -1,0 +1,21 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card bg-light text-light">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="card-text">
+                            <a href="{% url  'aix:customer-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">List</a>
+                            <a href="{% url  'aix:nation-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">NATIONS</a>
+                            
+                            <a href="{% url  'aix:business-industry-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">BUSINESS INDUSTRY</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

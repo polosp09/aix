@@ -1,0 +1,26 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <h1 class="is-size-4 text-weight-thin">{% trans 'Bank Account List' %}</h1>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a href="{% url 'aix:bank-account-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                            <i class="mdi mdi-plus"></i> {% trans 'New Bank Account' %}</a>
+                    </div>
+                </div>
+            </div>
+            {% bank_account_table bank_accounts %}
+        </div>
+    </div>
+{% endblock %}

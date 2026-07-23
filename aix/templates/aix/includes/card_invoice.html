@@ -1,0 +1,167 @@
+{% load aix %}
+{% load i18n %}
+
+<div id="djl-bill-card-widget">
+{% if not create_invoice %}
+    {% if style == 'dashboard' %}
+        <div class="card">
+            <div class="card-body p-0  ">
+                <p class="subtitle text-grey text-right">
+                    <span class="icon">{% icon "bi:cash-stack" 16 %}</span>
+                    {% trans 'Invoice' %}</p>
+                <p class="title">{{ invoice.customer.customer_name }}</p>
+                <p class="subtitle text-weight-light">{{ invoice.customer.address_1 }}</p>
+                {% if not invoice.is_past_due %}
+                    <p class="is-size-5 text-info">Due in: {{ invoice.due_date | timeuntil }}</p>
+                {% else %}
+                    <p class="has- text-danger text-weight-bold is-size-5">Past
+                        Due: {{ invoice.due_date | timesince }} ago</p>
+                {% endif %}
+                {% if invoice.accrue %}
+                    <p class="text-blue"><span class="card-header-title badge is-size-7 text-blue">{% trans 'Is Accrued' %}: <i class="mdi mdi-circle text-blue align-middle me-1"></i></span></p>
+                {% else %}
+                    <p class="text-danger"><span class="card-header-title badge is-size-7 text-danger">{% trans 'Not Accrued' %}: <i class="mdi mdi-circle text-danger align-middle me-1"></i></span></p>
+                {% endif %}
+                <p><span class="card-header-title badge bg-light is-size-7">Owed to You:</span></p>
+                <p class="is-size-5 text-success">{% currency_symbol %}{{ invoice.get_amount_open | currency_format }}</p>
+                <p><span class="badge bg-secondary is-size-5">Amount Paid:</span> {% invoice_txs_amt_paid invoice %}</p>
+                <p>Progressed: {{ invoice.get_progress | percentage }}</p>
+                <p>{% invoice_progress invoice %}</p><br>
+                <progress class="progress is-medium is-success"
+                          value="{{ invoice.get_progress_percent }}"
+                          max="100">{{ invoice.get_progress | percentage }}
+                </progress>
+                {# MARK AS PAID MODAL #}
+                {#                {% modal_action invoice 'get' entity_slug %}#}
+            </div>
+            <footer class="card-footer p-1">
+                <a href="{% url 'aix:invoice-detail' entity_slug=entity_slug invoice_pk=invoice.uuid %}"
+                   class="card-footer-item text-light text-centered btn btn-success m-2">{% trans 'View' %}</a>
+                <a href="{% url 'aix:invoice-update' entity_slug=entity_slug invoice_pk=invoice.uuid %}"
+                   class="card-footer-item text-light-dark text-centered btn btn-primary m-2">{% trans 'Update' %}</a>
+                {% if not invoice.paid %}
+                    <a onclick="djLedger.toggleModal('{{ invoice.get_html_id }}')"
+                       class="card-footer-item text-light text-centered btn btn-success m-2">{% trans 'Mark as Paid' %}</a>
+                {% endif %}
+            </footer>
+        </div>
+    {% elif style == 'invoice-detail' %}
+        <div class="cards">
+            <div class="card-header">
+                <h5 class="card-header-title text-weight-light is-size-3">
+                    <span class="icon is-small">
+                    {#{% icon 'uil:bill' 36 %}#}</span>
+                    {% trans 'Invoice' %}: {{ invoice.invoice_number }}</h5>
+            </div>
+            <div class="card-content text-centered p-1">
+                {% if invoice.paid %}
+                    <p class="is-size-5 text-dark">Is Paid
+                        <span class="icon is-large text-success-dark">
+                            {% icon 'ant-design:check-circle-filled' 48 %}
+                        </span>
+                    </p>
+                    <p class="is-size-5"><span class="badge bg-secondary is-size-5">Amount Paid:</span> {% invoice_txs_amt_paid invoice %}</p>
+                {% else %}
+                    <p><span class="card-header-title badge bg-light is-size-7">Invoice Amount:</span></p>
+                    <p class="card-header-title is-size-4 text-dark">
+                        <span class="has- text-weight-bold">{% currency_symbol %}{{ invoice.amount_due | currency_format }}</span>
+                    </p>
+                    <p><span class="card-header-title badge is-size-7 text-blue">{% trans 'This invoice is' %}: {{ invoice.get_invoice_status_display }} <i class="mdi mdi-circle text-secondary align-middle me-1"></i></span></p>
+                    {% if not invoice.is_past_due %}
+                        <div>
+                            <span class="card-header-title badge bg-success is-size-7">Due in: {{ invoice.due_date | timeuntil }}</span>
+                        </div>
+                    {% else %}
+                        <div>
+                            <span class="card-header-title badge bg-danger is-size-7">Past
+                                Due: {{ invoice.due_date | timesince }} ago</span>
+                        </div>
+                    {% endif %}
+                    {% if invoice.accrue %}
+                        <p class="text-blue"><span class="card-header-title badge is-size-7 text-blue">{% trans 'Is Accrued' %}: <i class="mdi mdi-circle text-blue align-middle me-1"></i></span></p>
+                    {% else %}
+                        <p class="text-danger"><span class="card-header-title badge is-size-7 text-danger">{% trans 'Not Accrued' %}: <i class="mdi mdi-circle text-danger align-middle me-1"></i></span></p>
+                    {% endif %}
+                    <p><span class="card-header-title badge bg-light is-size-7">Owed to You:</span></p>
+                    <p class="card-header-title is-size-5 text-success">{% currency_symbol %}{{ invoice.get_amount_open | currency_format }}</p>
+                    <p><span class="card-header-title badge bg-light is-size-7">Amount Paid:</span></p>
+                    <p class="card-header-title is-size-5 text-success">{% invoice_txs_amt_paid invoice %}</p>
+                    <p>{% invoice_progress invoice %}</p>
+
+                {% endif %}
+
+                {# MARK AS PAID MODAL #}
+                {#                {% modal_action invoice 'get' entity_slug %}#}
+
+            </div>
+            <footer class="card-footer p-0">
+                <a href="{% url 'aix:invoice-update' entity_slug=entity_slug invoice_pk=invoice.uuid %}"
+                   class="card-footer-item text-light text-centered btn btn-primary m-0">{% trans 'Update' %}</a>
+
+                {# MARK DRAFT #}
+                {% if invoice.can_draft %}
+                    <a onclick="djLedger.toggleModal('{{ invoice.get_mark_as_draft_html_id }}')"
+                       id="{{ invoice.get_mark_as_review_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-secondary m-0 ml-1">{% trans 'Mark as Draft' %}</a>
+                    {# MARK AS DRAFT MODAL #}
+                    {% modal_action_v2 invoice invoice.get_mark_as_draft_url invoice.get_mark_as_draft_message invoice.get_mark_as_draft_html_id %}
+                {% endif %}
+
+                {# MARK REVIEW #}
+                {% if invoice.can_review %}
+                    <a onclick="djLedger.toggleModal('{{ invoice.get_mark_as_review_html_id }}')"
+                       id="{{ invoice.get_mark_as_review_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-info m-0 ml-1">{% trans 'Mark as Review' %}</a>
+                    {# MARK AS REVIEW MODAL #}
+                    {% modal_action_v2 invoice invoice.get_mark_as_review_url invoice.get_mark_as_review_message invoice.get_mark_as_review_html_id %}
+                {% endif %}
+
+                {# MARK APPROVED #}
+                {% if invoice.can_approve %}
+                    <a onclick="djLedger.toggleModal('{{ invoice.get_mark_as_approved_html_id }}')"
+                       id="{{ invoice.get_mark_as_approved_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-success m-0 ml-1">{% trans 'Approve' %}</a>
+                    {# MARK AS APPROVED MODAL #}
+                    {% modal_action_v2 invoice invoice.get_mark_as_approved_url invoice.get_mark_as_approved_message invoice.get_mark_as_approved_html_id %}
+                {% endif %}
+
+                {# MARK PAID #}
+                {% if invoice.can_pay %}
+                    <a onclick="djLedger.toggleModal('{{ invoice.get_mark_as_paid_html_id }}')"
+                       id="{{ invoice.get_mark_as_paid_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-success m-0 ml-1">{% trans 'Pay' %}</a>
+                    {# MARK AS PAID MODAL #}
+                    {% modal_action_v2 invoice invoice.get_mark_as_paid_url invoice.get_mark_as_paid_message invoice.get_mark_as_paid_html_id %}
+                {% endif %}
+
+                {# MARK VOID #}
+                {% if invoice.can_void %}
+                    <a onclick="djLedger.toggleModal('{{ invoice.get_mark_as_void_html_id }}')"
+                       id="{{ invoice.get_mark_as_void_html_id }}-button"
+                       class="card-footer-item text-light text-centered btns btn-danger m-0 ml-1">{% trans 'Void' %}</a>
+                    {# MARK AS PAID MODAL #}
+                    {% modal_action_v2 invoice invoice.get_mark_as_void_url invoice.get_mark_as_void_message invoice.get_mark_as_void_html_id %}
+                {% endif %}
+
+                {# MARK CANCELED #}
+                {% if invoice.can_cancel %}
+                    <a onclick="djLedger.toggleModal('{{ invoice.get_mark_as_canceled_html_id }}')"
+                       id="{{ invoice.get_mark_as_canceled_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-danger m-0 ml-1">{% trans 'Cancel' %}</a>
+                    {# MARK AS PAID MODAL #}
+                    {% modal_action_v2 invoice invoice.get_mark_as_canceled_url invoice.get_mark_as_canceled_message invoice.get_mark_as_canceled_html_id %}
+                {% endif %}
+
+
+            </footer>
+        </div>
+
+    {% endif %}
+{% else %}
+    <div class="box text-centered">
+        <a href="{% url 'aix:invoice-create' entity_slug=entity_slug %}">
+            <span class="icon is-large text-grey">{% icon "ic:baseline-add-circle-outline" 48 %}</span></a>
+        <h2 class="is-size-3 text-grey">{% trans 'New Invoice' %}</h2>
+    </div>
+{% endif %}
+</div>

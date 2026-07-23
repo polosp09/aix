@@ -1,0 +1,10 @@
+{% extends 'aix/base_home.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    {% for entity in entities %}
+    <a href="{{ entity.get_dashboard_url }}" class="text-light btn-sm btn-primary">Dashboard {{entity}}</a>
+    {% endfor %}
+{% endblock %}

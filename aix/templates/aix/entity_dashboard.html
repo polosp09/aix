@@ -1,0 +1,130 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+        <div>
+            <div class="row p-2">
+                <div class="col-12">
+                    {% if view.kwargs.unit_slug or request.GET.unit %}
+                        {% period_navigation 'unit-dashboard' %}
+                    {% else %}
+                        {% period_navigation 'entity-dashboard' %}
+                    {% endif %}
+                </div>
+                {% comment %}
+                {% endcomment %}
+                <div class="col-12">
+                    {% include 'aix/includes/widget_fs.html' with tx_digest=tx_digest fiscal_digest=fiscal_digest %}
+                </div>
+                <div class="col-6">
+                    {% include 'aix/includes/widget_ic.html' with tx_digest=tx_digest %}
+                </div>
+                <div class="col-6">
+                    {% include 'aix/includes/widget_bs.html' with tx_digest=tx_digest %}
+                </div>
+            </div>
+            {% comment %}
+            <div class="row is-centered">
+                <div class="col-4 is-half">
+                    {% include 'aix/includes/widget_bs.html' with tx_digest=tx_digest %}
+                </div>
+                <div class="col-4 is-half">
+                    {% include 'aix/includes/widget_ic.html' with tx_digest=equity_digest %}
+                </div>
+                <div class="col-2 is-three-fifths">
+                    <div class="card">
+                        <div class="card-content">{% chart_container pnl_chart_id pnl_chart_endpoint %}</div>
+                    </div>
+                </div>
+                <div class="col-2 is-two-fifths">
+                    {% include 'aix/includes/widget_ratios.html' with tx_digest=tx_digest %}
+                </div>
+            </div>
+            {% endcomment %}
+        </div>
+
+    {% comment %}
+    {# RECEIVABLES SECTION START #}
+    <section class="hero is-light is-bold is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">{% trans 'Receivables' %}</h1>
+                <h2 class="subtitle">
+                    <span class="icon">{% icon "ic:baseline-business" 16 %}</span>{{ entity.name }}</h2>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline is-centered">
+                {% if invoices %}
+                    <div class="column is-6-tablet is-4-desktop">
+                        <div class="card">
+                            <div class="card-body">
+                            {% chart_container receivables_chart_id receivables_chart_endpoint %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% for invoice in invoices %}
+                    <div class="column is-6-tablet is-4-desktop">
+                        {% include 'aix/includes/card_invoice.html' with invoice=invoice entity_slug=entity.slug style='dashboard' %}
+                    </div>
+                {% endfor %}
+                <div class="column is-6-tablet is-4-desktop">
+                    {% include 'aix/includes/card_invoice.html' with create_invoice=True entity_slug=entity.slug %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {# RECEIVABLES SECTION END #}
+
+    {# PAYABLES SECTION START #}
+    <section class="hero is-light is-bold is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">{% trans 'Payables' %}</h1>
+                <h2 class="subtitle">
+                    <span class="icon">{% icon "ic:baseline-business" 16 %}</span>{{ entity.name }}</h2>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline is-centered">
+                {% if bills %}
+                    <div class="column is-6-tablet is-4-desktop">
+                        <div class="card">
+                            <div class="card-body">
+                            {% chart_container payables_chart_id payables_chart_endpoint %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% for bill in bills %}
+                    <div class="column is-6-tablet is-4-desktop">
+                        {% include 'aix/includes/card_bill.html' with bill=bill entity_slug=entity.slug style='dashboard' %}
+                    </div>
+                {% endfor %}
+                <div class="column is-6-tablet is-4-desktop">
+                    {% include 'aix/includes/card_bill.html' with create_bill=True entity_slug=entity.slug style='dashboard' %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {# PAYABLES SECTION END #}
+    {% endcomment %}
+{% endblock %}
+
+{% block script_bottom %}
+    {{ block.super }}
+    <script>
+        djLedger.renderPnLChart("{{ pnl_chart_id }}", "{{ view.kwargs.entity_slug }}", fromDate, toDate)
+        djLedger.renderNetReceivablesChart("{{ receivables_chart_id }}", "{{ view.kwargs.entity_slug }}", fromDate, toDate)
+        djLedger.renderNetPayablesChart("{{ payables_chart_id }}", "{{ view.kwargs.entity_slug }}", fromDate, toDate)
+    </script>
+{% endblock %}
+
+

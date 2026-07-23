@@ -1,0 +1,38 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+
+{% block content %}
+    <section class="section text-center mt-0">
+        <div class="container">
+            {% for group in usr_groups %}
+            {% if group.name == 'Admins' %}
+            <div class="columns is-not-multiline">
+            {% else %}
+            <div>
+            {% endif %}
+            {% endfor %}
+                <!-- <div class="row"> -->
+                    {% for entity in entities %}
+                        {% for group in usr_groups %}
+                            {% if group.name == 'Admins' %}
+                            <div class="column is-2-tablet is-text-centered">
+                                {% include 'aix/includes/card_entity.html' with entity=entity year=year month=month %}
+                            </div>
+                            {% endif %}
+                            {% if group.name == 'Supervisor' or group.name == 'Clerks' %}
+                            <div class="column is-2-tablet is-text-centered">
+                                {% include 'aix/includes/card_entity_clerk.html' with entity=entity year=year month=month work_orders=work_orders %}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                {% endfor %}
+                
+                {% if 'aix.add_entitymodel' in perms %}<a href="{% url 'aix:entity-create' %}" class="btn btn-success btn-fullwidth btn-outlined">
+                    <i class="mdi mdi-plus"></i> {% trans 'New Company' %}</a></span>{% endif %}
+            <!-- </div> -->
+        </div>
+    </section>
+{% endblock %}

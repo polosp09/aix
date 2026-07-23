@@ -1,0 +1,35 @@
+{% extends 'aix/layouts/content_layout_2.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block view_content %}
+    <div class="columns is-centered">
+        <div class="column is-6">
+            <form action="{{ entity.get_delete_url }}"
+                  method="post">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-content text-centered">
+                        <p class="title text-weight-light">Are you sure you want to delete
+                            Entity {{ entity.name }}?</p>
+                    </div>
+                    <div class="card-content text-centered">
+                        <p class="subtitle">All data associated with this entity will be deleted.</p>
+                    </div>
+                    <div class="card-content text-centered">
+                        <a href="{% url 'aix:home' %}"
+                           class="btn btn-primary">{% trans 'Go Back' %}</a>
+                        <button type="submit" class="btn btn-danger">{% trans 'Delete' %}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+
+

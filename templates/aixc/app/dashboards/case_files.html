@@ -1,0 +1,58 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+            <div class="row">
+                <div class="col-12"> 
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'aix:case-account-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-accounts</a>
+                                        <a href="{% url  'aix:case-activity-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-activities</a>
+                                        <a href="{% url  'aix:case-activity-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-activityStatuses</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:case-billing-rate-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">CaseBillingRates</a>
+                                        <a href="{% url  'aix:case-billing-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">CaseBillingTypes</a>
+                                        <a href="{% url  'aix:case-category-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-categories</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p>
+                                        <a href="{% url  'aix:case-comment-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-comments</a>
+                                        <a href="{% url  'Case-currency-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-currencies</a>
+                                    </p>
+                                    <p class="card-text">
+                                        <a href="{% url  'aix:case-file-handler-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-file-handlers</a>
+                                        <a href="{% url  'aix:case-file-number-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-file-numbers</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <a href="{% url  'aix:case-partner-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-partners</a>
+                                    <p>
+                                        <a href="{% url  'Case-activityCategory-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Case-activityCategories</a>
+                                        <a href="{% url  'Court-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Courts</a>
+                                        <a href="{% url  'aix:practice-area-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Practice-areas</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{%endblock content%}

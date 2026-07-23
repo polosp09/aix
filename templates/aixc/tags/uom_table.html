@@ -1,0 +1,36 @@
+{% load trans from i18n %}
+{% load icon from aix %}
+
+<div class="table-container">
+    <table class="table is-narrow is-striped is-fullwidth django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr class="has- text-centered text-weight-bold">
+            <td>{% trans 'UOM' %}</td>
+            <td>{% trans 'Abbreviation' %}</td>
+            <td>{% trans 'Active' %}</td>
+            <td>{% trans 'Actions' %}</td>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for uom in uom_list %}
+            <tr class="has- text-centered">
+                <td>{{ uom.name }}</td>
+                <td>{{ uom.unit_abbr }}</td>
+                <td class="has- text-centered">
+                    {% if uom.is_active %}
+                        <span class="icon is-small text-success">{#{% icon 'bi:check-circle-fill' 24 %}#}</span>
+                    {% else %}
+                        <span class="icon is-small text-danger">{#{% icon 'clarity:no-access-solid' 24 %}#}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'aix:uom-update' entity_slug=entity_slug uom_pk=uom.uuid %}"
+                        class="btn-sm">{% trans 'Update' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>

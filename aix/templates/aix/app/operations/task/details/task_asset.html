@@ -1,0 +1,93 @@
+{%block content_task_assets%}
+    <div class="row">
+        {% if not assets %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    {% if work_order_asset %}
+                    <form action="{% url 'aix:work-order-task-asset-update-wo' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk work_order_asset_pk=work_order_asset.uuid %}" method="post">
+                    {% else %}
+                    <form action="{% url 'aix:work-order-task-asset-create-wo' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}" method="post">
+                    {% endif %}
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:work-order-task-asset-create-wo' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> Assign New Asset</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                Save
+                            </button>
+                            <a href="{% url 'aix:work-order-task-details' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}"
+                               class="btn-sm btn-dark is-fullwidth">Back</a>
+                        </div>
+                        {% endif %}
+                    </form>    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if assets %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="is-size-4 text-weight-thin">List of Assigned Assets</h1>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a href="{% url 'aix:work-order-task-asset-create-wo' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}" class="btn-sm btn-success">
+                                            <i class="mdi mdi-plus"></i> Assign New Asset.</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>No.#</th>
+                                        <th>Asset</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for asset in assets %}
+                                    <tr>
+                                        <td>{{asset.code}}</td>
+                                        <td>{{asset.asset}}</td>
+                                        <td>{{asset.startdate}}</td>
+                                        <td>{{asset.enddate}}</td>
+                                        <td>{{asset.status}}</td>
+                                        <td>
+                                            <a href="{% url  'aix:work-order-task-asset-update-wo' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk work_order_task_asset_pk=asset.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content_task_assets%}

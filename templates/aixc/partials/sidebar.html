@@ -1,0 +1,23 @@
+{% load static %}
+{% load navigation_menu from aix %}
+{% block sidebar %}
+		<!-- ========== Left Sidebar Start ========== -->
+		<div class="vertical-menu dexa-bg-default">
+			<div data-simplebar class="h-100">
+				<!--- Sidemenu -->
+				<div id="sidebar-menu">
+					<!-- Left Menu Start -->
+					<ul class="metismenu list-unstyled" id="side-menu">
+						<!-- <li><a href="{% url 'aix:home' %}">HOME</a></li> -->
+						{# SIDE MENU #}
+						{% if not hide_menu %}
+										{% navigation_menu 'desktop' %}
+						{% endif %}
+						<!-- <li><a href="{% url 'aix:report-filter-results' entity_slug=view.kwargs.entity_slug %}">REPORT MANAGER</a></li> -->
+					</ul>
+				</div>
+				<!-- Sidebar -->
+			</div>
+		</div>
+		<!-- Left Sidebar End -->
+{% endblock sidebar %}

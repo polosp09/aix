@@ -1,0 +1,25 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card bg-dark text-light">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle-outline me-3"></i>Receipt</h3>
+                        <p class="card-text">Manage all client info.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                        <p class="card-text">
+                            <a href="{% url  'Receipt_list' %}" class="btn-sm btn-dark">LIST</a>
+                            <a href="{% url  'Receipt_insert' %}" class="btn-sm btn-dark">NEW CLIENT</a>
+                            <!--<button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable">Scrollable modal</button>-->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

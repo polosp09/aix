@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <style>
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{
+      margin:0;padding:0}
+
+      h1,h2,h3,h4,h5,h6{
+      font-size:100%;font-weight:normal}
+
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{
+          margin:0;padding:0}
+      
+      h1,h2,h3,h4,h5,h6{
+      font-size:100%;font-weight:normal}
+      
+      ul{
+      list-style:none}
+      
+      button,input,select,textarea{
+      margin:0}
+      
+      html{
+      box-sizing:border-box}
+      
+      *,*::before,*::after{
+      box-sizing:inherit}
+      
+      img,video{
+      height:auto;max-width:100%}
+      
+      iframe{
+      border:0}
+      
+      table{
+      border-collapse:collapse;border-spacing:0.5em;padding:2px;border: 1px solid #123;}
+      
+      td,th{
+      padding:2px;border: 1px solid #123}
+      
+      /* td:not([align]),th:not([align]){
+      text-align:inherit}
+      */
+    
+    </style>
+</head>
+<body>
+
+    <!-- <table>
+        <tr>
+            <td>TRANSPORT & LIFTING DAILY PERFORMANCE</td><td></td>
+        </tr>
+        <tr>
+            <td>TRANSPORT</td><td>LIFTING</td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>OPS [hrs]</th>
+                        <th>REP [hrs]</th>
+                        <th>STB [hrs]</th>
+                        <th>BREAKDOWN [hrs]</th>
+                        <th>TRIPS [nbr]</th>
+                        <th>CARGO [ton]</th>
+                        <th>KMS</th>
+                        <th>FUEL TRANSPORT [L]</th>
+                    </tr>
+                    <tr>
+                        <td>2024-04</td>
+                        <td>{{sug_ops}}0</td>
+                        <td>{{sug_rep}}1</td>
+                        <td>{{sug_stb}}0</td>
+                        <td>{{sug_brkd}}1</td>
+                        <td>{{sug_trips}}0</td>
+                        <td>{{sug_cargo}}1</td>
+                        <td>{{sug_kms}}0</td>
+                        <td>{{sug_ftp}}1</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>                    
+                    <tr>
+                        <th>OPS [hrs]</th>
+                        <th>REP [hrs]</th>
+                        <th>STB [hrs]</th>
+                        <th>BREAKDOWN [hrs]</th>
+                        <th>TRIPS [nbr]</th>
+                        <th>CARGO [ton]</th>
+                        <th>KMS</th>
+                        <th>ROUTINE [nbr]</th>
+                        <th>SIMPLE [nbr]</th>
+                        <th>COMPLICATED [nbr]</th>
+                        <th>COMPLEX [nbr]</th>
+                        <th>LIFTS [ton]</th>
+                        <th>FUEL LIFTING [L]</th>
+                    </tr>
+                    <tr>
+                        <td>{{sug_ops}}0</td>
+                        <td>{{sug_rep}}1</td>
+                        <td>{{sug_stb}}0</td>
+                        <td>{{sug_brkd}}1</td>
+                        <td>{{sug_trips}}0</td>
+                        <td>{{sug_cargo}}1</td>
+                        <td>{{sug_kms}}0</td>
+                        <td>{{sug_ftp}}1</td>
+                        <td>{{sug_routine}}0</td>
+                        <td>{{sug_simple}}1</td>
+                        <td>{{sug_complicated}}0</td>
+                        <td>{{sug_complex}}1</td>
+                        <td>{{sug_lifts}}0</td>
+                        <td>{{sug_fuel}}1</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>TOTALS [%]</td>
+            <td>TOTALS [&#8721;]</td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <th>&#8721; OPS [hrs]</th>
+                        <th>&#8721; REP [hrs]</th>
+                        <th>&#8721; STB [hrs]</th>
+                        <th>&#8721; BREAKDOWN [hrs]</th>
+                        <th>&#8721; TRIPS [nbr]</th>
+                        <th>&#8721; CARGO [ton]</th>
+                        <th>&#8721; KMS</th>
+                        <th>&#8721; LIFTS [ton]</th>
+                        <th>&#8721; FUEL TRANSPORT [L]</th>
+                    </tr>
+                    <tr>
+                        <td>{{sug_tot_ops}}0</td>
+                        <td>{{sug_tot_rep}}1</td>
+                        <td>{{sug_tot_stb}}0</td>
+                        <td>{{sug_tot_brkd}}1</td>
+                        <td>{{sug_tot_trips}}0</td>
+                        <td>{{sug_tot_cargo}}1</td>
+                        <td>{{sug_tot_kms}}0</td>
+                        <td>{{sug_tot_lifts}}0</td>
+                        <td>{{sug_tot_ftp}}1</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>                    
+                    <tr>
+                        <th>DSB [hrs%]</th>
+                        <th>TGI [hrs%]</th>
+                        <th>RIG#1 [hrs%]</th>
+                        <th>RIG#2 [hrs%]</th>
+                        <th>RIG#3 [hrs%]</th>
+                        <th>Other [hrs%]</th>
+                    </tr>
+                    <tr>
+                        <td>{{sug_dsb}}0</td>
+                        <td>{{sug_tgi}}1</td>
+                        <td>{{sug_rig1}}0</td>
+                        <td>{{sug_rig2}}1</td>
+                        <td>{{sug_rig3}}0</td>
+                        <td>{{sug_other}}1</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>DELAYS</td>
+        </tr>                
+        <tr>
+            <th>&#8721;# Of Scheduled Ops<br />NO</th>
+            <th>&#8721;# Of Technical Delays<br />TECH</th>
+            <th>&#8721;# Of Weather Delays<br />WX</th>
+            <th>&#8721;# Of Delays Due.to.Restrictions<br />REST</th>
+            <th>&#8721;# Of Delays due to CPY<br />OPS-CPY</th>
+            <th>&#8721;# Of Delays due to CTRs<br />OPS-CTR</th>
+            <th>&#8721;# Of Delays due to INTRAFIELD CTRs<br />OPS-TWS</th>
+            <th>&#8721;# Of Delays</th>
+            <th>&#8721;# Of Delays vs Scheduled</th>
+        </tr>
+        <tr>
+            <td>{{sug_smn_ops}}0</td>
+            <td>{{sug_smn_techical}}1</td>
+            <td>{{sug_smn_weather}}0</td>
+            <td>{{sug_smn_restrictions}}1</td>
+            <td>{{sug_smn_cpy}}0</td>
+            <td>{{sug_smn_ctr}}1</td>
+            <td>{{sug_smn_intrafield}}0</td>
+            <td>{{sug_smn_delays}}1</td>
+            <td>{{sug_smn_dvs}}0</td>
+        </tr>
+    </table> -->
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% block content_onoffs %}
+{% load aix %}
+{% load crispy_forms_tags%}
+                    <div>
+                        <div class="row">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <b>On-Off Equipment</b>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item text-center">
+                                        <a href="{% url 'aix:kpi-onoff-create-wo' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add OnOff Equipment</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-1">
+                        <!-- <table id="state-saving-datatable" class="table dt-responsive nowrap w-100" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> -->
+                        <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Date</th>
+                                    <th>On-Hire</th>
+                                    <th>Off-Hire</th>
+                                    <th>Option</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for onoff in onoffs %}
+                                <tr>
+                                <td>{{ onoff.code }}</td>
+                                <td>{{ onoff.activity_date }}</td>
+                                <td>{{ onoff.on_hire }}</td>
+                                <td>{{ onoff.off_hire }}</td>
+                                <td>{{ onoff.allocation }}</td>
+                                <td>
+                                    {# comment #}
+                                    <a href="{% url  'aix:kpi-onoff-update-wo' entity_slug=entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk kpi_onoff_pk=onoff.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                    <a href="{% url  'aix:kpi-onoff-details' entity_slug=entity_slug kpi_onoff_pk=onoff.uuid %}" class="btn-sm btn-dark">Details</a>
+                                    {# endcomment #}
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{% endblock content_onoffs %}

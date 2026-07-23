@@ -1,0 +1,56 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row">
+            <div class="col-12">
+                {% block page_header %}
+                {% include '../page_header.html' %}
+                {% endblock page_header %}
+            </div>
+            <div class="col-7">
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>FUEL</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>FUEL-DATE</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>STATUS</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-danger text-h2 text-light text-center"><b>{{ equipment_fuel.code}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.fuel_date}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.status}}</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>EQUIPMENT</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>START-LOCATION</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>END-LOCATION</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.equipment }}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.start_location}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.end_location}}</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>DISTANCE</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>START-MILEAGE</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>END-MILEAGE</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.kms_covered}} km</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.start_mileage}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.end_mileage}}</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>QUANTITY</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>PRICE</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>COST</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.fuel_qty}} Ltrs</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ equipment_fuel.fuel_price}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ fuel_cost }}</b></div>
+                </div>
+            </div>
+        </div>
+{%endblock content%}

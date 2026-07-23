@@ -1,0 +1,156 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <div class="cards">
+                    <div class="card-bodys">
+
+                        <p>
+                            <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInvoice" aria-expanded="false" aria-controls="collapseInvoice">
+                                Invoice Details: {{ invoice.invoice_number }} <i class="mdi mdi-arrow-down me-2"></i>
+                            </button>
+                            <button class="btn btn-dark mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCustomer" aria-expanded="false" aria-controls="collapseCustomer">
+                                Customer Details <i class="mdi mdi-arrow-down me-2"></i>
+                            </button>
+                        </p>
+                        <div class="collapse hide" id="collapseInvoice">
+                            <div class="card card-body mb-0">
+                                {% include 'aix/includes/card_invoice.html' with invoice=invoice style='invoice-detail' entity_slug=view.kwargs.entity_slug %}
+                            </div>
+                        </div>
+                        <div class="collapse hide" id="collapseCustomer">
+                            <div class="card card-body mb-0">
+                                {% include 'aix/includes/card_customer.html' with customer=invoice.customer %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="column is-12">
+                <form action="{% url 'aix:invoice-update' entity_slug=view.kwargs.entity_slug invoice_pk=invoice.uuid %}"
+                      method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit"
+                            class="btn btn-primary is-fullwidth djetler_my_1">{% trans 'Save Invoice' %}</button>
+
+                    <a href="{% url 'aix:invoice-detail' entity_slug=view.kwargs.entity_slug invoice_pk=invoice.uuid %}"
+                       class="btn-sm btn-dark is-fullwidth mt-2">{% trans 'Back to Invoice Detail' %}</a>
+                    <a href="{% url 'aix:invoice-list' entity_slug=view.kwargs.entity_slug %}"
+                       class="btn-sm is-info is-fullwidth mt-2">{% trans 'Invoice List' %}</a>
+                    <a href="{% url 'aix:entity-dashboard' entity_slug=view.kwargs.entity_slug %}"
+                       class="btn-sm is-info is-outlined is-fullwidth mt-2">{% trans 'Go To Dashboard' %}</a>
+
+                </form>
+            </div>
+            <div class="column is-12">
+                {% invoice_item_formset_table item_formset %}
+            </div>
+
+        {% for group in request.user.groups.all %}
+            {% if group.name == 'Admins' %}
+            {% endif %}
+        {% endfor %}
+            {% if invoice.is_configured %}
+                <div class="column is-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-header-title">{% trans 'Invoice State' %}</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-body">
+                                <div class="columns is-multiline">
+                                    <div class="column is-12">
+                                        <h3 class="is-size-3">{% trans 'Invoice State' %}</h3>
+                                        <p>{{ invoice.cash_account }}:
+                                            {% currency_symbol %}{{ invoice.get_amount_cash | currency_format }}</p>
+                                        <p>{{ invoice.prepaid_account }}:
+                                            {% currency_symbol %}{{ invoice.get_amount_prepaid | currency_format }}</p>
+                                        <p>{{ invoice.unearned_account }}:
+                                            {% currency_symbol %}{{ invoice.get_amount_unearned | currency_format }}</p>
+                                    </div>
+                                    <div class="column is-12">
+                                        <h3 class="is-size-3">{% trans 'Ledger State' %}</h3>
+                                        <p>{{ invoice.cash_account }}:
+                                            {% currency_symbol %}{{ invoice.amount_paid | currency_format }}</p>
+                                        <p>{{ invoice.prepaid_account }}:
+                                            {% currency_symbol %}{{ invoice.amount_receivable | currency_format }}</p>
+                                        <p>{{ invoice.unearned_account }}:
+                                            {% currency_symbol %}{{ invoice.amount_unearned | currency_format }}</p>
+                                    </div>
+                                    {% now "Y" as current_year %}
+                                    {% now "m" as current_month %}
+                                    <div class="column is-6">
+                                        <a class="btn btn-outlined is-small is-primary is-fullwidth"
+                                           href="{% url 'aix:ledger-bs-month' ledger_pk=invoice.ledger.uuid entity_slug=view.kwargs.entity_slug year=current_year month=current_month %}">
+                                            {% trans 'Balance Sheet' %}</a>
+                                    </div>
+                                    <div class="column is-6">
+                                        <a class="btn btn-outlined is-small is-info is-fullwidth"
+                                           href="{% url 'aix:ledger-ic-month' ledger_pk=invoice.ledger.uuid entity_slug=view.kwargs.entity_slug year=current_year month=current_month %}">
+                                            {% trans 'Income Statement' %}</a>
+                                    </div>
+                                    <div class="column is-12">
+                                        <a class="btn-sm is-warning is-fullwidth"
+                                           href="{% url 'aix:ledger-update' ledger_pk=invoice.ledger.uuid entity_slug=view.kwargs.entity_slug %}">
+                                            {% trans 'Invoice Ledger' %}
+                                        </a>
+                                        <a class="btn-sm is-info is-fullwidth mt-2"
+                                           href="{% url 'aix:je-list' ledger_pk=invoice.ledger.uuid entity_slug=view.kwargs.entity_slug %}">
+                                            {% trans 'Ledger Journal Entries' %}
+                                        </a>
+                                        <a href="{% url "aix:invoice-action-lock-ledger" entity_slug=view.kwargs.entity_slug invoice_pk=invoice.uuid %}"
+                                           class="btn-sm is-success is-fullwidth mt-2">{% trans 'Lock Ledger' %}</a>
+                                        <a href="{% url "aix:invoice-action-unlock-ledger" entity_slug=view.kwargs.entity_slug invoice_pk=invoice.uuid %}"
+                                           class="btn-sm is-danger is-fullwidth mt-2">{% trans 'Unlock Ledger' %}</a>
+                                        <a href="{% url "aix:invoice-action-force-migrate" entity_slug=view.kwargs.entity_slug invoice_pk=invoice.uuid %}"
+                                           class="btn-sm is-danger is-fullwidth mt-2">{% trans 'Force Migrate' %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="column is-12">
+                    <div class="card animate__animated animate__tada">
+                        <div class="card-header">
+                            <p class="card-header-title">{% trans 'Invoice Configuration' %}</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <label for="{{ form.cash_account.id_for_label }}" class="label">
+                                            {{ form.cash_account.label }}</label>
+                                        {{ form.cash_account }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <label for="{{ form.prepaid_account.id_for_label }}" class="label">
+                                            {{ form.prepaid_account.label }}</label>
+                                        {{ form.prepaid_account }}
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <label for="{{ form.unearned_account.id_for_label }}" class="label">
+                                            {{ form.unearned_account.label }}</label>
+                                        {{ form.unearned_account }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

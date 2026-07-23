@@ -1,0 +1,43 @@
+{% block content_contracts %}
+{% load crispy_forms_tags%}
+                    <div>                   
+                        <div class="modal fade" id="contract_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <form action="{% url 'aix:employee-contract-create-employee' entity_slug=view.kwargs.entity_slug employee_pk=employee.uuid %}" method="post" autocomplete="off">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalScrollable-title">New Contract</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {%csrf_token%}
+                                            {{employee_forms.add_contract|crispy}}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                    </div>
+                    <div class="card">
+                        <div class="card-body border-danger">
+                            <div class="row is-fullwidth"><span class="col-lg-9"><h5><b>Contracts</b></h5></span>
+                                <span class="col-lg-3 text-right">
+                                    <a href="{% url 'aix:employee-contract-create-employee' entity_slug=view.kwargs.entity_slug employee_pk=employee.uuid %}" class="btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#contract_form">
+                                    <i class="mdi mdi-plus me-2"></i> Add</a></span>
+                            </div>
+                            {% for employee_contract in contract_qs %}
+                            <div class="row mb-1">
+                                <span class="col-lg-3 text-right">{{employee_contract.contract_type}}</span>
+                                <span class="col-lg-7"><b>{{employee_contract.start_date}}</b> -to- <b>{{employee_contract.end_date}}</b></span>
+                                <span class="col-lg-2 text-right">
+                                    <a href="{% url  'aix:employee-contract-update-employee' entity_slug=view.kwargs.entity_slug employee_contract_pk=employee_contract.uuid employee_pk=employee.uuid %}" class="btn-sm btn-dark">edit</a>
+                                </span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+{% endblock content_contracts %}

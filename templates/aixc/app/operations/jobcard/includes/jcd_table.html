@@ -1,0 +1,36 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+
+    <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th>JOBCARD Number</th>
+            <th>Description</th>
+            <th>Status Date</th>
+            <th>JOBCARD Status</th>
+            <th>JOBCARD Amount</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for jcd in jcd_list %}
+            <tr>
+                <td>{{ jcd.jcd_number }}</td>
+                <td>{{ jcd.jcd_title }}</td>
+                <td>{{ jcd.get_status_action_date }}</td>
+                <td>{{ jcd.get_jcd_status_display }}</td>
+                <td>{% currency_symbol %}{{ jcd.jcd_amount | currency_format }}</td>
+                <td>
+                    <a href="{% url 'aix:jcd-detail' entity_slug=entity_slug jcd_pk=jcd.uuid %}"
+                        class="btn-sm text-success">Details</a>
+                    <a href="{% url 'aix:jcd-delete' entity_slug=entity_slug jcd_pk=jcd.uuid %}"
+                        class="btn-sm text-weight-bold text-danger">{% trans ' Delete' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>

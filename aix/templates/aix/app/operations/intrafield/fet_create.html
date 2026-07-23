@@ -1,0 +1,34 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+
+
+    <div class="columns is-multiline is-centered">
+        {% if work_order_model %}
+            <div class="column is-12-desktop text-centered">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="title">{% trans 'WO. - ' %} {{ work_order_model.order_no }}<br />
+                            {% trans 'Title. - ' %} {{ work_order_model.remarks }}</h2>
+                        <h3 class="subtitle text-weight-light">{{ work_order_model.customer }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="column is-12">
+            <form action="{{ form_action_url }}" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit"
+                        class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                    {% trans 'Create' %}
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+    <div class="row pt-2">
+        {% if not documents %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    {% if work_order_activity_document %}
+                    <form action="{% url 'aix:work-order-activity-document-update-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk work_order_activity_document_pk=work_order_activity_document.uuid %}" method="post">
+                    {% else %}
+                    <form action="{% url 'aix:work-order-activity-document-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" method="post">
+                    {% endif %}
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:work-order-activity-document-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> Assign New Document</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                Save
+                            </button>
+                            <a href="{% url 'aix:work-order-activity-details' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}"
+                               class="btn-sm btn-dark is-fullwidth">Back</a>
+                        </div>
+                        {% endif %}
+                    </form>    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if documents %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="is-size-4 text-weight-thin">List of Assigned Equipment</h1>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a href="{% url 'aix:work-order-activity-document-create-act' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                            <i class="mdi mdi-plus"></i> Assign New Document.</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Date</th>
+                                        <th>Document</th>
+                                        <th>Status</th>
+                                        <th>Options</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for document in documents %}
+                                    <tr>
+                                        <td>{{document.code}}</td>
+                                        <td>{{document.doc_date}}</td>
+                                        <td>{{document.document}}</td>
+                                        <td>{{document.status}}</td>
+                                        <td>
+                                            {% for group in request.user.groups.all %}
+                                            {% if group.name == 'Admins' or group.name == 'Supervisor' %}
+                                            <a href="{% url  'aix:work-order-activity-document-update' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk work_order_activity_document_pk=document.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                            {% endif %}
+                                            {% endfor %}
+                                            <a href="{% url  'aix:work-order-activity-document-details' entity_slug=view.kwargs.entity_slug work_order_document_pk=document.uuid %}" class="btn-sm btn-dark">Details</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}

@@ -1,0 +1,106 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load trans from i18n %}
+{% load static %}
+{% load aix %}
+
+{% block view_content %}
+    <div class="columns p-2">
+        <div class="column is-4">
+            <div class="columns is-multiline">
+                <div class="column is-12">
+                    {% include 'aix/includes/card_jcd.html' with jcd_model=jcd_model entity_slug=view.kwargs.entity_slug style='jcd-detail' %}
+                </div>
+                <div class="column is-12">
+                    <a class="btn btn-info is-fullwidth is-outlined"
+                       href="{% url 'aix:jcd-list' entity_slug=view.kwargs.entity_slug work_order_pk=jcd_model.work_order.uuid %}">
+                        {% trans 'JOBCARD List' %}
+                    </a>
+                    <a class="btn btn-info is-fullwidth is-outlined"
+                       href="{% url 'aix:jcd-rpt' entity_slug=view.kwargs.entity_slug jcd_pk=jcd_model.uuid %}">
+                        {% trans 'Report' %}
+                    </a>
+                    <a class="btn btn-primary is-fullwidth is-outlined"
+                       href="{% url 'aix:entity-dashboard' entity_slug=view.kwargs.entity_slug %}">
+                        {% trans 'Go To Dashboard' %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-8">
+
+            <nav class="level">
+                <div class="level-item text-centered">
+                    <div>
+                        <p class="heading">{% trans 'JOBCARD Amount' %}:
+                        <p class="title">
+                            {% currency_symbol %}{{ jcd_model.jcd_amount | absolute | currency_format }}</p>
+                    </div>
+                </div>
+                <div class="level-item text-centered">
+                    <div>
+                        <p class="heading">{% trans 'Amount Received' %}:</p>
+                        <p class="title text-success">
+                            {% currency_symbol %}{{ jcd_model.jcd_amount_received  | currency_format }}</p>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="columns is-multiline">
+                <div class="column is-12">
+                    <h3 class="is-size-3 text-weight-light">{{ jcd_model.jcd_title }}</h3>
+                </div>
+                <div class="column is-12">
+                    <div class="table-container">
+                        <table class="table is-fullwidth is-striped is-narrow is-bordered">
+                            <thead>
+                            <tr class="has- text-centered">
+                                <th>{% trans 'Item' %}</th>
+                                <th>{% trans 'JOBCARD Qty' %}</th>
+                                <th>{% trans 'Unit Cost' %}</th>
+                                <th>{% trans 'Amount' %}</th>
+                                <th>{% trans 'Status' %}</th>
+                                <th>{% trans 'Billed' %}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in jcd_items %}
+                                <tr>
+                                    <td>{{ item.item_model }}</td>
+                                    <td class="has- text-centered">{{ item.jcd_quantity }}</td>
+                                    <td class="has- text-centered">{{ item.jcd_unit_cost }}</td>
+                                    <td class="{% if item.is_cancelled %}djl-is-strikethrough{% endif %} text-centered">
+                                        {% currency_symbol %}{{ item.jcd_total_amount | currency_format }}</td>
+                                    <td class="has- text-weight-bold text-centered {% if item.is_cancelled %}has- text-danger{% endif %}">
+                                        {% if item.jcd_item_status %}
+                                            {{ item.get_jcd_item_status_display }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="has- text-centered">{% if item.invoice_model_id %}
+                                        <a class="btn-sm btn-primary"
+                                           href="{% url 'aix:invoice-detail' entity_slug=view.kwargs.entity_slug invoice_pk=item.invoice_model_id %}">View Invoice</a>{% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="has- text-right">{% trans 'Total JOBCARD Amount' %}</td>
+                                <td class="has- text-weight-bold text-centered">
+                                    {% currency_symbol %}{{ jcd_total_amount | currency_format }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class=" column is-12">
+                    {% include 'aix/includes/card_markdown.html' with style='card_1'  title='JOBCARD Notes' notes_html=jcd_model.notes_html %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

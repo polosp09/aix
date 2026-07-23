@@ -1,0 +1,66 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <h1 class="is-size-1 text-weight-thin">{% trans 'Branch List' %}</h1>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a href="{% url 'aix:unit-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                            <i class="mdi mdi-plus"></i> Add Branch</a>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                {% comment %}
+                <div class="dropdown chat-noti-dropdown">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="mdi mdi-dots-horizontal font-size-20"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>{% endcomment %}
+            </div>
+
+            <div class="columns is-multiline">
+                {% for unit in unit_list %}
+                    <div class="column is-4">
+                        <div class="card">
+                            <div class="card-body">
+{#                                <p class="subtitle text-grey text-right">#}
+{#                                    <span class="icon">{% icon "bi:cash-stack" 16 %}</span>#}
+{#                                    {% trans 'Unit' %}</p>#}
+                                <p class="title">{{ unit.name }}</p>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="{% url 'aix:unit-detail' entity_slug=view.kwargs.entity_slug unit_slug=unit.slug %}"
+                                   class="card-footer-item text-primary text-centered">{% trans 'View' %}</a>
+                                <a href="{% url 'aix:unit-update' entity_slug=view.kwargs.entity_slug unit_slug=unit.slug %}"
+                                   class="card-footer-item text-warning-dark text-centered">{% trans 'Update' %}</a>
+                                {#                                <a onclick="djLedger.toggleModal('{{ invoice.get_html_id }}')"#}
+                                {#                                   class="card-footer-item text-info text-centered">{% trans 'Mark as Paid' %}</a>#}
+                            </footer>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}
+

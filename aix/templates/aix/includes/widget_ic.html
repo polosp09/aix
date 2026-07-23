@@ -1,0 +1,44 @@
+{% load aix %}
+{% load i18n %}
+
+    <div class="card">
+        <div class="card-header bg-dark">
+            <h4 class="is-size-6 text-light">{% trans 'INCOME-STATEMENT' %}</h4>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex">
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-truncate font-size-14 mb-2">{% trans 'Revenue' %}</p>
+                    <h4 class="mb-0">{% currency_symbol %}{{ tx_digest.group_balance.GROUP_INCOME | currency_format }}</h4>
+                </div>
+                <div class="text-primary ms-auto"> <i class="ri-stack-line font-size-24"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex">
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-truncate font-size-14 mb-2">{% trans 'Expenses' %}</p>
+                    <h4 class="mb-0">{% currency_symbol %}{{ tx_digest.group_balance.GROUP_EXPENSES | reverse_sing | currency_format }}</h4>
+                </div>
+                <div class="text-primary ms-auto"> <i class="ri-stack-line font-size-24"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex">
+                <div class="flex-1 overflow-hidden">
+                    <p class="text-truncate font-size-14 mb-2">{% trans 'Earnings (Loss)' %}</p>
+                    <h4 class="mb-0">{% currency_symbol %}{{ tx_digest.group_balance.GROUP_EARNINGS | currency_format }}</h4>
+                </div>
+                <div class="text-primary ms-auto"> <i class="ri-stack-line font-size-24"></i>
+                </div>
+            </div>
+        </div>
+    </div>

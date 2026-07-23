@@ -1,0 +1,36 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+
+    <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th>PO Number</th>
+            <th>Description</th>
+            <th>Status Date</th>
+            <th>PO Status</th>
+            <th>PO Amount</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for po in po_list %}
+            <tr>
+                <td>{{ po.po_number }}</td>
+                <td>{{ po.po_title }}</td>
+                <td>{{ po.get_status_action_date }}</td>
+                <td>{{ po.get_po_status_display }}</td>
+                <td>{% currency_symbol %}{{ po.po_amount | currency_format }}</td>
+                <td>
+                    <a href="{% url 'aix:po-detail-fuel' entity_slug=entity_slug po_pk=po.uuid %}"
+                    class="btn-sm text-success">Details</a>
+                    <a href="{% url 'aix:po-delete' entity_slug=entity_slug po_pk=po.uuid %}"
+                        class="btn-sm text-weight-bold text-danger">{% trans ' Delete' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,106 @@
+{% load trans from i18n %}
+{% load aix %}
+
+<form action="{% url 'aix:jcd-update-items' entity_slug=entity_slug jcd_pk=jcd_pk %}"
+      method="post">
+    <div class="columns is-multiline">
+        <div class="column is-12">
+            <h1 class="is-size-1">{% trans 'Jobcard Items' %}</h1>
+        </div>
+        <div class="column is-12">
+            <div class="table-container">
+                {% csrf_token %}
+                {{ item_formset.non_form_errors }}
+                {{ item_formset.management_form }}
+                <table class="table is-fullwidth is-narrow is-striped1 is-bordered">
+                    <thead>
+                    <tr>
+                        <th>{% trans 'Item' %}</th>
+                        <th>{% trans 'Unit Cost' %}</th>
+                        <th>{% trans 'Quantity' %}</th>
+                        <th>{% trans 'Unit' %}</th>
+                        <th>{% trans 'Amount' %}</th>
+                        <th>{% trans 'Status' %}</th>
+                        {% if item_formset.can_delete %}
+                            <th>{% trans 'Delete' %}</th>
+                        {% endif %}
+                        <th>{% trans 'Create Bill' %}</th>
+                        <th>{% trans 'Bill Paid?' %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for f in item_formset %}
+                        <tr>
+                            <td>
+                                {% for hidden_field in f.hidden_fields %}
+                                    {{ hidden_field }}
+                                {% endfor %}
+                                {{ f.item_model }}
+                                {% if f.errors %}
+                                    {{ f.errors }}
+                                {% endif %}
+                            </td>
+
+                            <td id="{{ f.instance.html_id_unit_cost }}">{{ f.jcd_unit_cost }}</td>
+                            <td id="{{ f.instance.html_id_quantity }}">{{ f.jcd_quantity }}</td>
+                            <td>{{ f.entity_unit }}</td>
+                            <td class="has- text-right" id="{{ f.instance.html_id_total_amount }}">
+                                {% currency_symbol %}{{ f.instance.jcd_total_amount | currency_format }}</td>
+                            <td>{{ f.po_item_status }} {{ f.jcd_item_status }}</td>
+                            {% if item_formset.can_delete %}
+                                <td class="has- text-centered">
+                                    {{ f.DELETE }}
+                                </td>
+                            {% endif %}
+                            <td class="has- text-centered">
+                                {% if f.instance.can_create_invoice %}
+                                    {{ f.create_invoice }}
+                                {% elif f.instance.invoice_model %}
+                                    <a class="btn-sm is-light"
+                                       href="{% url 'aix:invoice-detail' entity_slug=entity_slug invoice_pk=f.instance.invoice_model_id %}">View
+                                        Invoice</a>
+                                    {#                                {% else %}#}
+                                {% endif %}
+                            </td>
+                            <td class="has- text-centered">
+                            {% if f.instance.invoice_model %}
+                                {% if f.instance.invoice_model.paid %}
+                                    <span class="icon is-small text-success">{#{% icon 'bi:check-circle-fill' 24 %}#}</span>
+                                {% else %}
+                                    <span class="icon is-small text-danger">{#{% icon 'clarity:no-access-solid' 24 %}#}</span>
+                                {% endif %}
+
+                            {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="has- text-right">{% trans 'Total' %}</th>
+                        <th class="has- text-right">{% currency_symbol %}{{ total_amount_due | currency_format }}</th>
+                        <th></th>
+                        {% if item_formset.can_delete %}
+                            <th></th>
+                        {% endif %}
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
+        <div class="column is-12">
+            <button class="btn btn-primary">{% trans 'Save' %}</button>
+            <a href="{% url 'aix:product-create' entity_slug=entity_slug %}"
+               class="btn btn-secondary">{% trans 'New Item' %}</a>
+        </div>
+        <div class="column is-12">
+        </div>
+    </div>
+</form>

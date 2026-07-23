@@ -1,0 +1,202 @@
+{% load aix %}
+{% load i18n %}
+
+<div id="djl-bill-card-widget">
+    {% if not create_bill %}
+        {% if style == 'dashboard' %}
+            <div class="card">
+                <div class="card-body">
+                    <p class="subtitle text-grey text-right">
+                        <span class="icon">{% icon "ri:bill-line" 16 %}</span>
+                        {% trans 'Bill' %}
+                    </p>
+                    <p class="title">{{ bill.vendor.vendor_name }}</p>
+                    <p class="subtitle text-weight-light">{{ bill.vendor.address_1 }}</p>
+                    {% if not bill.is_past_due %}
+                        <p class="is-size-5 text-info">Due in: {{ bill.due_date | timeuntil }}</p>
+                    {% else %}
+                        <p class="has- text-danger text-weight-bold is-size-5">Past
+                            Due: {{ bill.due_date | timesince }} ago</p>
+                    {% endif %}
+                    {% if bill.accrue %}
+                        <p>Is Accrued: <span
+                                class="icon text-success">{#{% icon 'ant-design:check-circle-filled' 24 %}#}</span>
+                            {% else %}
+                        <p>Accrue:
+                        <span class="icon is-small text-danger">{#{% icon 'maki:roadblock-11' 24 %}#}</span>
+                    {% endif %}
+                    <p><span class="card-header-title badge bg-light is-size-7">You Still Owe:</span></p>
+                    <p class="is-size-5 text-success">{% currency_symbol %}{{ bill.get_amount_open | currency_format }}</p>
+                    <p><span class="badge bg-secondary is-size-5">Amount Paid:</span> {% currency_symbol %}{{ bill.amount_paid | currency_format }}</p>
+                    <p>Progressed: {{ bill.get_progress | percentage }}</p><br>
+                    <progress class="progress is-medium is-success"
+                              value="{{ bill.get_progress_percent }}"
+                              max="100">
+                        {{ bill.get_progress | percentage }}
+                    </progress>
+
+                    {# MARK AS PAID MODAL #}
+                    {% modal_action bill 'get' entity_slug %}
+
+                </div>
+                <footer class="card-footer">
+                    <a href="{% url 'aix:bill-detail' entity_slug=entity_slug bill_pk=bill.uuid %}"
+                       class="card-footer-item text-light text-centered btn btn-primarys m-2">{% trans 'View' %}</a>
+                    <a href="{% url 'aix:bill-update' entity_slug=entity_slug bill_pk=bill.uuid %}"
+                       class="card-footer-item text-light-dark text-centered btn btn-info">{% trans 'Update' %}</a>
+                    {% if not bill.paid %}
+                        <a onclick="djLedger.toggleModal('{{ bill.get_html_id }}')"
+                           class="card-footer-item text-light text-centered btn btn-succes">{% trans 'Mark as Paid' %}</a>
+                    {% endif %}
+                </footer>
+            </div>
+        {% elif style == 'bill-detail' %}
+            <div class="cards">
+                <div class="card-header">
+                    <h2 class="card-header-title text-weight-light is-size-3">
+                        <span class="icon is-large">{#{% icon 'uil:bill' 36 %}#}</span>{% trans 'Bill' %} {{ bill.bill_number }}
+                    </h2>
+                </div>
+                <div class="card-content text-centered">
+                    {% if not bill.is_void %}
+                        {% if bill.is_draft %}
+                            <h3 class="is-size-5 text-weight-bold text-muted mb-0">{% trans 'This bill is' %} <i class="mdi mdi-circle text-warning-dark align-middle me-1"></i> {{ bill.get_bill_status_display }}</h3>
+                            <p><span class="card-header-title badge bg-light is-size-7">{% trans 'Amount Due' %}:</span></p>
+                            <p class="card-header-title is-size-5 text-success">{% currency_symbol %}{{ bill.amount_due | currency_format }}</p>
+                            <p class="card-header-title is-size-7 bg-success">{% trans 'Due Date' %}: {{ bill.due_date | timeuntil }}</p>
+                            {% if bill.accrue %}
+                                <p><span class="card-header-title badge is-size-7 text-danger">{% trans 'Is Accrued' %}: <i class="mdi mdi-circle text-danger align-middle me-1"></i></span></p>
+                            {% else %}
+                                <p><span class="card-header-title badge is-size-7 text-blue">{% trans 'Not Accrued' %}: <i class="mdi mdi-circle text-blue align-middle me-1"></i></span></p>
+                            {% endif %}
+                        {% elif bill.is_review %}
+                            <h3 class="is-size-5 text-weight-bold text-muted mb-0">{% trans 'This bill is' %} <i class="mdi mdi-circle text-warning align-middle me-1"></i> {{ bill.get_bill_status_display }}</h3>
+                            <p><span class="card-header-title badge bg-light is-size-7">{% trans 'Amount Due' %}:</span></p>
+                            <p class="card-header-title is-size-5 text-success">
+                                    {% currency_symbol %}{{ bill.amount_due | currency_format }}</p>
+                            <p><span class="card-header-title badge bg-light is-size-7">{% trans 'Due Date' %}:</span></p>
+                            <p class="card-header-title is-size-5 text-success">{{ bill.due_date | timeuntil }}</p>
+                            {% if bill.accrue %}
+                                <p class="text-info"><span class="card-header-title badge bg-light is-size-7 text-danger">{% trans 'Is Accrued' %}: <i class="mdi mdi-circle text-danger align-middle me-1"></i></span></p>
+                            {% else %}
+                                <p class="text-info"><span class="card-header-title badge bg-violet is-size-7 text-info">{% trans 'Not Accrued' %}: <i class="mdi mdi-circle text-info align-middle me-1"></i></span></p>
+                            {% endif %}
+                            {% if bill.xref %}
+                                <p class="is-size-5 is-italic">{% trans 'External Ref' %}: {{ bill.xref }}</p>
+                            {% endif %}
+
+                        {% elif bill.is_approved %}
+                            <h3 class="is-size-5 text-weight-bold text-muted mb-0">{% trans 'This bill is' %} <i class="mdi mdi-circle text-success align-middle me-1"></i> {{ bill.get_bill_status_display }}</h3>
+                            <p><span class="card-header-title badge bg-light is-size-7">{% trans 'Amount Due' %}:</span></p>
+                            <p class="card-header-title is-size-5 text-success">{% currency_symbol %}{{ bill.amount_due | currency_format }}</p>
+                            <p><span class="card-header-title badge bg-danger is-size-7">{% trans 'Due' %}: {{ bill.due_date | timeuntil }}</span></p>
+                            {% if bill.accrue %}
+                                <p><span class="card-header-title badge is-size-7 text-danger">{% trans 'Is Accrued' %}: <i class="mdi mdi-circle text-danger align-middle me-1"></i></span></p>
+                            {% else %}
+                                <p><span class="card-header-title badge is-size-7 text-blue">{% trans 'Not Accrued' %}: <i class="mdi mdi-circle text-blue align-middle me-1"></i></span></p>
+                            {% endif %}
+                            <p><span class="card-header-title badge bg-light is-size-7">{% trans 'Amount Paid' %}:</span>   
+                            <p class="card-header-title is-size-5 text-success">{% currency_symbol %}{{ bill.amount_paid | currency_format }}</p>
+                            <p class="is-size-5">{% trans 'Progressed' %}: {{ bill.get_progress | percentage }}</p>
+                            <progress class="progress is-medium is-success bg-dark"
+                                      value="{{ bill.get_progress_percent }}"
+                                      max="100">
+                                {{ bill.get_progress | percentage }}
+                            </progress>
+                            {% if bill.xref %}
+                                <p class="is-size-5 is-italic">{% trans 'External Ref' %}: {{ bill.xref }}</p>
+                            {% endif %}
+
+                        {% elif bill.is_paid %}
+                            <h3 class="is-size-3 text-centered text-weight-bold text-success">{% trans 'This bill is' %} {{ bill.get_bill_status_display }}</h3>
+                            <p><span class="card-header-title badge bg-light is-size-7">{% trans 'Amount Paid' %}:</span></p>
+                            <p class="card-header-title is-size-5 text-success">
+                                    {% currency_symbol %}{{ bill.amount_paid | currency_format }}</p>
+                            <p><span class="card-header-title badge bg-light is-size-7">{% trans 'Paid Date' %}:</span></p>
+                            <p class="card-header-title is-size-5 text-success">{{ bill.paid_date | timesince }}</span>
+                                </div>
+                                {% if bill.xref %}
+                                    <p class="is-size-5 is-italic">{% trans 'External Ref' %}: {{ bill.xref }}</p>
+                                {% endif %}
+                        {% endif %}
+
+                    {% else %}
+                    <p><span class="card-header-title badge bg-light is-size-7">Bill Amount:</span></p>
+                            <div>
+                                <span class="badge bg-light is-size-5">{% currency_symbol %}{{ bill.amount_due | currency_format }}</span>
+                            </div>
+                        </p>
+                        <p class="is-size-3 text-warning-dark">VOIDED {{ bill.void_date | date }}</p>
+                    {% endif %}
+                </div>
+                <footer class="card-footer">
+                    {# UPDATE BUTTON #}
+                    <a href="{% url 'aix:bill-update' entity_slug=entity_slug bill_pk=bill.uuid %}"
+                       id="djl-bill-detail-update-button"
+                       class="card-footer-item text-light text-centered btn btn-primary m-2">{% trans 'Update' %}</a>
+
+                    {# MARK DRAFT #}
+                    {% if bill.can_draft %}
+                        <a onclick="djLedger.toggleModal('{{ bill.get_mark_as_draft_html_id }}')"
+                           id="{{ bill.get_mark_as_review_html_id }}-button"
+                           class="card-footer-item text-light text-centered btn btn-secondary m-2">{% trans 'Mark as Draft' %}</a>
+                        {# MARK AS DRAFT MODAL #}
+                        {% modal_action_v2 bill bill.get_mark_as_draft_url bill.get_mark_as_draft_message bill.get_mark_as_draft_html_id %}
+                    {% endif %}
+
+                    {# MARK REVIEW #}
+                    {% if bill.can_review %}
+                        <a onclick="djLedger.toggleModal('{{ bill.get_mark_as_review_html_id }}')"
+                           id="{{ bill.get_mark_as_review_html_id }}-button"
+                           class="card-footer-item text-light text-centered btn btn-info m-2">{% trans 'Mark as Review' %}</a>
+                        {# MARK AS REVIEW MODAL #}
+                        {% modal_action_v2 bill bill.get_mark_as_review_url bill.get_mark_as_review_message bill.get_mark_as_review_html_id %}
+                    {% endif %}
+
+                    {# MARK APPROVED #}
+                    {% if bill.can_approve %}
+                        <a onclick="djLedger.toggleModal('{{ bill.get_mark_as_approved_html_id }}')"
+                           id="{{ bill.get_mark_as_approved_html_id }}-button"
+                           class="card-footer-item text-light text-centered btn btn-success m-2">{% trans 'Mark as Approved' %}</a>
+                        {# MARK AS APPROVED MODAL #}
+                        {% modal_action_v2 bill bill.get_mark_as_approved_url bill.get_mark_as_approved_message bill.get_mark_as_approved_html_id %}
+                    {% endif %}
+
+                    {# MARK PAID #}
+                    {% if bill.can_pay %}
+                        <a onclick="djLedger.toggleModal('{{ bill.get_mark_as_paid_html_id }}')"
+                           id="{{ bill.get_mark_as_paid_html_id }}-button"
+                           class="card-footer-item text-light text-centered btn btn-success m-2">{% trans 'Mark as Paid' %}</a>
+                        {# MARK AS PAID MODAL #}
+                        {% modal_action_v2 bill bill.get_mark_as_paid_url bill.get_mark_as_paid_message bill.get_mark_as_paid_html_id %}
+                    {% endif %}
+
+                    {# DELETE BUTTON #}
+                    {% if bill.can_delete %}
+                        <a onclick="djLedger.toggleModal('{{ bill.get_mark_as_delete_html_id }}')"
+                           id="{{ bill.get_mark_as_delete_html_id }}-button"
+                           class="card-footer-item text-light text-centered btn btn-danger m-2">{% trans 'Delete' %}</a>
+                        {# MARK AS DELETE MODAL #}
+                        {% modal_action_v2 bill bill.get_mark_as_delete_url bill.get_mark_as_delete_message bill.get_mark_as_delete_html_id %}
+                    {% endif %}
+
+                    {# VOID BUTTON #}
+                    {% if bill.can_void %}
+                        <a onclick="djLedger.toggleModal('{{ bill.get_mark_as_void_html_id }}')"
+                           id="{{ bill.get_mark_as_void_html_id }}-button"
+                           class="card-footer-item text-light text-centered btn btn-danger m-2">{% trans 'Void' %}</a>
+                        {# MARK AS VOID MODAL #}
+                        {% modal_action_v2 bill bill.get_mark_as_void_url bill.get_mark_as_void_message bill.get_mark_as_void_html_id %}
+                    {% endif %}
+                </footer>
+            </div>
+        {% endif %}
+    {% else %}
+        {# CREATE BILL CARD #}
+        <div class="box text-centered">
+            <a href="{% url 'aix:bill-create' entity_slug=entity_slug %}">
+                <span class="icon is-large text-grey">{% icon "ic:baseline-add-circle-outline" 48 %}</span></a>
+            <h2 class="is-size-3 text-grey">{% trans 'New Bill' %}</h2>
+        </div>
+    {% endif %}
+</div>

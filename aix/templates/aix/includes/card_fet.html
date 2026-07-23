@@ -1,0 +1,122 @@
+{% load i18n %}
+{% load aix %}
+
+{% if not create_fet %}
+    {% if style == 'fet-detail' %}
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-header-title text-weight-light is-size-3">
+            <span class="icon is-large">
+                    {#{% icon 'uil:bill' 36 %}#}</span>
+                    {{ fet_model.code }}
+                </h2>
+            </div>
+            <div class="card-body">
+
+                {% if fet_model.is_draft %}
+                    <h3 class="is-size-5 text-weight-light">{% trans 'Date' %}:
+                        {% currency_symbol %}{{ fet_model.fet_date | date }}</h3>
+                    <h3 class="is-size-5 text-weight-light">{% trans 'Status' %}:
+                        {% currency_symbol %}{{ fet_model.fet_status }}</h3>
+                {% endif %}
+
+                {% if fet_model.is_review %}
+                    <h3 class="is-size-5 text-weight-light">{% trans 'Status' %}:
+                        {% currency_symbol %}{{ fet_model.fet_amount | currency_format }}</h3>
+                {% endif %}
+
+                {% if fet_model.is_approved %}
+                    <h3 class="is-size-5 text-weight-light">{% trans 'Approved' %}:
+                        {{ fet_model.fet_date | date }}</h3>
+                    <h3 class="is-size-5 text-weight-light">{% trans 'Status' %}:
+                        {% currency_symbol %}{{ fet_model.fet_status }}</h3>
+                {% endif %}
+
+                {% if fet_model.is_fulfilled %}
+                    <h3 class="is-size-5 text-weight-light">{% trans 'Approved' %}:
+                        {{ fet_model.fet_date | date }}</h3>
+                    <h3 class="is-size-5 text-weight-light">{% trans 'Status' %}:
+                        {% currency_symbol %}{{ fet_model.fet_status }}</h3>
+                    </h3>
+                {% endif %}
+            </div>
+
+            <footer class="card-footer">
+                <a href="{% url 'aix:fet-update' entity_slug=entity_slug fet_pk=fet_model.uuid %}"
+                   class="card-footer-item text-light text-centered btn btn-secondary is-fullwidth is-outlined">{% trans 'Update' %}</a>
+
+                {# MARK DRAFT #}
+                {% if fet_model.can_draft %}
+                    <a onclick="djLedger.toggleModal('{{ fet_model.get_mark_as_draft_html_id }}')"
+                       id="{{ fet_model.get_mark_as_review_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-secondary is-fullwidth is-outlined">{% trans 'Mark as Draft' %}</a>
+                    {# MARK AS DRAFT MODAL #}
+                    {% modal_action_v2 bill fet_model.get_mark_as_draft_url fet_model.get_mark_as_draft_message fet_model.get_mark_as_draft_html_id %}
+                {% endif %}
+
+                {# MARK REVIEW #}
+                {% if fet_model.can_review %}
+                    <a onclick="djLedger.toggleModal('{{ fet_model.get_mark_as_review_html_id }}')"
+                       id="{{ fet_model.get_mark_as_review_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-info is-fullwidth is-outlined">{% trans 'Mark as Review' %}</a>
+                    {# MARK AS REVIEW MODAL #}
+                    {% modal_action_v2 bill fet_model.get_mark_as_review_url fet_model.get_mark_as_review_message fet_model.get_mark_as_review_html_id %}
+                {% endif %}
+
+                {# MARK APPROVED #}
+                {% if fet_model.can_approve %}
+                    <a onclick="djLedger.toggleModal('{{ fet_model.get_mark_as_approved_html_id }}')"
+                       id="{{ fet_model.get_mark_as_approved_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-success is-fullwidth is-outlined">{% trans 'Mark as Approved' %}</a>
+                    {# MARK AS APPROVED MODAL #}
+                    {% modal_action_v2 bill fet_model.get_mark_as_approved_url fet_model.get_mark_as_approved_message fet_model.get_mark_as_approved_html_id %}
+                {% endif %}
+
+                {# FULFILL BUTTON #}
+                {% if fet_model.can_fulfill %}
+                    <a onclick="djLedger.toggleModal('{{ fet_model.get_mark_as_fulfilled_html_id }}')"
+                       id="{{ fet_model.get_mark_as_fulfilled_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-success is-fullwidth is-outlined">{% trans 'Fulfill' %}</a>
+                    {# MARK AS DELETE MODAL #}
+                    {% modal_action_v2 bill fet_model.get_mark_as_fulfilled_url fet_model.get_mark_as_fulfilled_message fet_model.get_mark_as_fulfilled_html_id %}
+                {% endif %}
+
+                {# DELETE BUTTON #}
+                {% if fet_model.can_delete %}
+                    <a onclick="djLedger.toggleModal('{{ fet_model.get_mark_as_delete_html_id }}')"
+                       id="{{ fet_model.get_mark_as_delete_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-danger is-fullwidth is-outlined">{% trans 'Delete' %}</a>
+                    {# MARK AS DELETE MODAL #}
+                    {% modal_action_v2 bill fet_model.get_mark_as_delete_url fet_model.get_mark_as_delete_message fet_model.get_mark_as_delete_html_id %}
+                {% endif %}
+
+                {# VOID BUTTON #}
+                {% if fet_model.can_void %}
+                    <a onclick="djLedger.toggleModal('{{ fet_model.get_mark_as_void_html_id }}')"
+                       id="{{ fet_model.get_mark_as_void_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-danger is-fullwidth is-outlined">{% trans 'Void' %}</a>
+                    {# MARK AS VOID MODAL #}
+                    {% modal_action_v2 bill fet_model.get_mark_as_void_url fet_model.get_mark_as_void_message fet_model.get_mark_as_void_html_id %}
+                {% endif %}
+
+                {# CANCEL BUTTON #}
+                {% if fet_model.can_cancel %}
+                    <a onclick="djLedger.toggleModal('{{ fet_model.get_mark_as_canceled_html_id }}')"
+                       id="{{ fet_model.get_mark_as_canceled_html_id }}-button"
+                       class="card-footer-item text-light text-centered btn btn-danger is-fullwidth is-outlined">{% trans 'Cancel' %}</a>
+                    {# MARK AS CANCELED MODAL #}
+                    {% modal_action_v2 bill fet_model.get_mark_as_canceled_url fet_model.get_mark_as_canceled_message fet_model.get_mark_as_canceled_html_id %}
+                {% endif %}
+
+            </footer>
+
+        </div>
+
+    {% endif %}
+{% else %}
+    <div class="box text-centered">
+        <a href="{% url 'aix:fet-create' entity_slug=entity_slug %}">
+            <span class="icon is-large text-grey">{% icon "ic:baseline-add-circle-outline" 48 %}</span></a>
+        <h2 class="is-size-3 text-grey">{% trans 'New TRIP' %}</h2>
+    </div>
+{% endif %}

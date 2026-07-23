@@ -1,0 +1,142 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        <div class="col-12">
+            {% block page_header %}
+            {% include './page_header.html' %}
+            {% endblock page_header %}
+        </div>
+        {% if not equipment_handovers %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    {% if equipment_handover %}
+                    <form action="{% url 'aix:equipment-handover-update' entity_slug=view.kwargs.entity_slug equipment_handover_pk=equipment_handover.uuid %}" method="post">
+                    {% else %}
+                    <form action="{% url 'aix:equipment-handover-create' entity_slug=view.kwargs.entity_slug %}" method="post">
+                    {% endif %}
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:equipment-handover-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> {% trans 'New Equipment Handover' %}</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ form.as_p }}
+                                    <button handover="submit"
+                                            class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                        {% trans 'Save' %}
+                                    </button>
+                                    <a href="{% url 'aix:equipment-handover-list' entity_slug=view.kwargs.entity_slug %}"
+                                       class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if forms %}
+                        <div class="card-body">
+                            <div class="row">
+                                {{ form.as_p }}
+                            </div>
+                            <button handover="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                            <a href="{% url 'aix:equipment-handover-list' entity_slug=view.kwargs.entity_slug %}"
+                               class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                        </div>
+                        {% endif %}
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if equipment_handovers %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="is-size-4 text-weight-thin">{% trans 'Equipment Handover List' %}</h1>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a href="{% url 'aix:equipment-handover-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                            <i class="mdi mdi-plus"></i> {% trans 'New Equipment Handover' %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Equipment</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>By</th>
+                                        <th>To</th>
+                                        <th>Project</th>
+                                        <th>Condition</th>
+                                        <td>Option</td>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for equipment_handover in equipment_handovers %}
+                                    <tr>
+                                        <td>{{equipment_handover.code}}</td>
+                                        <td>{{equipment_handover.equipment}}</td>
+                                        <td>{{equipment_handover.ho_date}}</td>
+                                        <td>{{equipment_handover.ho_time}}</td>
+                                        <td>{{equipment_handover.project}}</td>
+                                        <td>{{equipment_handover.location}}</td>
+                                        <td>{{equipment_handover.condition}}</td>
+                                        <td>{{equipment_handover.handover_by}}</td>
+                                        <td>{{equipment_handover.received_by}}</td>
+                                        <td>
+                                            <a href="{% url  'aix:equipment-handover-update' entity_slug=view.kwargs.entity_slug equipment_handover_pk=equipment_handover.uuid %}" class="btn-sm btn-dark">edit</a>
+                                            <a href="{% url  'aix:equipment-handover-rpt' entity_slug=view.kwargs.entity_slug equipment_handover_pk=equipment_handover.uuid %}" class="btn-sm btn-info">Print</a>
+                                            <a onclick="djLedger.toggleModal('{{ equipment_handover.get_mark_as_approved_hr_html_id }}')"
+                                               id="{{ equipment_handover.get_mark_as_approved_hr_html_id }}-button"
+                                               class="btn-sm btn-warning">{% trans 'Mark as Approved' %}</a>
+                                                {# MARK AS DRAFT MODAL #}
+                                                {% modal_action_v2 equipment_handover equipment_handover.get_mark_as_approved_hr_url equipment_handover.get_mark_as_approved_hr_message equipment_handover.get_mark_as_approved_hr_html_id %}
+                                            <a onclick="djLedger.toggleModal('{{ equipment_handover.get_mark_as_approved_ict_html_id }}')"
+                                                id="{{ equipment_handover.get_mark_as_approved_ict_html_id }}-button"
+                                                class="btn-sm btn-dark">{% trans 'Mark as Approved' %}</a>
+                                                {# MARK AS DRAFT MODAL #}
+                                                {% modal_action_v2 equipment_handover equipment_handover.get_mark_as_approved_ict_url equipment_handover.get_mark_as_approved_ict_message equipment_handover.get_mark_as_approved_ict_html_id %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}
+

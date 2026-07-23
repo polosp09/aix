@@ -1,0 +1,360 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row">
+            <div class="col-12">
+                {% block page_header %}
+                {% include '../page_header.html' %}
+                {% endblock page_header %}
+            </div>
+            <div class="col-12">
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td width="33.3%" mx-2>
+                                <table class="table w-100">
+                                    <tr>
+                                        <th width="40%"><p class="text-weight-bold">TRIP CODE</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.tripno }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="40%"><p class="text-weight-bold">START DATE</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.startdate }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="40%"><p class="text-weight-bold">END DATE</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.enddate }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="33.3%">
+                                <table class="table w-100">
+                                    <tr>
+                                        <th width="30%"><p class="text-weight-bold">START LOC.</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.startlocation }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="text-weight-bold">END LOC.</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.endlocation }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="text-weight-bold">DISTANCE</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.tripdistance }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="33.3%">
+                                <table class="table w-100">
+                                    <tr>
+                                        <th width="30%"><p class="text-weight-bold">Work Order</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.work_order.order_no }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="text-weight-bold">Weight</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.weight }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="30%"><p class="text-weight-bold">STATUS</p></th>
+                                        <td><p class="text-weight-light numbers">{{ kpiops.currentstatus }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td class="tablex" width="100%"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="table w-100">
+                                    <tr>
+                                        <td width="33.3%" mx-2>
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">TRIP CODE</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.tripno }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">START DATE</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.startdate }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">END DATE</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.enddate }}</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td width="33.3%">
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">START LOC.</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.startlocation }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">END LOC.</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.endlocation }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">DISTANCE</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.tripdistance }}</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td width="33.3%">
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">Work Order</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.work_order.order_no }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">Weight</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.weight }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">STATUS</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.currentstatus }}</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td class="tablex" width="100%"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="table w-100">
+                                    <tr>
+                                        <td width="33.3%" mx-2>
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">TRIP CODE</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.tripno }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">START DATE</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.startdate }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">END DATE</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.enddate }}</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td width="33.3%">
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">START LOC.</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.startlocation }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">END LOC.</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.endlocation }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">DISTANCE</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.tripdistance }}</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td width="33.3%">
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">Work Order</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.work_order.order_no }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">Weight</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.weight }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">STATUS</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.currentstatus }}</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="33.3%" mx-2>
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">ASSIGNMENTS</p></th>
+                                                    <td><p class="text-weight-light numbers">0</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">TRIPS</p></th>
+                                                    <td><p class="text-weight-light numbers">0</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="40%"><p class="text-weight-bold">DISTANCE</p></th>
+                                                    <td><p class="text-weight-light numbers">0</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td width="33.3%">
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">FUEL</p></th>
+                                                    <td><p class="text-weight-light numbers">0</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">INCIDENTS</p></th>
+                                                    <td><p class="text-weight-light numbers">0</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">INSPECTIONS</p></th>
+                                                    <td><p class="text-weight-light numbers">0</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td width="33.3%">
+                                            <table class="w-100">
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">OPERATORS</p></th>
+                                                    <td><p class="text-weight-light numbers">0</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">ACTIVE-DAYS</p></th>
+                                                    <td><p class="text-weight-light numbers">0</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%"><p class="text-weight-bold">WO-STATUS</p></th>
+                                                    <td><p class="text-weight-light numbers">{{ kpiops.wostatus }}</p></td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><p></p></th>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table"><p class="text-weight-bold text">HRS</p></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="table is-list w-100">
+                                    <tr>
+                                        <th><p class="text-weight-bold">OPS-TR</p></th>
+                                        <th><p class="text-weight-bold">OPS-REP</p></th>
+                                        <th><p class="text-weight-bold">OPS-LF</p></th>
+                                        <th><p class="text-weight-bold">STB</p></th>
+                                    </tr>
+                                    <tr>
+                                        <td><p class="text-weight-light text">0</p></td>
+                                        <td><p class="text-weight-light text">0</p></td>
+                                        <td><p class="text-weight-light text">0</p></td>
+                                        <td><p class="text-weight-light text">0</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th><p class="text-weight-bold">BRKD</p></th>
+                                        <th><p class="text-weight-bold">OFF-HIRE</p></th>
+                                        <th><p class="text-weight-bold">CARGO TRANSPORTED</p></th>
+                                    </tr>
+                                    <tr>
+                                        <td><p class="text-weight-light text">0</p></td>
+                                        <td><p class="text-weight-light text">0</p></td>
+                                        <td><p class="text-weight-light text">0</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th><p></p></th>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table is-list w-100">
+                    <tbody>
+                        <tr>
+                            <td><p class="tablex text-weight-bold text">Lifting Operations - [#]</p></td>
+                            <td><p class="tablex text-weight-bold text">Lifting Operations - [Tons]</p></td>
+                            <td><p class="tablex text-weight-bold text">Lifted/ Location [Ton]</p></td>
+                            <td><p class="tablex text-weight-bold text">Transported / Location [Ton]</p></td>
+                            <td><p class="tablex text-weight-bold text">Lifted/ Transported Totals</p></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="table is-list w-100">
+                                    <tr><td><p class="text-weight-light">ROUTINE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">SIMPLE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLICATED</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLEX</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    
+                                    <!-- <tr></tr>
+                                    <tr><td><p class="text-weight-light text">0</p></td></tr>
+                                    <tr><td><p class="text-weight-light text">0</p></td></tr>
+                                    <tr><td><p class="text-weight-light text">0</p></td></tr> -->
+                                    
+                                    <tr>
+                                        <th><p></p></th>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table class="table is-list w-100">
+                                    <tr><td><p class="text-weight-light">ROUTINE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">SIMPLE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLICATED</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLEX</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table class="table is-list w-100">
+                                    <tr><td><p class="text-weight-light">ROUTINE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">SIMPLE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLICATED</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLEX</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table class="table is-list w-100">
+                                    <tr><td><p class="text-weight-light">ROUTINE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">SIMPLE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLICATED</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLEX</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table class="table is-list w-100">
+                                    <tr><td><p class="text-weight-light">ROUTINE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">SIMPLE</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLICATED</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                    <tr><td><p class="text-weight-light">COMPLEX</p></td>
+                                        <th><p class="text-weight-bold text">0</p></th></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+{%endblock content%}

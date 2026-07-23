@@ -1,0 +1,273 @@
+{% extends "partials/base.html"%}
+{% load crispy_forms_tags%}
+{%block content%}
+            <div class="row">
+                <div class="col-12"> 
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% block page_header %}
+                            {% include 'settings/page-header.html' %}
+                            {% endblock page_header %}
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'AbsenceDates_insert' %}" class="btn btn-primary">AbsenceDates</a>
+                                        <a href="{% url  'AbsenceTypes_insert' %}" class="btn btn-primary">AbsenceTypes</a>
+                                        <a href="{% url  'Announcements_insert' %}" class="btn btn-primary">Announcements</a>
+                                        <a href="{% url  'Banks_insert' %}" class="btn btn-primary">Banks</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'BenefitCalculations_insert' %}" class="btn btn-primary">BenefitCalculations</a>
+                                        <a href="{% url  'BusinessIndustries_insert' %}" class="btn btn-primary">BusinessIndustries</a>
+                                        <a href="{% url  'BenefitTypes_insert' %}" class="btn btn-primary">BenefitTypes</a>
+                                        <a href="{% url  'Benefits_insert' %}" class="btn btn-primary">Benefits</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'CaseAccounts_insert' %}" class="btn btn-primary">CaseAccounts</a>
+                                        <a href="{% url  'CaseActivities_insert' %}" class="btn btn-primary">CaseActivities</a>
+                                        <a href="{% url  'CaseActivityStatuses_insert' %}" class="btn btn-primary">CaseActivityStatuses</a>
+                                        <a href="{% url  'CaseBillingRates_insert' %}" class="btn btn-primary">CaseBillingRates</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'CaseBillingTypes_insert' %}" class="btn btn-primary">CaseBillingTypes</a>
+                                        <a href="{% url  'CaseCategories_insert' %}" class="btn btn-primary">CaseCategories</a>
+                                        <a href="{% url  'CaseComments_insert' %}" class="btn btn-primary">CaseComments</a>
+                                        <a href="{% url  'CaseCurrencies_insert' %}" class="btn btn-primary">CaseCurrencies</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p>
+                                        <a href="{% url  'CasePaymentItems_insert' %}" class="btn btn-primary">CasePaymentItems</a>
+                                        <a href="{% url  'CasePaymentTypes_insert' %}" class="btn btn-primary">CasePaymentTypes</a>
+                                        <a href="{% url  'CasePayments_insert' %}" class="btn btn-primary">CasePayments</a>
+                                        <a href="{% url  'CaseActivityCategories_insert' %}" class="btn btn-primary">CaseActivityCategories</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'ClientInCharge_insert' %}" class="btn btn-primary">ClientInCharge</a>
+                                        <a href="{% url  'ClientProfileContacts_insert' %}" class="btn btn-primary">ClientProfileContacts</a>
+                                        <a href="{% url  'ClientProfileNextOfKinContacts_insert' %}" class="btn btn-primary">ClientProfileNextOfKinContacts</a>
+                                        <a href="{% url  'ClientProfileNextOfKins_insert' %}" class="btn btn-primary">ClientProfileNextOfKins</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'ClientProfileTypes_insert' %}" class="btn btn-primary">ClientProfileTypes</a>
+                                        <a href="{% url  'ClientProfiles_insert' %}" class="btn btn-primary">ClientProfiles</a>
+                                        <a href="{% url  'ContactTypes_insert' %}" class="btn btn-primary">ContactTypes</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'Contributes_insert' %}" class="btn btn-primary">Contributes</a>
+                                        <a href="{% url  'Currencies_insert' %}" class="btn btn-primary">Currencies</a>
+                                        <a href="{% url  'CurrencyRates_insert' %}" class="btn btn-primary">CurrencyRates</a>
+                                        <a href="{% url  'Courts_insert' %}" class="btn btn-primary">Courts</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'Dependants_insert' %}" class="btn btn-primary">Dependants</a>
+                                        <a href="{% url  'DocumentStatuses_insert' %}" class="btn btn-primary">DocumentStatuses</a>
+                                        <a href="{% url  'DocumentTypes_insert' %}" class="btn btn-primary">DocumentTypes</a>
+                                        <a href="{% url  'Documents_insert' %}" class="btn btn-primary">Documents</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'Education_insert' %}" class="btn btn-primary">Education</a>
+                                        <a href="{% url  'EmployeeAssignments_insert' %}" class="btn btn-primary">EmployeeAssignments</a>
+                                        <a href="{% url  'EmployeeAvatars_insert' %}" class="btn btn-primary">EmployeeAvatars</a>
+                                        <a href="{% url  'EmployeeContractTypes_insert' %}" class="btn btn-primary">EmployeeContractTypes</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'EmployeeContracts_insert' %}" class="btn btn-primary">EmployeeContracts</a>
+                                        <a href="{% url  'EmployeeLanguages_insert' %}" class="btn btn-primary">EmployeeLanguages</a>
+                                        <a href="{% url  'EmployeeLicenceDetails_insert' %}" class="btn btn-primary">EmployeeLicenceDetails</a>
+                                        <a href="{% url  'EmployeeLicenceTypes_insert' %}" class="btn btn-primary">EmployeeLicenceTypes</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'EmployeeOfTheWeeks_insert' %}" class="btn btn-primary">EmployeeOfTheWeeks</a>
+                                        <a href="{% url  'EmployeePayrollBenefits_insert' %}" class="btn btn-primary">EmployeePayrollBenefits</a>
+                                        <a href="{% url  'EmployeePayrolls_insert' %}" class="btn btn-primary">EmployeePayrolls</a>
+                                        <a href="{% url  'EngagementDoneBy_insert' %}" class="btn btn-primary">EngagementDoneBy</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'EngagementNotifyWith_insert' %}" class="btn btn-primary">EngagementNotifyWith</a>
+                                        <a href="{% url  'EngagementTypes_insert' %}" class="btn btn-primary">EngagementTypes</a>
+                                        <a href="{% url  'Engagements_insert' %}" class="btn btn-primary">Engagements</a>
+                                        <a href="{% url  'Holidays_insert' %}" class="btn btn-primary">Holidays</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'ImmigrationDetails_insert' %}" class="btn btn-primary">ImmigrationDetails</a>
+                                        <a href="{% url  'IncomingDocumentHandlers_insert' %}" class="btn btn-primary">IncomingDocumentHandlers</a>
+                                        <a href="{% url  'IncomingDocumentTypes_insert' %}" class="btn btn-primary">IncomingDocumentTypes</a>
+                                        <a href="{% url  'IncomingDocuments_insert' %}" class="btn btn-primary">IncomingDocuments</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'InsuranceDetails_insert' %}" class="btn btn-primary">InsuranceDetails</a>
+                                        <a href="{% url  'InvoiceActions_insert' %}" class="btn btn-primary">InvoiceActions</a>
+                                        <a href="{% url  'InvoiceItems_insert' %}" class="btn btn-primary">InvoiceItems</a>
+                                        <a href="{% url  'InvoiceStatuses_insert' %}" class="btn btn-primary">InvoiceStatuses</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'InvoiceTaxes_insert' %}" class="btn btn-primary">InvoiceTaxes</a>
+                                        <a href="{% url  'InvoiceTypes_insert' %}" class="btn btn-primary">InvoiceTypes</a>
+                                        <a href="{% url  'Jobs_insert' %}" class="btn btn-primary">Jobs</a>
+                                        <a href="{% url  'Languages_insert' %}" class="btn btn-primary">Languages</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'LeaveCardCarriedOvers_insert' %}" class="btn btn-primary">LeaveCardCarriedOvers</a>
+                                        <a href="{% url  'LeaveCardDetails_insert' %}" class="btn btn-primary">LeaveCardDetails</a>
+                                        <a href="{% url  'LeaveCards_insert' %}" class="btn btn-primary">LeaveCards</a>
+                                        <a href="{% url  'LeaveRequestActions_insert' %}" class="btn btn-primary">LeaveRequestActions</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'LeaveRequestDetails_insert' %}" class="btn btn-primary">LeaveRequestDetails</a>
+                                        <a href="{% url  'LeaveRequestStatuses_insert' %}" class="btn btn-primary">LeaveRequestStatuses</a>
+                                        <a href="{% url  'LeaveRequestWorkflowActions_insert' %}" class="btn btn-primary">LeaveRequestWorkflowActions</a>
+                                        <a href="{% url  'LeaveRequestWorkflows_insert' %}" class="btn btn-primary">LeaveRequestWorkflows</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'LeaveRequests_insert' %}" class="btn btn-primary">LeaveRequests</a>
+                                        <a href="{% url  'LetterHeads_insert' %}" class="btn btn-primary">LetterHeads</a>
+                                        <a href="{% url  'MaritalStatuses_insert' %}" class="btn btn-primary">MaritalStatuses</a>
+                                        <a href="{% url  'Nations_insert' %}" class="btn btn-primary">Nations</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'PaymentModes_insert' %}" class="btn btn-primary">PaymentModes</a>
+                                        <a href="{% url  'PayrollAdvanceRequestActions_insert' %}" class="btn btn-primary">PayrollAdvanceRequestActions</a>
+                                        <a href="{% url  'PayrollAdvanceRequestDetails_insert' %}" class="btn btn-primary">PayrollAdvanceRequestDetails</a>
+                                        <a href="{% url  'PayrollAdvanceRequestStatuses_insert' %}" class="btn btn-primary">PayrollAdvanceRequestStatuses</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'PayrollAdvanceRequestWorkflowActions_insert' %}" class="btn btn-primary">PayrollAdvanceRequestWorkflowActions</a>
+                                        <a href="{% url  'PayrollAdvanceRequestWorkflows_insert' %}" class="btn btn-primary">PayrollAdvanceRequestWorkflows</a>
+                                        <a href="{% url  'PayrollAdvanceRequests_insert' %}" class="btn btn-primary">PayrollAdvanceRequests</a>
+                                        <a href="{% url  'PracticeAreas_insert' %}" class="btn btn-primary">PracticeAreas</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'ProspectSources_insert' %}" class="btn btn-primary">ProspectSources</a>
+                                        <a href="{% url  'Prospects_insert' %}" class="btn btn-primary">Prospects</a>
+                                        <a href="{% url  'Qualifications_insert' %}" class="btn btn-primary">Qualifications</a>
+                                        <a href="{% url  'Relationships_insert' %}" class="btn btn-primary">Relationships</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'RequisitionCategories_insert' %}" class="btn btn-primary">RequisitionCategories</a>
+                                        <a href="{% url  'RequisitionFlowTypes_insert' %}" class="btn btn-primary">RequisitionFlowTypes</a>
+                                        <a href="{% url  'RequisitionStatuses_insert' %}" class="btn btn-primary">RequisitionStatuses</a>
+                                        <a href="{% url  'RequisitionActions_insert' %}" class="btn btn-primary">RequisitionActions</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'RequisitionWorkflows_insert' %}" class="btn btn-primary">RequisitionWorkflows</a>
+                                        <a href="{% url  'Salutations_insert' %}" class="btn btn-primary">Salutations</a>
+                                        <a href="{% url  'Skills_insert' %}" class="btn btn-primary">Skills</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'TaskAssignees_insert' %}" class="btn btn-primary">Task Assignees</a>
+                                        <a href="{% url  'TaskStatuses_insert' %}" class="btn btn-primary">Task Statuses</a>
+                                        <a href="{% url  'Taxes_insert' %}" class="btn btn-primary">Taxes</a>
+                                        <a href="{% url  'Visas_insert' %}" class="btn btn-primary">Visas</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'Weekends_insert' %}" class="btn btn-primary">Weekends</a>
+                                        <a href="{% url  'WeeklyEmployeeProcesseds_insert' %}" class="btn btn-primary">WeeklyEmployeeProcesseds</a>
+                                        <a href="{% url  'WeeklyEmployees_insert' %}" class="btn btn-primary">WeeklyEmployees</a>
+                                        <a href="{% url  'WorkflowActionTypes_insert' %}" class="btn btn-primary">WorkflowActionTypes</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'WorkflowActions_insert' %}" class="btn btn-primary">WorkflowActions</a>
+                                        <a href="{% url  'WorkflowStatuses_insert' %}" class="btn btn-primary">WorkflowStatuses</a>
+                                        <a href="{% url  'WorkflowTypes_insert' %}" class="btn btn-primary">WorkflowTypes</a>
+                                        <a href="{% url  'Workflows_insert' %}" class="btn btn-primary">Workflows</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{%endblock content%}

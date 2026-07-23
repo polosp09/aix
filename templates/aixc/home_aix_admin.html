@@ -1,0 +1,179 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+
+{% block content %}
+    <section class="section text-center mt-0">
+        <div class="container">
+            {% for group in usr_groups %}
+            {% if group.name == 'Admins' %}
+            <div class="columns is-multiline">
+            {% else %}
+            <div>
+            {% endif %}
+            {% endfor %}
+                <div class="row">
+                    {% for entity in entities %}
+                        {% for group in usr_groups %}
+                            {% if group.name == 'Admins' %}
+                            <div class="column is-8-tablet is-text-centered">
+                                {% include 'aix/includes/card_entity.html' with entity=entity year=year month=month %}
+                            </div>
+                                {% endif %}
+                                {% if group.name == 'Supervisor' or group.name == 'Clerks' %}
+                            <div class="column is-8-tablet is-text-centered">
+                                {% include 'aix/includes/card_entity_clerk.html' with entity=entity year=year month=month work_orders=work_orders %}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% for group in usr_groups %}
+                            {% if group.name == 'Admins' %}
+                            <div class="column is-4-tablet is-text-centered">
+                                <table class="table is-list" width="100%">
+                                    <tr>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">WORK ORDERS</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{work_orders.count}}</h1></td>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">ASSETS</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{assets}}</h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2"><a href="{% url  'aix:asset-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">TASKS</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{wo_tasks}}</h1></td>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">ACTIVITIES</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{kpi_ops}}</h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">ONOFF EQUIPMENT</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{kpi_onoffs}}</h1></td>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">P.O.B</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{kpi_pobs}}</h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2"><a href="{% url  'aix:kpi-hse-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">HSE</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{kpi_hses}}</h1></td>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4"></a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2"></h1></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% for group in usr_groups %}
+                            {% if group.name == 'Clerks' %}
+                            <!-- <div class="column is-4-tablet is-text-centered">
+                                <table class="table is-list" width="100%">
+                                    <tr>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">WORK ORDERS</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{work_order}}</h1></td>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">ASSETS</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{assets}}</h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">ACTIVITIES</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{kpi_ops}}</h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">ONOFF EQUIPMENT</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{kpi_onoffs}}</h1></td>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">P.O.B</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{kpi_pobs}}</h1></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2"><a href="{% url  'aix:kpi-hse-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4">HSE</a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2">{{kpi_hses}}</h1></td>
+                                        <td class="p-2"><a href="{% url  'aix:work-order-list' entity_slug=entity.slug %}" class="btn-sm text-dark text-h2 p-4"></a></td>
+                                        <td class="bg-secondary pb-2"><h1 class="text-h1 text-light p-2"></h1></td>
+                                    </tr>
+                                </table>
+                            </div> -->
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    {% if 'aix.view_entitymodel' in perms %}{% for group in usr_groups %}
+                    {% if group.name == 'Admins' %}
+                    <div class="column is-12-tablet is-text-centered">
+                        <span class="is-4-tablet"></span>
+                        {% if 'aix.add_entitymodel' in perms %}<a href="{% url 'aix:entity-create' %}" class="btn btn-success btn-fullwidth btn-outlined">
+                                <i class="mdi mdi-plus"></i> {% trans 'New Company' %}</a></span>{% endif %}
+                    {% endif %}{% endfor %}
+                    </div>
+                    {% endif %}
+                    {% for group in usr_groups %}
+                        {% if group.name == 'TotalProjectManager' or group.name == 'OperationsManager' or group.name == 'ProjectManager' or group.name == 'Admins' %}
+                        <div class="column is-12-tablet is-text-centered">
+                        <h2 class="text-h2"><b>Latest Work Orders</b></h2>
+                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>Order No.#</th>
+                                    <th>Category</th>
+                                    <th>Start-Date</th>
+                                    <th>End-Date</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+                                {% for work_order in work_orders %}
+                                <tr>
+                                    <td><b><a href="{% url  'aix:work-order-details' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">{{work_order.order_no}}</a></b></td>
+                                    <td>{{work_order.category.name}}</td>
+                                    <td>{{work_order.start_date}}</td>
+                                    <td>{{work_order.end_date}}</td>
+                                    <td>
+                                        {% if 'aix.view_entitymodel' in perms %}
+                                        {% if group.name == 'TotalProjectManager' or group.name == 'Admins' %}
+                                        {% if not work_order.is_active %}
+                                        <a href="{% url  'aix:work-order-update' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                        {% endif %}
+                                        {% endif %}
+                                        {% endif %}
+                                        <a href="{% url  'aix:work-order-details' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">Details</a>
+                                        {% if group.name == 'Admins' %}
+                                        <a href="{% url  'aix:jcd-list' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-dark">Job Cards</a>
+                                        {% endif%}
+                                        </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    {% endfor %}
+                    
+                </div>
+                {% for group in usr_groups %}
+                {% if group.name == 'TotalProjectManager' or group.name == 'Admins' %}
+                <div class="column is-12-tablet is-text-centered">
+                    <h1><a href="{% url  'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success text-h5 p-4">New Work Order</a></h1>
+                </div>
+                {% endif %}
+                {% endfor %}             
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block extra_javascript %}
+        <!-- Sweet Alerts js -->
+        <script src="{% static 'libs/sweetalert2/sweetalert2.min.js' %}"></script>
+
+        <!-- Sweet alert init js-->
+        <script src="{% static 'js/pages/sweet-alerts.init.js' %}"></script>
+
+        <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.f.write.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+       <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script> 
+       <script src="{% static 'js/pages/datatables.init.js' %}"></script>
+{% endblock extra_javascript %}

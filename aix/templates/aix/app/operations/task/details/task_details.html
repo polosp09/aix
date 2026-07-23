@@ -1,0 +1,193 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row m-0">
+            <div class="col-12 p-0">
+                {% block page_header %}
+                {% include '../page_header.html' %}
+                {% endblock page_header %}
+            </div>
+            <div class="col-7 dexa-white p-0">
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>TASK</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>START-DATE</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>END-LOCATION</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-danger text-h2 text-light text-center"><b>{{ work_order_task.tripno}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ work_order_task.startdate}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ work_order_task.enddate}}</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>DISTANCE</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>START-LOCATION</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>END-LOCATION</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ work_order_task.tripdistance}} km</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ work_order_task.startlocation}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ work_order_task.endlocation}}</b></div>
+                </div>
+            <!-- </div>
+            <div class="col-7 dexa-white pr-1"> -->
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills nav-tabs nav-justified" role="tablist">
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link active dexa-link" data-bs-toggle="tab" href="#task-1" role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                            <span class="d-none d-sm-block">Activities</span> 
+                        </a>
+                    </li>
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link" data-bs-toggle="tab" href="#pob-1" role="tab">
+                            <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                            <span class="d-none d-sm-block">POB</span> 
+                        </a>
+                    </li>
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link" data-bs-toggle="tab" href="#onoff-1" role="tab">
+                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                            <span class="d-none d-sm-block">OnOff Equipment</span>   
+                        </a>
+                    </li>
+                    {% for group in request.user.groups.all %}
+                    {% if group.name == 'TotalProjectManager' or group.name == 'OperationsManager' or group.name == 'ProjectManager' or group.name == 'Admins' %}
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link" data-bs-toggle="tab" href="#asset-1" role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Assigned Assets</span>    
+                        </a>
+                    </li>
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link" data-bs-toggle="tab" href="#personnel-1" role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Assigned Personnel</span>    
+                        </a>
+                    </li>
+                    <li class="nav-item waves-effect waves-light">
+                        <a class="nav-link" data-bs-toggle="tab" href="#document-1" role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Documents</span>    
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                
+                <!-- Tab panes -->
+                <div class="tab-content p-3 text-muted">
+                    <div class="tab-pane active" id="task-1" role="tabpanel">
+                        <p class="mb-0">
+                            {% block content_activities %}
+                            {% include './activities.html' with entity_slug=view.kwargs.entity_slug task=work_order_task activities=task_digest.activity_qs %}
+                            {% endblock content_activities %}
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="pob-1" role="tabpanel">
+                        <p class="mb-0">
+                            {% block content_pobs %}
+                            {% include './pobs.html' with entity_slug=view.kwargs.entity_slug work_order_task=work_order_task persons=task_digest.kpi_pob_qs %}
+                            {% endblock content_pobs %}
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="onoff-1" role="tabpanel">
+                        <p class="mb-0">
+                            {% block content_onoffs %}
+                            {% include './onoffs.html' with entity_slug=view.kwargs.entity_slug work_order_task=work_order_task onoffs=task_digest.kpi_onoff_qs %}
+                            {% endblock content_onoffs %}
+                        </p>
+                    </div>
+                    
+                    {% for group in request.user.groups.all %}
+                    {% if group.name == 'TotalProjectManager' or group.name == 'OperationsManager' or group.name == 'ProjectManager' or group.name == 'Admins' %}
+                    <div class="tab-pane" id="asset-1" role="tabpanel">
+                        <p class="mb-0">
+                            {% block content_assets %}
+                            {% include './task_asset.html' with entity_slug=view.kwargs.entity_slug work_order_task=work_order_task.uuid assets=task_digest.task_asset_qs %}
+                            {% endblock content_assets %}
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="personnel-1" role="tabpanel">
+                        <p class="mb-0">
+                            {% block content_personnels %}
+                            {% include './personnels.html' with entity_slug=view.kwargs.entity_slug work_order_task=work_order_task.uuid persons=task_digest.task_personnel_qs %}
+                            {% endblock content_personnels %}
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="document-1" role="tabpanel">
+                        <p class="mb-0">
+                            {% block content_documents %}
+                            {% include '../../details/documents.html' with entity_slug=view.kwargs.entity_slug wo=work_order wo_document_qs=task_digest.document_qs upload='task' %}
+                            {% endblock content_documents %}
+                        </p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="col-5 p-0">
+                <div class="row mb-2 m-0 dexa-white">
+                    <div class="level p-0">
+                        <div class="level-left">
+                            <div class="level-item">
+                                {% for group in usr_groups %}
+                                {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                <a href="{% url 'aix:kpi-ops-create-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=work_order_task.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Activity</a>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <div class="level-item text-center p-3">
+                                {% for group in request.user.groups.all %}
+                                {% if group.name == 'TotalProjectManager' or group.name == 'OperationsManager' or group.name == 'ProjectManager' or group.name == 'Admins' or group.name == 'Supervisor' %}       
+                                <a href="{% url  'aix:work-order-task-update' entity_slug=view.kwargs.entity_slug work_order_task_pk=work_order_task.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                <a href="{% url 'aix:work-order-details' entity_slug=view.kwargs.entity_slug work_order_pk=work_order_task.work_order.uuid %}"
+                                    class="btn-sm btn-dark is-fullwidth ml-1">{% trans 'Back' %}</a>
+                                {% endif %}
+                                {% endfor %}
+                                <a href="{% url  'aix:task-rpt' entity_slug=view.kwargs.entity_slug work_order_task_pk=work_order_task.uuid %}" 
+                                    class="card-footer-item btn-sm btn-danger text-center col-md-4 w-100 ml-1">Print Report</a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-2">
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <table width="100%">
+                                    <tr>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+{%endblock content%}
+{% block extra_javascript %}
+        <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.f.write.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+       <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script> 
+       <script src="{% static 'js/pages/datatables.init.js' %}"></script>
+{% endblock extra_javascript %}

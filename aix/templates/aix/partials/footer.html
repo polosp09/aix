@@ -1,0 +1,36 @@
+{% load static %}
+{% block footer %}
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-6">
+							<script>
+								document.write(new Date().getFullYear())
+							</script>© aix+.</div>
+							<div class="col-sm-6">
+								<div class=" text-sm-end d-none d-sm-block">
+								{% if user.is_superuser %}
+									<a href="/admin" class="btn-sm btn-secondary">Admin</a> | 
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+    <!--Extra Javascript-->
+    {% block extra_javascript %} {% endblock extra_javascript %}
+	<!-- App js -->
+	<script>
+		const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+		const map = L.map('map_locationx', {
+			layers: [osm],
+			center: [52.52, 13.40],
+			zoom: 14,
+		});
+		L.control.locate({
+			returnToPrevBounds: true,
+			showPopup: false,
+		}).addTo(map);
+		L.marker(L.latLng(_JSON_.loc)).addTo(map);
+	</script>
+{% endblock footer %}

@@ -1,0 +1,68 @@
+{% block content_jobcards %}
+{% load aix %}
+{% load crispy_forms_tags%}
+                    <div>
+                        <div class="row">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        Jobcards for <b>{{work_order.order_no}}</b>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item text-center">
+                                        <a href="{% url 'aix:jcd-create-work-order' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Jobcard</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if cfs %}
+                        <a href="{% url 'aix:jcd-create-work-order-case' entity_slug=view.kwargs.entity_slug work_order_pk=wo.uuid customer_pk=cf.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Jobcard</a>
+                        {% endif %}
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20px;">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="checkboxall">
+                                            <label class="form-check-label mb-0" for="checkboxall">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th>Jobcard Number</th>
+                                    <th>Status Date</th>
+                                    <th>Status</th>
+                                    <th>Invoiced To</th>
+                                    <th>Amount</th>
+                                    <th>Payments</th>
+                                    <th>Past Due?</th>
+                                    <th>Actionsc</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for jcd in jcd_qs %}
+                                {% if jcd.work_order == wo %}
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input type="checkbox" name="chkbox" class="form-check-input" id="checkboxall1">
+                                            <label class="form-check-label mb-0" for="checkboxall1">&nbsp;</label>
+                                        </div>
+                                    </td>
+                                    <td>{{ jcd.jcd_number }}</td>
+                                    <td>{{ jcd.get_status_action_date }}</td>
+                                    <td>{{ jcd.get_jcd_status_display }}</td>
+                                    <td>{{ jcd.customer.customer_name }}</td>
+                                    <td>{% currency_symbol %}{{ jcd.amount_due | currency_format }}</td>
+                                    <td>{% currency_symbol %}{{ jcd.amount_paid | currency_format }}</td>
+                                    <td>
+                                        {#<a href="{% url  'aix:jcd-update' 'aix:jcd-create' entity_slug=view.kwargs.entity_slug work_order_pk=wo.uuid jcd_pk=jcd.uuid %}" class="btn-sm btn-dark">edit</a>#}
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{% endblock content_jobcards %}

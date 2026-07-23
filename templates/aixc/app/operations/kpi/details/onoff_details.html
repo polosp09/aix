@@ -1,0 +1,99 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row p-2">
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body border-danger">
+                                <h2 class="text-h3">ONOFF: <b>{{ kpionoff.asset.license_plate }} - {{ kpionoff.on_hire }} - {{ kpionoff.off_hire }}</b></h2>
+                                <table class="table is-list" width="100%">
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <th>Code</th>
+                                                <td><b>{{ kpionoff.code }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Activity Date</th>
+                                                <td><b>{{ kpionoff.activity_date }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Description</th>
+                                                <td><b>{{ kpionoff.activity_description }}</b></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <th>On.Hire</th>
+                                                <td><b>{{ kpionoff.on_hire }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Off.Hire</th>
+                                                <td><b>{{ kpionoff.off_hire }}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <a href="{% url  'aix:work-order-task-details' entity_slug=view.kwargs.entity_slug work_order_task_pk=kpionoff.task.uuid %}" class="btn-sm dexa-btn-default text-light">Back</a>
+                                                </th>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            
+                                        </table>
+                                    </td>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="table is-list" width="100%">
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th>Maintenance</th>
+                                            <td><b>{{ kpionoff.maintenance }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Allocation</th>
+                                            <td><b>{{ kpionoff.allocation }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td><b>{{ kpionoff.status }}</b></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th>Work-Order</th>
+                                            <td><b>{{ kpionoff.work_order.order_no }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Task</th>
+                                            <td><b>{{ kpipob.task.tripno }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Asset</th>
+                                            <td><b>{{ kpionoff.asset.license_plate }}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Location</th>
+                                            <td><b>{{ kpionoff.location }}</b></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+{%endblock content%}

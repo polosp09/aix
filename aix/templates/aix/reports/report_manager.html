@@ -1,0 +1,455 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+{% block extra_css %}
+<style>
+    .table td, .table th { width:5%; border: 1px solid #222 !important; }
+    td, th {
+        padding: 0.3em;
+        text-align: center;
+    }
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+</style>
+{% endblock extra_css %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="dexa-title text-h2 pl-2">REPORT MANAGER</h2>
+                        </div> <!-- end card body-->
+                        <div class="p-2">
+                            <!-- <h3>Filter Journals</h3> -->
+                            <!-- <form method="GET" action="."> -->
+                            <form action="{% url 'aix:report-filter-results' entity_slug=entity_slug %}" method="post">
+                                {% csrf_token %}
+                                <!-- {{ form.as_p }} -->
+                                <!-- <input -->
+                                <div class="row">
+                                    <div class="form-group col-md-2">
+                                        <div class="input-group p-0">
+                                            <input class="dexa-forms" type="search" name="searchstring" placeholder="Search Text..." value="{{ searchstring }}" />
+                                            <span class="input-group-append">
+                                                <div class="input-group-text bg-transparent">
+                                                    <i class="fa fa-search"></i>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>        
+                                <!-- </div>
+                                <div class="form-row"> -->
+                                    <div class="form-group col-md-2">
+                                        <div class="input-group">
+                                            <select id="workorder" class="dexa-forms w-100" type="select" name="workorder" placeholder="Work Order...">
+                                                <option {% if workorder == "0" %} selected {% endif %} hidden value="" id="nullworkorder">Select a Work Order</option>
+                                                {% for wo in work_orders %}
+                                                {% if workorder == wo.uuid %}
+                                                <option selected >{{wo.order_no}}</option>
+                                                {% else %}
+                                                <option {% if workorder == "{{wo.uuid}}" %} selected {% endif %} value="{{wo.uuid}}" parent="A">{{wo.order_no}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <div class="input-group">
+                                            <select id="report" name="report" class="dexa-forms w-100" type="search" placeholder="Order By...">
+                                                <option hidden selected value="" id="nullreport">Select a Report</option>
+                                                <option {% if reportname == "A" %} selected {% endif %} value="A">IT Status Report</option>
+                                                <option {% if reportname == "B" %} selected {% endif %} value="B">Equipment</option>
+                                                <option {% if reportname == "C" %} selected {% endif %} value="C">Equipment Daily Status</option>
+                                                <option {% if reportname == "D" %} selected {% endif %} value="D">Employee Daily Status</option>
+                                                <!-- <option 
+                                                    {% if reportname == "A" %} selected {% endif %} value="A">Work Orders</option>
+                                                <option 
+                                                    {% if reportname == "B" %} selected {% endif %} value="B">Tasks</option>
+                                                <option 
+                                                    {% if reportname == "C" %} selected {% endif %} value="C">Activities</option>
+                                                <option 
+                                                    {% if reportname == "D" %} selected {% endif %} value="D">Daily Performance</option>
+                                                <option 
+                                                    {% if reportname == "E" %} selected {% endif %} value="E">Weekly Performance</option>
+                                                <option 
+                                                    {% if reportname == "F" %} selected {% endif %} value="F">Monthly Performance</option>
+                                                <option 
+                                                    {% if reportname == "G" %} selected {% endif %} value="G">Ops Records</option>
+                                                <option 
+                                                    {% if reportname == "H" %} selected {% endif %} value="H">OnOff Equipment</option>
+                                                <option 
+                                                    {% if reportname == "I" %} selected {% endif %} value="I">OnOff POB</option>
+                                                <option 
+                                                    {% if reportname == "J" %} selected {% endif %} value="J">Monthly Performance</option>
+                                                <option 
+                                                    {% if reportname == "K" %} selected {% endif %} value="K">HSE Status</option>
+                                                <option 
+                                                    {% if reportname == "L" %} selected {% endif %} value="L">Speed Violations Report</option>
+                                                <option 
+                                                    {% if reportname == "M" %} selected {% endif %} value="M">Harsh Breaking Incidents</option>
+                                                <option 
+                                                    {% if reportname == "N" %} selected {% endif %} value="N">Harsh Cornering Incidents</option>
+                                                <option 
+                                                    {% if reportname == "O" %} selected {% endif %} value="O">Fuel Consumption Per Vehicle</option>
+                                                <option 
+                                                    {% if reportname == "P" %} selected {% endif %} value="P">Trips By Vehicle</option> -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-group col-md-2">
+                                        <div class="input-group"> -->
+                                            <select id="sortby" class="dexa-forms w-100" type="select" name="sortby" placeholder="Sort By..." hidden>
+                                                <option {% if sortby == "0" %} selected {% endif %} hidden selected value="" id="nullsortby">Select a Column</option>
+                                                <option {% if sortby == "1" %} selected {% endif %} value="1" parent="A">Order Number</option>
+                                                <option {% if sortby == "2" %} selected {% endif %} value="2" parent="A">Start Date</option>
+                                                <option {% if sortby == "3" %} selected {% endif %} value="3" parent="A">End Date</option>
+                                                <option {% if sortby == "4" %} selected {% endif %} value="4" parent="B">Trip Number</option>
+                                                <option {% if sortby == "5" %} selected {% endif %} value="5" parent="B">Start Date</option>
+                                                <option {% if sortby == "6" %} selected {% endif %} value="6" parent="C">Activity <Code></Code></option>
+                                                <option {% if sortby == "7" %} selected {% endif %} value="7" parent="C">Start Date</option>
+                                            </select>
+                                        <!-- </div>
+                                    </div>
+                                    <div class="form-group col-md-2"> -->
+                                        <select id="orderby" class="dexa-forms w-100" type="select" name="orderby" placeholder="Order By..." hidden>
+                                            <option {% if orderby == "0" %} selected {% endif %} hidden selected value="" id="nullsortby">Select a Column</option>
+                                            <option {% if orderby == "1" %} selected {% endif %} value="1" parent="A">Order Number</option>
+                                            <option {% if orderby == "2" %} selected {% endif %} value="2" parent="A">Start Date</option>
+                                            <option {% if orderby == "3" %} selected {% endif %} value="3" parent="A">End Date</option>
+                                            <option {% if orderby == "4" %} selected {% endif %} value="4" parent="B">Trip Number</option>
+                                            <option {% if orderby == "5" %} selected {% endif %} value="5" parent="B">Start Date</option>
+                                            <option {% if orderby == "6" %} selected {% endif %} value="6" parent="C">Activity <Code></Code></option>
+                                            <option {% if orderby == "7" %} selected {% endif %} value="7" parent="C">Start Date</option>
+                                        </select>
+                                    <!-- </div> -->
+                                    <div class="form-group col-md-2">
+                                        <div class="input-daterange input-group" id="datepicker6" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                            <input type="text" class="form-control" name="start" placeholder="Start Date" value="{{start_date}}" />
+                                            <input type="text" class="form-control" name="end" placeholder="End Date" value="{{end_date}}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <select id="download" name="download" class="dexa-forms w-100" type="search" placeholder="Download...">
+                                            <option {% if download == "2" %} selected {% endif %} value="2">Select an Option</option>
+                                            <option {% if download == "1" %} selected {% endif %} value="1">Print</option>
+                                            <option {% if download == "0" %} selected {% endif %} value="0">Export To Excel</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                    </form>
+                                    
+                                    <form action="{% url 'aix:report-export' entity_slug=entity_slug %}" method="post">
+                                        {% csrf_token %}
+                                        <input class="dexa-forms" type="hidden" name="searchstring" value="{{ searchstring }}" />
+                                        <input class="dexa-forms" type="hidden" name="report" value="{{ reportname }}" />
+                                        <input class="dexa-forms" type="hidden" name="sortby" value="{{ sortby }}" />
+                                        <input class="dexa-forms" type="hidden" name="orderby" value="{{ orderby }}" />
+                                        
+                                        <div class="form-group col-md-2">
+                                            <button type="submit" class="btn btn-success mb-1">Export Excel</button>
+                                        </div>
+                                    </form>
+                                    <!-- </div> -->
+                                </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="dexa-border dexa-mh-4 p-2" style="overflow: scroll;">
+                                        {% if reportname == 'A' %}
+                                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Code</th>
+                                                    <th>Activity</th>
+                                                    <th>Category</th>
+                                                    <th>End-Date</th>
+                                                    <th>Due-Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                        
+                                            <tbody>
+                                                {% for status_report in results %}
+                                                <tr>
+                                                    <td>{{status_report.code}}</td>
+                                                    <td>{{status_report.activity}}</td>
+                                                    <td>{{status_report.activity_type}}</td>
+                                                    <td>{{status_report.startdate}}</td>
+                                                    <td>{{status_report.duedate}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                        {% if reportname == 'A1' %}
+                                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Order No.#</th>
+                                                    <th>Category</th>
+                                                    <th>End-Date</th>
+                                                </tr>
+                                            </thead>
+                                        
+                                            <tbody>
+                                                {% for work_order in results %}
+                                                <tr>
+                                                    <td>{{work_order.order_no}}</td>
+                                                    <td><b>{{work_order.category.name}}</b></td>
+                                                    <td><b>{{work_order.end_date}}</b></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                        {% if reportname == 'B' %}
+                                        <table class="table is-header">
+                                            <tr>
+                                                <td class="is-th-bg"><p class="is-size-5 text-weight-bold">Number</p></td>
+                                                <td class="is-th-bg"><p class="is-size-5 text-weight-bold">serial</p></td>
+                                                <td class="is-th-bg"><p class="is-size-5 text-weight-bold">Type</p></td>
+                                                <td class="is-th-bg"><p class="is-size-5 text-weight-bold">Detaiks</p></td>
+                                                <td class="is-th-bg"><p class="is-size-5 text-weight-bold">Specs</p></td>
+                                                <td class="is-th-bg"><p class="is-size-5 text-weight-bold">Status</p></td>
+                                            </tr>
+                                            {% for result in results %}
+                                            <tr>
+                                                <td><p class="is-size-5 text-weight-bold">{{result.reg_no}}</p></td>
+                                                <td><p class="is-size-5 text-weight-bold">{{result.serial}}</p></td>
+                                                <td><p class="is-size-5 text-weight-bold">{{result.yom}}</p></td>
+                                                <td><p class="is-size-5 text-weight-bold">{{result.model}}</p></td>
+                                                <td><p class="is-size-5 text-weight-bold">{{result.eq_type.name}}</p></td>
+                                                <td><p class="is-size-5 text-weight-bold">{{result.eq_manufacturer.name}}</p></td>
+                                                <td><p class="is-size-5 text-weight-bold">{{result.status}}</p></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
+                                        {% endif %}
+                                        {% if reportname == 'C' %}
+                                        <div class="table-container">
+                                            {{ df_table|safe }}
+                                        </div>
+                                        {% endif %}
+                                        {% if reportname == 'D' %}
+                                        <div class="table-container">
+                                            {{ df_table|safe }}
+                                        </div>
+                                        {% endif %}
+                                        {% if reportname == 'G' %}
+                                            {% block ops_records %}
+                                            {% include './kpi_ops_rpt.html' with kpiops=rpt_data %}
+                                            {% endblock ops_records %}
+                                        {% endif %}
+                                        {% if reportname == 'H' %}
+                                        {% endif %}
+                                        {% if reportname == 'I' %}
+                                        {% endif %}
+                                        {% if reportname == 'J' %}
+                                        {% endif %}
+                                        {% if reportname == 'K' %}
+                                        <table class="table is-list w-100">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <table class="table is-list w-100">
+                                                            <tr><td><p class="is-size-5 text-weight-light">Speed violation Counts</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">1</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Overspeeding duration</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Harsh braking Counts</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">2</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Harsh braking extreme counts</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <table class="table is-list w-100">
+                                                            <tr><td><p class="is-size-5 text-weight-light">Harsh Acceleration Counts</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">3</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Harsh Acceleration Extreme Counts</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Hard cornering Counts</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">1</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Mileage covered</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">245km</p></th></tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <table class="table is-list w-100">
+                                                            <tr><td><p class="is-size-5 text-weight-light">Excessive idling Hrs</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">47</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Continuous Driving time (CDT)</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">389hrs</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Daily Driving Time (DDT)</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Daily Rest Time (DRT)</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">16730</p></th></tr>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <table class="table is-list w-100">
+                                                            <tr><td><p class="is-size-5 text-weight-light">Night Driving (ND)</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Weekly Driving Time (WDT)</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                                                            <tr><td><p class="is-size-5 text-weight-light">Weekly Rest Time (WRT)</p></td>
+                                                                <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                                                            <tr>
+                                                                <th><p></p></th>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                        {% if reportname == 'L' %}
+                                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle</th>
+                                                    <th>Location</th>
+                                                    <th>Average Speed</th>
+                                                    <th>Date-Time</th>
+                                                </tr>
+                                            </thead>
+                                        
+                                            <tbody>
+                                                <tr>
+                                                    <td>UAX 774D</td>
+                                                    <td>LAT: 0.2839467 LON: 32.894984</td>
+                                                    <td><b>50kph</b></td>
+                                                    <td><b>04/04/2024 07:40AM</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                        {% if reportname == 'M' %}
+                                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle</th>
+                                                    <th>Location</th>
+                                                    <th>Average Speed</th>
+                                                    <th>Date-Time</th>
+                                                </tr>
+                                            </thead>
+                                        
+                                            <tbody>
+                                                <tr>
+                                                    <td>UAX 774D</td>
+                                                    <td>LAT: 0.2839467 LON: 32.894984</td>
+                                                    <td><b>50kph</b></td>
+                                                    <td><b>04/04/2024 07:40AM</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                        {% if reportname == 'N' %}
+                                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle</th>
+                                                    <th>Initial Tank Level</th>
+                                                    <th>After Refill</th>
+                                                    <th>Amount Refilled</th>
+                                                    <th>Refill Date-Time</th>
+                                                    <th>Location</th>
+                                                </tr>
+                                            </thead>
+                                        
+                                            <tbody>
+                                                <tr>
+                                                    <td>UAX 774D</td>
+                                                    <td><b>37L</b></td>
+                                                    <td><b>60L</b></td>
+                                                    <td><b>23L</b></td>
+                                                    <td>LAT: 0.2839467 LON: 32.894984</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                        {% if reportname == 'O' %}
+                                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle</th>
+                                                    <th>Start Location</th>
+                                                    <th>End Location</th>
+                                                    <th>Total Distance Covered</th>
+                                                    <th>Average Speed</th>
+                                                    <th>Start Date-Time</th>
+                                                    <th>End Date-Time</th>
+                                                </tr>
+                                            </thead>
+                                        
+                                            <tbody>
+                                                <tr>
+                                                    <td>UAX 774D</td>
+                                                    <td>LAT: 0.2839467 LON: 32.894984</td>
+                                                    <td>LAT: 0.3634927 LON: 32.384947</td>
+                                                    <td>53km</td>
+                                                    <td><b>50kph</b></td>
+                                                    <td><b>04/04/2024 07:30AM</b></td>
+                                                    <td><b>04/04/2024 09:45AM</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                        {% if reportname == 'P' %}
+                                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vehicle</th>
+                                                    <th>Start Location</th>
+                                                    <th>End Location</th>
+                                                    <th>Total Distance Covered</th>
+                                                    <th>Average Speed</th>
+                                                    <th>Start Date-Time</th>
+                                                    <th>End Date-Time</th>
+                                                </tr>
+                                            </thead>
+                                        
+                                            <tbody>
+                                                <tr>
+                                                    <td>UAX 774D</td>
+                                                    <td>LAT: 0.2839467 LON: 32.894984</td>
+                                                    <td>LAT: 0.3634927 LON: 32.384947</td>
+                                                    <td>53km</td>
+                                                    <td><b>50kph</b></td>
+                                                    <td><b>04/04/2024 07:30AM</b></td>
+                                                    <td><b>04/04/2024 09:45AM</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+    </div> <!-- end row -->
+{%endblock content%}
+{% block extra_javascript %}                        
+    <script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'libs/spectrum-colorpicker2/spectrum.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>
+    <script src="{% static 'libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap-maxlength/bootstrap-maxlength.min.js' %}"></script>
+
+    <script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+{% endblock extra_javascript %}

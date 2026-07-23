@@ -1,0 +1,215 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row">
+            <div class="col-12">
+                {% block page_header %}
+                {% include '../page_header.html' %}
+                {% endblock page_header %}
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body border-danger">
+                                <div class="row">
+                                    <div class="level">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <div class="col-12"><h5 class="my-0"><i class="mdi mdi-view-list me-3"></i>Employee</h5>
+                                                    <p>Name. <b>{{employee.name}} {{employee.middle_name}} {{employee.last_name}}</b></p></div>
+                                            </div>
+                                        </div>
+                                        <div class="level-right">
+                                            
+                                            <div class="level-item text-center">
+                                                <span class="is-size-4"><b>{{ employee.case_category.name }}</b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                
+                                <div class="row">
+                                    <h5><b>ID. {{employee.id}}</b></h5>
+                                    <p class="border-bottom border-light"></p>
+                                    <div class="col-8">
+                                        <p>
+                                            <div class="row">
+                                                <span class="col-lg-4 text-right">Name</span>
+                                                <span class="col-lg-8"><b>{{employee.name}} {{employee.middle_name}} {{employee.last_name}}</b></span><br />
+                                            </div>
+                                            <div class="row">
+                                                <span class="col-lg-4 text-right">NSSF</span>
+                                                <span class="col-lg-8"><b>{{employee.nssf_number}}</b></span><br />
+                                            </div>
+                                            <div class="row">
+                                                <span class="col-lg-4 text-right">Email</span>
+                                                <span class="col-lg-8"><b>{{employee.personal_email}}</b></span><br />
+                                            </div>
+                                            <div class="row">
+                                                <span class="col-lg-4 text-right">Telephone</span>
+                                                <span class="col-lg-8"><b>{{employee.contactnumber}}</b></span><br />
+                                            </div>
+                                            <div class="row">
+                                                <span class="col-lg-4 text-right">Department</span>
+                                                <span class="col-lg-8"><b>{{employee.department}}</b></span><br />
+                                            </div>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="">
+                                    <p class="mb-0">
+                                        {% block content_tasks %}
+                                        {% include './tasks.html' %}
+                                        {% endblock content_tasks %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        {% block content_assignments %}
+                        {% include './assignments.html' %}
+                        {% endblock content_assignments %}
+                    </div>
+                    <div class="col-6">
+                        {% block content_leave_cards %}
+                        {% include './leave_cards.html' %}
+                        {% endblock content_leave_cards %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="cardd">
+                    <div class="border-danger p-3">
+                        <div class="row">
+                            <a href="{% url  'aix:employee-update' entity_slug=view.kwargs.entity_slug employee_pk=employee.uuid %}" 
+                                class="card-footer-item btn-sm btn-dark text-center mb-3 col-6">Edit</a>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6 badge bg-light">Date Opened:</span>
+                            <span class="col-lg-6 badge bg-light">Date Closed:</b></span>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6 badge bg-light">{{ employee.date_opened }}</span>
+                            <span class="col-lg-6 badge bg-light"><b>{{ employee.date_closed }}</b></span>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6 badge bg-light">Financial Status</span>
+                            {% if employee.financial_status == '1' %}
+                                <span class="col-lg-6 badge bg-primary">Active</span>
+                            {% elif employee.financial_status == '2' %}
+                                <span class="col-lg-6 badge bg-success">Approved</span>
+                            {% elif employee.financial_status == '3' %}
+                                <span class="col-lg-6 badge bg-danger">Dropped</span>
+                            {% else %}
+                                <span class="col-lg-6 badge bg-light"><b>Normal</b></span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                        {% if not employee.can_archive %}
+                            {% if not employee.archived %}
+                            <span class="col-lg-6 badge bg-secondary mt-1 ml-1 col-5">NOT-ARCHIVED</span>
+                            {% else %}
+                            <span class="col-lg-6 badge bg-danger pt-2 mt-1 ml-1"><b>ARCHIVED</b></span>
+                            {% endif %}
+                            {% comment %}
+                            {% if not employee.is_active %}
+                            <span class="col-lg-5 badge bg-danger mt-1 ml-1"><b>CLOSED</b></span>
+                            {% else %}
+                            <span class="col-lg-5 badge bg-secondary mt-1 ml-1">ACTIVE</span>
+                            {% endif %}
+                            {% endcomment %}
+                        {% endif %}
+                            {# MARK ARCHIVE #}
+                            {% if employee.can_archive %}
+                                <a onclick="djLedger.toggleModal('{{ employee.get_mark_as_archive_html_id }}')"
+                                    id="{{ employee.get_mark_as_archive_html_id }}-button"
+                                    {% if not employee.archived %}
+                                        class="btn-sm btn-dark text-center mt-1 ml-1 col-6">
+                                        {% trans 'Mark as Archived' %}</a>
+                                    {% else %}
+                                        class="btn-sm btn-secondary text-center mt-1 ml-1 col-6">
+                                        {% trans 'Restore' %}</a>
+                                    {% endif %}
+                                {# MARK AS ARCHIVED MODAL #}
+                                {% modal_action_v2 employee employee.get_mark_as_archive_url employee.get_mark_as_archive_message employee.get_mark_as_archive_html_id %}
+                            {% endif %}
+                            {# MARK ACTIVE #}
+                            <a onclick="djLedger.toggleModal('{{ employee.get_mark_as_active_html_id }}')"
+                                id="{{ employee.get_mark_as_active_html_id }}-button"
+                                {% if not employee.is_active %}
+                                    class="btn-sm btn-secondary text-center mt-1 ml-1 col-5">
+                                    {% trans 'ACTIVATE' %}</a>
+                                {% else %}
+                                    class="btn-sm btn-success text-center mt-1 ml-1 col-5">
+                                    {% trans 'DE-ACTIVATE' %}</a>
+                                {% endif %}
+                            {# MARK AS ACTIVE MODAL #}
+                            {% modal_action_v2 employee employee.get_mark_as_active_url employee.get_mark_as_active_message employee.get_mark_as_active_html_id %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body border-danger">
+                        {% block content_languages %}
+                        {% include './languages.html' %}
+                        {% endblock content_languages %}
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body border-danger">
+                        {% block content_licenses %}
+                        {% include './licenses.html' %}
+                        {% endblock content_licenses %}
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body border-danger">
+                        {% block content_contracts %}
+                        {% include './contracts.html' %}
+                        {% endblock content_contracts %}
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body border-danger">
+                        {% block content_payrolls %}
+                        {% include './payrolls.html' %}
+                        {% endblock content_payrolls %}
+                    </div>
+                </div>
+            </div>
+        </div>
+{%endblock content%}
+{% block extra_javascript %}
+        <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.f.write.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+       <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script> 
+       <script src="{% static 'js/pages/datatables.init.js' %}"></script>
+{% endblock extra_javascript %}

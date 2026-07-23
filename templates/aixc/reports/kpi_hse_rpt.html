@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <style>
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{
+      margin:0;padding:0}
+
+      h1,h2,h3,h4,h5,h6{
+      font-size:100%;font-weight:normal}
+
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{
+          margin:0;padding:0}
+      
+      h1,h2,h3,h4,h5,h6{
+      font-size:100%;font-weight:normal}
+      
+      ul{
+      list-style:none}
+      
+      button,input,select,textarea{
+      margin:0}
+      
+      html{
+      box-sizing:border-box}
+      
+      *,*::before,*::after{
+      box-sizing:inherit}
+      
+      img,video{
+      height:auto;max-width:100%}
+      
+      iframe{
+      border:0}
+      
+      table{
+      border-collapse:collapse;border-spacing:0}
+      
+      td,th{
+      padding:0}
+      
+      /* td:not([align]),th:not([align]){
+      text-align:inherit}
+      */
+      html{
+      background-color:#fff;font-size:16px;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;min-width:300px;overflow-x:hidden;overflow-y:scroll;text-rendering:optimizeLegibility;text-size-adjust:100%}
+      
+      article,aside,figure,footer,header,hgroup,section{
+      display:block}
+      
+      body,button,input,optgroup,select,textarea{
+      /* font-family:BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif */
+      font-family: "Raleway","Lucida Grande","Lucida Sans Unicode","Lucida Sans";  
+      }
+      
+      code,pre{
+      -moz-osx-font-smoothing:auto;-webkit-font-smoothing:auto;font-family:monospace}
+      
+      body{
+      color:#4a4a4a;font-size:1em;font-weight:550;line-height:1.5}
+      
+      a{
+      color:#485fc7;cursor:pointer;text-decoration:none}
+      
+      a strong{
+      color:currentColor}
+      
+      a:hover{
+      color:#363636}
+      
+      code{
+      background-color:#f5f5f5;color:#da1039;font-size:.875em;font-weight:normal;padding:0.25em 0.5em 0.25em}
+      
+      hr{
+      background-color:#f5f5f5;border:none;display:block;height:2px;margin:1.5rem 0}
+      
+      img{
+      height:auto;max-width:100%}
+      
+      input[type="checkbox"],input[type="radio"]{
+      vertical-align:baseline}
+      
+      small{
+      font-size:.875em}
+      
+      span{
+      font-style:inherit;font-weight:inherit}
+      
+      strong{
+      color:#363636;font-weight:700}
+      
+      fieldset{
+      border:none}
+      
+      pre{
+      -webkit-overflow-scrolling:touch;background-color:#f5f5f5;color:#4a4a4a;font-size:.875em;overflow-x:auto;padding:1.25rem 1.5rem;white-space:pre;word-wrap:normal}
+      
+      pre code{
+      background-color:transparent;color:currentColor;font-size:1em;padding:0}
+      
+      table td,table th{
+      vertical-align:top}
+      
+      /* table td:not([align]),table th:not([align]){
+      text-align:inherit} */
+      
+      table th{
+      color:#363636}
+      
+      /* @keyframes spinAround{
+      from{
+      transform:rotate(0deg)}
+      
+      to{
+      transform:rotate(359deg)}
+      
+      } */
+      
+      .table{
+      background-color:#fff;color:#363636}
+      
+      /* .table td,.table th{
+      border:1px solid #dbdbdb;border-width:0 0 1px;padding:0.5em 0.75em;vertical-align:top} */
+      .table td,.table th{
+      border:0.025em solid #354f71;border-width:0 0 0.025em;padding: 0;vertical-align:top;text-align: left;}
+      
+      .table td.is-white,.table th.is-white{
+      background-color:#fff;border-color:#fff;color:#0a0a0a}
+      
+      .table td.is-black,.table th.is-black{
+      background-color:#0a0a0a;border-color:#0a0a0a;color:#fff}
+      
+      .table td.is-light,.table th.is-light{
+      background-color:#f5f5f5;border-color:#f5f5f5;color:rgba(0,0,0,0.7)}
+      
+      .table td.is-dark,.table th.is-dark{
+      background-color:#363636;border-color:#363636;color:#fff}
+      
+      .table td.is-primary,.table th.is-primary{
+      background-color:#00d1b2;border-color:#00d1b2;color:#fff}
+      
+      .table td.is-link,.table th.is-link{
+      background-color:#485fc7;border-color:#485fc7;color:#fff}
+      
+      .table td.is-info,.table th.is-info{
+      background-color:#3e8ed0;border-color:#3e8ed0;color:#fff}
+      
+      .table td.is-success,.table th.is-success{
+      background-color:#48c78e;border-color:#48c78e;color:#fff}
+      
+      .table td.is-warning,.table th.is-warning{
+      background-color:#ffe08a;border-color:#ffe08a;color:rgba(0,0,0,0.7)}
+      
+      .table td.is-danger,.table th.is-danger{
+      background-color:#f14668;border-color:#f14668;color:#fff}
+      
+      .table td.is-narrow,.table th.is-narrow{
+      white-space:nowrap;width:1%}
+      
+      .table td.is-selected,.table th.is-selected{
+      background-color:#00d1b2;color:#fff}
+      
+      .table td.is-selected a,.table td.is-selected strong,.table th.is-selected a,.table th.is-selected strong{
+      color:currentColor}
+      
+      .table td.is-vcentered,.table th.is-vcentered{
+      vertical-align:middle}
+      
+      .table th{
+      color:#363636}
+      
+      /* .table th:not([align]){
+      text-align:left} */
+      
+      .table tr.is-selected{
+      background-color:#00d1b2;color:#fff}
+      
+      .table tr.is-selected a,.table tr.is-selected strong{
+      color:currentColor}
+      
+      .table tr.is-selected td,.table tr.is-selected th{
+      border-color:#fff;color:currentColor}
+      
+      .table thead{
+      background-color:rgba(0,0,0,0)}
+      
+      .table thead td,.table thead th{
+      border-width:0 0 2px;color:#363636}
+      
+      .table tfoot{
+      background-color:rgba(0,0,0,0)}
+      
+      .table tfoot td,.table tfoot th{
+      border-width:2px 0 0;color:#363636}
+      
+      .table tbody{
+      background-color:rgba(0,0,0,0)}
+      
+      .table tbody tr:last-child td,.table tbody tr:last-child th{
+      border-bottom-width:0}
+      
+      .table.is-bordered td,.table.is-bordered th{
+      border-width:0.025em}
+      
+      .table.is-bordered tr:last-child td,.table.is-bordered tr:last-child th{
+      border-bottom-width:0.025em}
+      
+      .table.is-fullwidth{
+      width:100%}
+      
+      /* .table.is-hoverable tbody tr:not(.is-selected):hover{
+      background-color:#fafafa}
+      
+      .table.is-hoverable.is-striped tbody tr:not(.is-selected):hover{
+      background-color:#fafafa}
+      
+      .table.is-hoverable.is-striped tbody tr:not(.is-selected):hover:nth-child(even){
+      background-color:#f5f5f5}
+      */
+      .table.is-header{border:none}
+      .table.is-header p{padding:0.75em 0 0 0.85em}
+      .table.is-header .img{padding-bottom:0.75em;width: auto}
+      .table.is-section td{padding:0.75em 0.55em 0.55em 0.55em;border-bottom:none}
+      .table.is-list p{padding:0.45em 0.55em 0 0.55em}
+      .table.is-header td, .table.is-section td, .table.is-list td{border-left:none;border-bottom:none}
+      .table.is-header th, .table.is-section th, .table.is-list th{border-left:none;border-bottom:none}
+
+      .table .is-th-bg{background-color: #e2e2e2; color: #354f71;} /**#354f71**/
+      .table.is-no-border td{border:none;}
+      .table .is-no-border-left{border-left:none;}
+      .table .is-no-border-right{border-left:none;}
+      
+      /* .table.is-striped tbody tr:not(.is-selected):nth-child(even){
+      background-color:#fafafa}
+      */
+      .table-container{
+      -webkit-overflow-scrolling:touch;overflow:auto;overflow-y:hidden;max-width:100%;border:1px solid #ccc}
+
+      /* td.number, th.number{text-align: right;} */
+      .text{text-align: left;}
+      .number{text-align: right;}
+      
+      .is-size-1{
+      font-size:2.7rem !important}
+      
+      .is-size-2{
+      font-size:1.5rem !important}
+      
+      .is-size-3{
+      font-size:1.7rem !important}
+      
+      .is-size-4{
+      font-size:0.84rem !important}
+      
+      .is-size-5{
+      font-size:0.55rem !important;line-height: 1.25em}
+      
+      .is-size-6{
+      font-size:0.91rem !important;font-weight: bold}
+      
+      .is-size-7{
+      font-size:.75rem !important;font-weight: bold}
+      
+      b{
+          color: #296fa8;
+      }
+
+    .dexa-title{ font-size: 0.52em; }
+    .tablex { 
+        border-bottom: 1px solid #4a4a4a; 
+        /* background-color: #e2e2e2; */
+        padding: 3px;
+    }
+    .headerx{
+        padding-top: 0.47em;
+    }
+    
+    </style>
+</head>
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <table class="is-header">
+                        <tr>
+                            <td style="width: 30%">
+                                <table class="is-no-border">
+                                  <tr>
+                                    <td style="width: 30%"><p class="is-size-5 text-weight-bold img pl-2">
+                                      <img src="static/images/logo-sm-dark.png" alt="logo-sm-dark" height="37" /></p>
+                                      <img src="static/images/logo_totalenergies.png" alt="logo-total-energies" /></p>
+                                    </td>
+                                    <td style="width: 70%; padding: 5px;">
+                                      <p class="is-size-5 text-weight-bold img">{{kpihse.entity}}<br />
+                                        {{kpihse.entity.address_1}}<br />
+                                        {{kpihse.entity.email}}<br />
+                                        {{kpihse.entity.website}}</p>
+                                    </td>
+                                  </tr>
+                                </table>
+                            </td>
+                            <td style="width: 40%">
+                                <table class="is-section">
+                                    <tr>
+                                        <td class="number is-size-7">HSE STATUS REPORT:</td>
+                                        <td class="number">
+                                            <h1 class="is-size-6 text-weight-bold is-header">
+                                                {{ kpihse.code }}
+                                            </h1>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width: 30%">
+                                <table class="is-section">
+                                    <tr>
+                                        <td class="number">
+                                            <h1 class="is-size-5 text-weight-bold is-header"><b>ACTIVITY DATE:</b></h1>
+                                        </td>
+                                        <td class="number" width="30%">
+                                            <h2 class="is-size-5 text-weight-bold is-header">
+                                                <b>{{ kpihse.activity_date }}</b>
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="number">
+                                            <h1 class="is-size-5 text-weight-bold is-header">START TIME:</h1>
+                                        </td>
+                                        <td class="number">
+                                            <h2 class="is-size-5 text-weight-bold is-header">
+                                                {{ kpihse.start_time }}
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="number">
+                                            <h1 class="is-size-5 text-weight-bold is-header">END TIME:</h1>
+                                        </td>
+                                        <td class="number">
+                                            <h2 class="is-size-5 text-weight-bold is-header">
+                                                {{ kpihse.end_time }}
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <th><p></p></th>
+                        </tr> -->
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="tablex" width="100%"></td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr>
+                            <td>
+                                <table width="100%">
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">FAT</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.fat }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">LTI</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.lti }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">RWDC</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.rwdc }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table  width="100%">
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">MTC.</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.mtc }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bol text">FAC</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.fac }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">HIPO</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.hipo }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table width="100%">
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">ENVDAM</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.envdam }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">NMI</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.nmi }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">MATLOS</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.matloss }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">ATA</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.ata }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.3%">
+                                <table class="w-100">
+                                    <tr>
+                                        <th width="40%"><p class="is-size-5 text-weight-bold text">PTW</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{  kpihse.ptw }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="40%"><p class="is-size-5 text-weight-bold text">TBT</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{  kpihse.tbt }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="40%"><p class="is-size-5 text-weight-bold text">HHT</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.hht }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="33.3%">
+                                <table class="w-100">
+                                    <tr>
+                                        <th width="40%"><p class="is-size-5 text-weight-bold text">DRILLS</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.drills }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">AUDIT</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.audit }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">TRAINING SUBJECT</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.training_subject }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="33.3%">
+                                <table class="w-100">
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">REPORTING CARDS</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.reporting_cards }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text">SAFETY INITIATIVE</p></th>
+                                        <td><p class="is-size-5 text-weight-light text">{{ kpihse.reporting_cards }}</p></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="50%"><p class="is-size-5 text-weight-bold text"></p></th>
+                                        <td><p class="is-size-5 text-weight-light text"></p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><p></p></th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table is-list w-100">
+        <tbody>
+            <tr>
+                <td><p class="tablex is-size-5 text-weight-bold text"><b>HSE Status</b></p></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table is-list w-100">
+        <tbody>
+            <tr>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">Speed violation Counts</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">1</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Overspeeding duration</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Harsh braking Counts</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">2</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Harsh braking extreme counts</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                    </table>
+                </td>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">Harsh Acceleration Counts</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">3</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Harsh Acceleration Extreme Counts</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Hard cornering Counts</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">1</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Mileage covered</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">245km</p></th></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">Excessive idling Hrs</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">47</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Continuous Driving time (CDT)</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">389hrs</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Daily Driving Time (DDT)</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Daily Rest Time (DRT)</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">16730</p></th></tr>
+                    </table>
+                </td>
+                <td>
+                    <table class="table is-list w-100">
+                        <tr><td><p class="is-size-5 text-weight-light">Night Driving (ND)</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Weekly Driving Time (WDT)</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                        <tr><td><p class="is-size-5 text-weight-light">Weekly Rest Time (WRT)</p></td>
+                            <th><p class="is-size-5 text-weight-bold text">0</p></th></tr>
+                        <tr>
+                            <th><p></p></th>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

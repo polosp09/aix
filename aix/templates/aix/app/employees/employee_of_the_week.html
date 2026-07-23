@@ -1,0 +1,101 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        <div class="col-12">
+            {% block page_header %}employee_of_the_weeks
+            {% include './page_header.html' %}
+            {% endblock page_header %}
+        </div>
+        {% if not employee_of_the_weeks %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    <form action="{% url 'aix:employee-of-the-week-create' entity_slug=view.kwargs.entity_slug %}"
+                          method="post">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:employee-of-the-week-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> {% trans 'New Employee-Of-The-Week' %}</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                            <a href="{% url 'aix:employee-of-the-week-list' entity_slug=view.kwargs.entity_slug %}"
+                               class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                        </div>
+                        {% endif %}
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if employee_of_the_weeks %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="is-size-1 text-weight-thin">{% trans 'Employee-Of-The-Week List' %}</h1>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <a href="{% url 'aix:employee-of-the-week-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                            <i class="mdi mdi-plus"></i> {% trans 'New Employee-Of-The-Week' %}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="state-saving-datatable" class="table dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Week Number</th>
+                                        <th>Year</th>
+                                        <th>Count</th>
+                                        <th>Employee</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody>
+                                    {% for employee_of_the_week in employee_of_the_weeks %}
+                                    <tr>
+                                        <td>{{employee_of_the_week.week_number}}</td>
+                                        <td>{{employee_of_the_week.year}}</td>
+                                        <td>{{employee_of_the_week.count}}</td>
+                                        <td>{{employee_of_the_week.employee.first_name}}</td>
+                                        <td>
+                                            <a href="{% url  'aix:employee-of-the-week-update' entity_slug=view.kwargs.entity_slug employee_of_the_week_pk=employee_of_the_week.uuid %}" class="btn-sm btn-dark">edit</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}
+

@@ -1,0 +1,204 @@
+{% extends "aix/base.html"%}
+{% load crispy_forms_tags%}
+{%block content%}
+            <div class="row">
+                <div class="col-12"> 
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% block page_header %}
+                            {% include './page_header.html' %}
+                            {% endblock page_header %}
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:absence-date-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Absence Dates</a>
+                                        <a href="{% url  'aix:absence-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Absence Types</a>
+                                        <a href="{% url  'aix:announcement-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Announcements</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:benefit-calculation-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Benefit Calculations</a>
+                                        <a href="{% url  'aix:business-industry-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Business Industries</a>
+                                        <a href="{% url  'aix:benefit-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Benefit Types</a>
+                                        <a href="{% url  'aix:benefit-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Benefits</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:currency-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Currencies</a>
+                                        <a href="{% url  'aix:currency-rate-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Currency Rates</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:department-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Departments</a>
+                                        <a href="{% url  'aix:dependant-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Dependants</a>
+                                        <a href="{% url  'aix:document-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Document Statuses</a>
+                                        <a href="{% url  'aix:document-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Document Types</a>
+                                        <a href="{% url  'aix:document-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Documents</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:education-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Education</a>
+                                        <a href="{% url  'aix:employee-assignment-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee Assignments</a>
+                                        <a href="{% url  'aix:employee-avatar-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee Avatars</a>
+                                        <a href="{% url  'aix:employee-contract-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee Contract Types</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:employee-contract-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee Contracts</a>
+                                        <a href="{% url  'aix:employee-language-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee Languages</a>
+                                        <a href="{% url  'aix:employee-license-detail-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee License Details</a>
+                                        <a href="{% url  'aix:employee-license-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee License Types</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:employee-of-the-week-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee Of The Weeks</a>
+                                        <a href="{% url  'aix:employee-payroll-benefit-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee Payroll Benefits</a>
+                                        <a href="{% url  'aix:employee-payroll-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Employee Payrolls</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:holiday-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Holidays</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:immigration-detail-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Immigration Details</a>
+                                        <a href="{% url  'aix:incoming-document-handler-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Incoming Document Handlers</a>
+                                        <a href="{% url  'aix:incoming-document-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Incoming Document Types</a>
+                                        <a href="{% url  'aix:incoming-document-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Incoming Documents</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:insurance-detail-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Insurance Details</a>
+                                        <a href="{% url  'aix:invoice-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Invoice Actions</a>
+                                        <a href="{% url  'aix:invoice-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Invoice Statuses</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:invoice-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Invoice Types</a>
+                                        <a href="{% url  'aix:job-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Jobs</a>
+                                        <a href="{% url  'aix:language-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Languages</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:leave-card-carried-over-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Card Carried Overs</a>
+                                        <a href="{% url  'aix:leave-card-detail-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Card Details</a>
+                                        <a href="{% url  'aix:leave-card-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Cards</a>
+                                        <a href="{% url  'aix:leave-request-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Request Actions</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:leave-request-detail-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Request Details</a>
+                                        <a href="{% url  'aix:leave-request-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Request Statuses</a>
+                                        <a href="{% url  'aix:leave-request-workflow-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Request Workflow Actions</a>
+                                        <a href="{% url  'aix:leave-request-workflow-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Request Workflows</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:leave-request-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Leave Requests</a>
+                                        <a href="{% url  'aix:marital-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Marital Statuses</a>
+                                        <a href="{% url  'aix:nation-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Nations</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:payment-mode-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payment Modes</a>
+                                        <a href="{% url  'aix:payroll-advance-request-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Actions</a>
+                                        <a href="{% url  'aix:payroll-advance-request-detail-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Details</a>
+                                        <a href="{% url  'aix:payroll-advance-request-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Statuses</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:payroll-advance-request-workflow-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Workflow Actions</a>
+                                        <a href="{% url  'aix:payroll-advance-request-workflow-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Request Workflows</a>
+                                        <a href="{% url  'aix:payroll-advance-request-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Payroll Advance Requests</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:qualification-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Qualifications</a>
+                                        <a href="{% url  'aix:relationship-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Relationships</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:requisition-category-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Requisition Categories</a>
+                                        <a href="{% url  'aix:requisition-flow-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Requisition FlowTypes</a>
+                                        <a href="{% url  'aix:requisition-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Requisition Statuses</a>
+                                        <a href="{% url  'aix:requisition-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Requisition Actions</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:requisition-workflow-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Requisition Workflows</a>
+                                        <a href="{% url  'aix:skill-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Skills</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:task-assignee-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Task Assignees</a>
+                                        <a href="{% url  'aix:task-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Task Statuses</a>
+                                        <a href="{% url  'aix:tax-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Taxes</a>
+                                        <a href="{% url  'aix:visa-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Visas</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-secondary text-light">
+                                <div class="card-body">
+                                    <p class="card-text mb-2">
+                                        <a href="{% url  'aix:weekend-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Weekends</a>
+                                        <a href="{% url  'aix:weekly-employee-processed-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Weekly Employee Processeds</a>
+                                        <a href="{% url  'aix:weekly-employee-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Weekly Employees</a>
+                                        <a href="{% url  'aix:workflow-action-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Workflow Action Types</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Work Orders</a>
+                                        <a href="{% url  'aix:work-order-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Work Order Statuses</a>
+                                        <a href="{% url  'aix:work-order-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Work Order Types</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:workflow-action-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Workflow Actions</a>
+                                        <a href="{% url  'aix:workflow-status-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Workflow Statuses</a>
+                                        <a href="{% url  'aix:workflow-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Workflow Types</a>
+                                        <a href="{% url  'aix:workflow-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">Workflows</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{%endblock content%}

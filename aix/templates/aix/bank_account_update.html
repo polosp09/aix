@@ -1,0 +1,36 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-6-desktop">
+            <div class="card">
+        <div class="card-body">
+                <div class="columns">
+                    <div class="column text-centered">
+                        <h2 class="is-size-2">{{ bank_account.name }}</h2>
+                        <h2 class="is-size-3">{% trans 'Account' %}: {{ bank_account.account_number }}</h2>
+                        <h2 class="is-size-3">{% trans 'Routing' %}: {{ bank_account.routing_number }}</h2>
+                        <h2 class="is-size-4">{% trans 'ABA' %}: {{ bank_account.aba_number }}</h2>
+                    </div>
+                </div>
+                <form action="{% url 'aix:bank-account-update' entity_slug=view.kwargs.entity_slug bank_account_pk=bank_account.uuid %}"
+                      method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit"
+                            class="btn btn-primary is-outlined is-fullwidth djetler_my_1">{% trans 'Update' %}
+                    </button>
+                    <a href="{% url 'aix:bank-account-list' entity_slug=view.kwargs.entity_slug %}"
+                       class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

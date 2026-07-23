@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <style>
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{
+      margin:0;padding:0}
+
+      h1,h2,h3,h4,h5,h6{
+      font-size:100%;font-weight:normal}
+
+      html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{
+          margin:0;padding:0}
+      
+      h1,h2,h3,h4,h5,h6{
+      font-size:100%;font-weight:normal}
+      
+      ul{
+      list-style:none}
+      
+      button,input,select,textarea{
+      margin:0}
+      
+      html{
+      box-sizing:border-box}
+      
+      *,*::before,*::after{
+      box-sizing:inherit}
+      
+      img,video{
+      height:auto;max-width:100%}
+      
+      iframe{
+      border:0}
+      
+      table{
+      border-collapse:collapse;border-spacing:0}
+      
+      td,th{
+      padding:0}
+      
+      /* td:not([align]),th:not([align]){
+      text-align:inherit}
+      */
+      html{
+      background-color:#fff;font-size:16px;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;min-width:300px;overflow-x:hidden;overflow-y:scroll;text-rendering:optimizeLegibility;text-size-adjust:100%}
+      
+      article,aside,figure,footer,header,hgroup,section{
+      display:block}
+      
+      body,button,input,optgroup,select,textarea{
+      /* font-family:BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif */
+      font-family: "Raleway","Lucida Grande","Lucida Sans Unicode","Lucida Sans";  
+      }
+      
+      code,pre{
+      -moz-osx-font-smoothing:auto;-webkit-font-smoothing:auto;font-family:monospace}
+      
+      body{
+      color:#4a4a4a;font-size:1em;font-weight:550;line-height:1.5}
+      
+      a{
+      color:#485fc7;cursor:pointer;text-decoration:none}
+      
+      a strong{
+      color:currentColor}
+      
+      a:hover{
+      color:#363636}
+
+      .table .is-header, 
+      .table .is-section{border-top:1px solid #353535!important; border-left:1px solid #353535!important; border-bottom:none!important; 
+                    text-align: center!important; font-size:0.77em!important}
+      .table .is-header{background-color: #87bce7;}
+      .table .is-section{background-color: none}
+      .table .is-header p{padding:0.47em 0.47em 0 0.47em!important}
+      .table .is-header .img{padding-bottom:0.75em;width: auto}
+      /* .table .is-section td{padding:0.75em 0.55em 0.55em 0.55em;border-bottom:none} */
+      .table .is-list p{padding:0.45em 0.55em 0 0.55em}
+      .table .is-header td, .table .is-section td, .table .is-list td{border-bottom:1px solid #353535!important; border-left:1px solid #353535!important; border-top:none!important}
+      .table .is-header th, .table .is-section th, .table .is-list th{border-bottom:none!important}
+
+      .table .is-th-bg{background-color: #e2e2e2; color: #354f71;} /**#354f71**/
+      .table .is-no-border td{border:none;}
+      .table .is-no-border-left{border-left:none;}
+      .table .is-no-border-right{border-left:none;}
+      
+      /* .table.is-striped tbody tr:not(.is-selected):nth-child(even){
+      background-color:#fafafa}
+      */
+      .table-container{
+      -webkit-overflow-scrolling:touch;overflow:auto;overflow-y:hidden;max-width:100%;border:1px solid #ccc}
+
+      /* td.number, th.number{text-align: right;} */
+      .text{text-align: left;}
+      .number{text-align: right;}
+      
+      .is-size-1{
+      font-size:2.7rem !important}
+      
+      .is-size-2{
+      font-size:1.5rem !important}
+      
+      .is-size-3{
+      font-size:1.7rem !important}
+      
+      .is-size-4{
+      font-size:0.84rem !important}
+      
+      .is-size-5{
+      font-size:0.55rem !important;line-height: 1.25em}
+      
+      .is-size-6{
+      font-size:0.91rem !important;font-weight: bold}
+      
+      .is-size-7{
+      font-size:.75rem !important;font-weight: bold}
+      
+      b{
+          color: #296fa8;
+      }
+
+    .dexa-title{ font-size: 0.52em; }
+    .tablex { 
+        border-bottom: 1px solid #4a4a4a; 
+        /* background-color: #e2e2e2; */
+        padding: 3px;
+    }
+    .headerx{
+        padding-top: 0.47em;
+    }
+    
+    </style>
+</head>
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <!-- <th class="is-header"><p><b>ACTIVITY CODE:</b></p></th>
+                <th class="is-header"><p><b>TASK NUMBER:</b></p></th>
+                <th class="is-header"><p><b>WORK ORDER:</b></p></th>
+                <th>
+                    <p class="is-size-5 text-weight-light"><b>ACTIVITY DATE:</b></p>
+                </th>
+                <th>
+                    <p class="is-size-5 text-weight-light">TASK START DATE:</p>
+                </th>
+                <th>
+                    <p class="is-size-5 text-weight-light">TASK END DATE:</p>
+                </th>
+                <th>
+                    <p class="is-size-5 text-weight-light">W.ORDER START DATE:</p>
+                </th>
+                <th>
+                    <p class="is-size-5 text-weight-light">W.ORDER END DATE:</p>
+                </th>
+                <th class="is-header"><p>TRIP CODE</p></th>
+                <th class="is-header"><p>LAST ACTIVE DATE</p></th>
+                <th class="is-header"><p>TOTAL ACTIVE HOURS</p></th> -->
+                <th class="is-header"><p>EQUIPMENT TYPE</p></th>
+                <th class="is-header"><p>EQUIPMENT</p></th>
+                <th class="is-header"><p>START LOC.</p></th>
+                <th class="is-header"><p>END LOC.</p></th>
+                <th class="is-header"><p>DISTANCE</p></th>
+                <th class="is-header"><p>ETD</p></th>
+                <th class="is-header"><p>ETA</p></th>
+                <th class="is-header"><p>ATD</p></th>
+                <th class="is-header"><p>ATA</p></th>
+                <th class="is-header"><p>PERSONNEL</p></th>
+                <th class="is-header"><p>ASSETS</p></th>
+                <th class="is-header"><p>ACTIVE TIME</p></th>
+                <th class="is-header"><p>KMS_PASSED</p></th>            
+                <th class="is-header"><p>FUEL</p></th>
+                <th class="is-header"><p>INCIDENTS</p></th>
+                <th class="is-header"><p>INSPECTIONS</p></th>
+                <th class="is-header"><p>OPERATOR</p></th>
+                <th class="is-header"><p>BANKSMAN</p></th>
+                <th class="is-header"><p>CURRENT STATUS</p></th>
+                <th class="is-header"><p>TASK STATUS</p></th>
+                <th class="is-header"><p>Lifting Operations - [#]</p></th>
+                <th class="is-header"><p>Lifting Operations - [Tons]</p></th>
+                <th class="is-header"><p>Lifted/ Location [Ton]</p></th>
+                <th class="is-header"><p>Transported / Location [Ton]</p></th>
+                <th class="is-header"><p>Lifted/ Transported Totals</p></th>
+                <th class="is-header"><p>ROUTINE</p></th>
+                <th class="is-header"><p>ROUTINE</p></th>
+                <th class="is-header"><p>SIMPLE</p></th>
+                <th class="is-header"><p>COMPLICATED</p></th>
+                <th class="is-header"><p>COMPLEX</p></th>
+                <th class="is-header"><p>SIMPLE</p></th>
+                <th class="is-header"><p>COMPLICATED</p></th>
+                <th class="is-header"><p>COMPLEX</p></th>
+                <th class="is-header"><p>ROUTINE</p></th>
+                <th class="is-header"><p>SIMPLE</p></th>
+                <th class="is-header"><p>COMPLICATED</p></th>
+                <th class="is-header"><p>COMPLEX</p></th>
+                <th class="is-header"><p>DSB</p></th>
+                <th class="is-header"><p>TGI</p></th>
+                <th class="is-header"><p>RIG#1</p></th>
+                <th class="is-header"><p>RIG#2</p></th>
+                <th class="is-header"><p>RIG#3</p></th>
+                <th class="is-header"><p>OTHER</p></th>
+                <th class="is-header"><p>DSB</p></th>
+                <th class="is-header"><p>TGI</p></th>
+                <th class="is-header"><p>RIG#1</p></th>
+                <th class="is-header"><p>RIG#2</p></th>
+                <th class="is-header"><p>RIG#3</p></th>
+                <th class="is-header"><p>OTHER</p></th>
+                <th class="is-header"><p>DSB</p></th>
+                <th class="is-header"><p>TGI</p></th>
+                <th class="is-header"><p>RIG#1</p></th>
+                <th class="is-header"><p>RIG#2</p></th>
+                <th class="is-header"><p>RIG#3</p></th>
+                <th class="is-header"><p>OTHER</p></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for value in rpt_data %}
+            <tr>
+                <!-- values -->
+                <!-- <td>
+                    <p class="is-section number">
+                        {{ value.code }}
+                    </p>
+                </td>
+                <td>
+                    <p class="is-section number">
+                        {{ value.task.tripno }}
+                    </p>
+                </td>
+                <td>
+                    <p class="is-section number">
+                        {{ value.task.work_order.order_no }}
+                    </h2>
+                </td>
+                <td width="30%">
+                    <p class="is-section number">
+                        <b>{{ value.activity_date }}</b>
+                    </p>
+                </td>
+                <td>
+                    <p class="is-section number">
+                        {{ value.task.startdate }}
+                    </p>
+                </td>
+                <td>
+                    <p class="is-section number">
+                        {{ value.task.enddate }}
+                    </p>
+                </td>
+                <td>
+                    <p class="is-section number">
+                        {{ value.task.work_order.start_date }}
+                    </p>
+                </td>
+                <td>
+                    <p class="is-section number">
+                        {{ value.task.work_order.end_date }}
+                    </p>
+                </td>
+                <td class="is-section"><p>{{ value.code }}</p></td>
+                <td class="is-section"><p>{{ value.activity_date }}</p></td>
+                <td class="is-section"><p>{{ value.activity_time }}</p></td>
+                <td class="is-section"><p>{{ value.from_location }}</p></td>
+                <td class="is-section"><p>{{ value.to_ocation }}</p></td>
+                <td class="is-section"><p>{{ value.task.tripdistance }}</p></td> -->
+                <td class="is-section"><p>{{ value.etd }}</p></td>
+                <td class="is-section"><p>{{ value.eta }}</p></td>
+                <td class="is-section"><p>{{ value.atd }}</p></td>
+                <td class="is-section"><p>{{ value.ata }}</p></td>
+                <td class="is-section"><p>{{  ops_digest.personnel }}</p></td>
+                <td class="is-section"><p>{{  ops_digest.assets }}</p></td>
+                <td class="is-section"><p>{{ value.activity_time }}</p></td>
+                <td class="is-section"><p>{{ value.kms_passed }}</p></td>
+                <td class="is-section"><p>{{ value.consol_fuel }}</p></td>
+                <td class="is-section"><p>{{ ops_digest.incidents }}</p></td>
+                <td class="is-section"><p>{{ ops_digest.inspections }}</p></td>
+            
+                <td class="is-section"><p>{{ value.operator }}</p></td>
+                <td class="is-section"><p>{{ value.banksman }}</p></td>
+                <td class="is-section"><p>{{ value.status }}</p></td>
+                <td class="is-section"><p>{{ value.task.currentstatus }}</p></td>
+                <td class="is-section"><p>{{ value.no_routine }}</p></td>
+                <td class="is-section"><p>{{ value.no_simple }}</p></td>
+                <td class="is-section"><p>{{ value.no_complicated }}</p></td>
+                <td class="is-section"><p>{{ value.no_complex }}</p></td>
+                <td class="is-section"><p>{{ value.ton_routine }}</p></td>
+                <td class="is-section"><p>{{ value.ton_simple }}</p></td>
+                <td class="is-section"><p>{{ value.ton_complicated }}</p></td>
+                <td class="is-section"><p>{{ value.ton_complex }}</p></td>
+        
+                <td class="is-section"><p>{{ value.llt_dsb }}</p></td>
+                <td class="is-section"><p>{{ value.llt_tgi }}</p></td>
+                <td class="is-section"><p>{{ value.llt_rig1 }}</p></td>
+                <td class="is-section"><p>{{ value.llt_rig2 }}</p></td>
+                <td class="is-section"><p>{{ value.llt_rig3 }}</p></td>
+                <td class="is-section"><p>{{ value.llt_other }}</p></td>
+        
+                <td class="is-section"><p>{{ value.tlt_dsb }}</p></td>
+                <td class="is-section"><p>{{ value.tlt_tgi }}</p></td>
+                <td class="is-section"><p>{{ value.tlt_rig1 }}</p></td>
+                <td class="is-section"><p>{{ value.tlt_rig2 }}</p></td>
+                <td class="is-section"><p>{{ value.tlt_rig3 }}</p></td>
+                <td class="is-section"><p>{{ value.tlt_other }}</p></td>
+            
+                <td class="is-section"><p>{{ value.dnt_dsb }}</p></td>
+                <td class="is-section"><p>{{ value.dnt_tgi }}</p></td>
+                <td class="is-section"><p>{{ value.dnt_rig1 }}</p></td>
+                <td class="is-section"><p>{{ value.dnt_rig2 }}</p></td>
+                <td class="is-section"><p>{{ value.dnt_rig3 }}</p></td>
+                <td class="is-section"><p>{{ value.dnt_other }}</p></td>
+        
+                <td class="is-section"><p>0</p></td>
+                <td class="is-section"><p>0</p></td>
+                <td class="is-section"><p>0</p></td>
+                <td class="is-section"><p>0</p></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

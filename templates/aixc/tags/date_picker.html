@@ -1,0 +1,8 @@
+{% load i18n %}
+
+{% if date_navigation_url %}
+    <button id="{{ date_picker_id }}" data-baseurl="{{ date_navigation_url }}"
+            class="btn-sm is-rounded btn-dark is-outlined">{% trans 'Select Date' %}</button>
+            <a href="{{ date_navigation_url }}" class="btn btn-primary">{% trans 'Select Date' %}</a>
+{% endif %}
+

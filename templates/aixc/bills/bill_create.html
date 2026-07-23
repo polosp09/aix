@@ -1,0 +1,47 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    {% include 'aix/includes/messages.html' with messages=messages %}
+    <div class="columns is-multiline is-centered mt-2">
+        <div class="column is-6-desktop">
+            <div class="card">
+                    {# todo: why pass form action url?? #}
+                    <form action="{{ form_action_url }}" method="post" id="djl-bill-create-form-id">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            {% if po_model %}
+                                <h2 class="titles text-h3">{% trans 'Bill for' %} {{ po_model.po_number }}</h2>
+                                <h3 class="subtitle text-weight-light">{% trans 'Bill for' %} {{ po_model.po_title }}</h3>
+                                {% for po_item in po_items %}
+                                    <p>{{ po_item }}</p>
+                                {% endfor %}
+                            {% else %}
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                            {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            {{ form.as_p }}
+                            <button type="submit"
+                                    id="djl-bill-create-button"
+                                    class="btn btn-primary is-outlined is-fullwidth my-2">Create
+                            </button>
+                            <a href="{% url 'aix:bill-list' entity_slug=view.kwargs.entity_slug %}"
+                                id="djl-bill-create-back-button"
+                                class="btn-sm btn-dark is-fullwidth">{% trans 'Cancel' %}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

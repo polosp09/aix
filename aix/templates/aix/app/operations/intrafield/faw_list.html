@@ -1,0 +1,40 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    {% block page_header %}
+    {% include '../page_header.html' %}
+    {% endblock page_header %}
+    {% if work_order %}
+        <div class="card m-2">
+            <div class="card-body">
+                <h2 class="title">{% trans 'WO - ' %} {{ work_order.order_no }}<br />
+                    {% trans 'Title. ' %} {{ work_order.remarks }}</h2>
+                <h3 class="subtitle text-weight-light">{{ work_order.customer }}</h3>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="card p-2">
+        <div class="card-body">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a href="{% url 'aix:faw-create-work-order' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-success mr-1">
+                            <i class="mdi mdi-plus"></i> {% trans 'New FAW' %}</a></a>
+                        <a href="{% url 'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">WO LIST</a>
+                    </div>
+                </div>
+            </div>
+
+            {% faw_table faw_list %}
+
+        </div>
+    </div>
+{% endblock %}

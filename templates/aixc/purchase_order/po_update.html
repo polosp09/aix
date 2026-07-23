@@ -1,0 +1,51 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    {% include 'aix/includes/messages.html' with messages=messages %}
+    <div class="container">
+        <div class="columns is-multiline p-2">
+            <div class="column">
+                {% include 'aix/includes/card_po.html' with style='po-detail' po_model=po_model entity_slug=view.kwargs.entity_slug %}
+            </div>
+            <div class="column is-12">
+                <form action="{% url 'aix:po-update-fuel' entity_slug=view.kwargs.entity_slug po_pk=po_model.uuid %}"
+                      method="post">
+                    <div class="columns is-multiline">
+                        <div class="column is-12">
+                            {% csrf_token %}
+                            {{ form }}
+                            {% if po_active_module == 'fuel' %}
+                                <button type="submit"
+                                        class="btn btn-primary is-fullwidth djetler_my_1">{% trans 'Save FPO' %}
+                                </button>
+                                <a href="{% url 'aix:po-detail-fuel' entity_slug=view.kwargs.entity_slug po_pk=po_model.uuid %}"
+                                    class="btn-sm btn-dark is-fullwidth mt-2">{% trans 'Back to FPO Detail' %}</a>
+                                <a href="{% url 'aix:po-list-fuel' entity_slug=view.kwargs.entity_slug %}"
+                                    class="btn-sm is-info is-fullwidth mt-2">{% trans 'FPO List' %}</a>
+                            {% else %}
+                                <button type="submit"
+                                        class="btn btn-primary is-fullwidth djetler_my_1">{% trans 'Save PO' %}
+                                </button>
+                                <a href="{% url 'aix:po-detail' entity_slug=view.kwargs.entity_slug po_pk=po_model.uuid %}"
+                                    class="btn-sm btn-dark is-fullwidth mt-2">{% trans 'Back to PO Detail' %}</a>
+                                <a href="{% url 'aix:po-list' entity_slug=view.kwargs.entity_slug %}"
+                                    class="btn-sm is-info is-fullwidth mt-2">{% trans 'PO List' %}</a>
+                            {% endif %}
+                            <a href="{% url 'aix:entity-dashboard' entity_slug=view.kwargs.entity_slug %}"
+                               class="btn-sm is-info is-outlined is-fullwidth mt-2">{% trans 'Go To Dashboard' %}</a>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% if po_active_module == 'fuel' %}
+                {% po_fuel_item_formset_table item_formset %}
+            {% else %}
+                {% po_item_formset_table item_formset %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

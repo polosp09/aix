@@ -1,0 +1,46 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+
+    <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th>{% trans 'Number' %}</th>
+            <th>{% trans 'Status' %}</th>
+            <th>{% trans 'Status Date' %}</th>
+            <th>{% trans 'Supplier' %}</th>
+            <th>{% trans 'Amount Due' %}</th>
+            <th>{% trans 'Payments' %}</th>
+            <th>{% trans 'Past Due' %}</th>
+            <th>{% trans 'Actions' %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for bill in bills %}
+            <tr id="{{ bill.get_html_id }}">
+                <td>{{ bill.bill_number }}</td>
+                <td>{{ bill.get_bill_status_display }}</td>
+                <td>{{ bill.get_status_action_date }}</td>
+                <td>{{ bill.vendor.vendor_name }}</td>
+                <td id="{{ bill.get_html_amount_due_id }}">
+                    {% currency_symbol %}{{ bill.amount_due | currency_format }}</td>
+                <td id="{{ bill.get_html_amount_paid_id }}">
+                    {% currency_symbol %}{{ bill.amount_paid | currency_format }}</td>
+                <td class="has- text-centered">
+                    {% if bill.is_past_due %}
+                        <span class="icon is-small text-danger">{#{% icon 'bi:check-circle-fill' 24 %}#}</span>
+                    {% endif %}
+                </td>
+                <td class="has- text-centered">
+                    <a href="{% url 'aix:bill-detail' entity_slug=entity_slug bill_pk=bill.uuid %}"
+                        class="btn-sm text-success">Details</a>
+                    <a href="{% url 'aix:bill-update' entity_slug=entity_slug bill_pk=bill.uuid %}"
+                        class="btn-sm text-warning-dark">Update</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>

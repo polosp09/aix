@@ -1,0 +1,31 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+<div class="columns is-multiline is-centered">
+    <div class="column is-6">
+        <div class="card">
+
+            <form action="{% url 'aix:unit-create' entity_slug=view.kwargs.entity_slug %}" method="post">
+                {% csrf_token %}
+                <div class="card-header">
+                    <h2 class="card-header-title">
+                                <span class="icon is-medium">
+                                   {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                </span>{{ page_title }}</h2>
+                </div>
+                <div class="card-body">
+                    {{ form.as_p }}
+                    <button class="btn btn-primary mt-2">{% trans 'Create' %}</button>
+                    <a class="btn-sm btn-dark mt-2"
+                       href="{% url 'aix:unit-list' entity_slug=view.kwargs.entity_slug %}">{% trans 'Back' %}</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

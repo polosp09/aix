@@ -1,0 +1,28 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+    <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th>UOM</th>
+            <th>Expense Account</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for expense_item in expense_list %}
+            <tr>
+                <td>{{ expense_item.name }}</td>
+                <td>{{ expense_item.uom }}</td>
+                <td>{{ expense_item.expense_account }}</td>
+                <td>
+                    <a href="{% url 'aix:expense-update' entity_slug=entity_slug item_pk=expense_item.uuid %}"
+                        class="btn-sm text-primary">{% trans 'Update' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

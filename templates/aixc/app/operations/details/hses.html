@@ -1,0 +1,51 @@
+{% block content_hses %}
+{% load aix %}
+{% load crispy_forms_tags%}
+                    <div>
+                        <div class="row">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        Activities for <b>{{work_order.order_no}}</b>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item text-center">
+                                        <a href="{% url 'aix:kpi-hse-create-wo' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add HSE Activity</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-1">
+                        <table id="state-saving-datatable" class="table dt-responsive nowrap w-100" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <!-- <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> -->
+                        
+                            <thead>
+                                <tr>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Start Location</th>
+                                    <th>End Location</th>
+                                    <th>Option</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for hse in wo_hse_qs %}
+                                <tr>
+                                <td>{{ hse.code }}</td>
+                                <td>{{ hse.activity_date }}</td>
+                                <td>{{ hse.start_time }}</td>
+                                <td>{{ hse.end_time }}</td>
+                                <td>
+                                    {# comment #}
+                                    <a href="{% url  'aix:kpi-hse-update' entity_slug=entity_slug work_order_hse_pk=hse.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                    <a href="{% url  'aix:kpi-hse-details' entity_slug=entity_slug work_order_hse_pk=hse.uuid %}" class="btn-sm btn-dark">Details</a>
+                                    {# endcomment #}
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{% endblock content_hses %}

@@ -1,0 +1,160 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row">
+            <div class="col-12">
+                {% block page_header %}
+                {% include '../page_header.html' %}
+                {% endblock page_header %}
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body border-danger">
+                                <table width="100%">
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <th>Task</th>
+                                                <td>{{ work_order_task.taskno }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Start Date</th>
+                                                <td>{{ work_order_task.startdate }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>End Date</th>
+                                                <td>{{ work_order_task.enddate }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <th>Client Ref</th>
+                                                <td>{{ work_order_task.startmileage }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Client</th>
+                                                <td>{{ work_order_task.endmileage }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <table width="100%">
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th>Tasks</th>
+                                            <td>{{ work_order.tasks }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Invoiced</th>
+                                            <td>{{ work_order.total_invoiced }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Paid</th>
+                                            <td>{{ work_order.total_paid }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th>Assets</th>
+                                            <td>{{ work_order.assets }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Active</th>
+                                            <td>{{ work_order.assets_active }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Inactive</th>
+                                            <td>{{ work_order.assets_inactive }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <th>Personnel</th>
+                                            <td>{{ work_order.personnel }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Active</th>
+                                            <td>{{ work_order.personnel_active }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Inactive</th>
+                                            <td>{{ work_order.personnel_inactive }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="level">
+                                            <div class="level-left">
+                                                <div class="level-item">
+                                                    Activities for: <b>{{work_order_task.taskno}}</b>
+                                                </div>
+                                            </div>
+                                            <div class="level-right">
+                                                <div class="level-item text-center">
+                                                    <a href="{% url 'aix:kpi-ops-create-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=work_order_task.uuid %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Activity</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                {% block content_tasks %}
+                                                {% include './activities.html' with entity_slug=view.kwargs.entity_slug task=work_order_task activities=task_digest.ops_qs %}
+                                                {% endblock content_tasks %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+{%endblock content%}
+{% block extra_javascript %}
+        <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.f.write.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+       <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script> 
+       <script src="{% static 'js/pages/datatables.init.js' %}"></script>
+{% endblock extra_javascript %}

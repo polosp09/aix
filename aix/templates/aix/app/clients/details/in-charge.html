@@ -1,0 +1,87 @@
+{% block content_in_charges %}
+{% load crispy_forms_tags%}
+                    <div>
+                        <a href="javascript:void(0);" class="btn-sm btn-success mb-2" data-bs-toggle="modal" data-bs-target="#in_charge"><i class="mdi mdi-plus me-2"></i> Add Profile</a>
+                        
+                        <form action="{% url 'aix:client-in-charge-create' entity_slug=view.kwargs.entity_slug customer_pk=customer.uuid %}" method="post" autocomplete="off">
+                        <div class="modal fade" id="in_charge" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollable-title" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalScrollable-title">New Profile</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {%csrf_token%}
+                                        {{ customer_forms.add_in_charge }}
+                                        {% comment %}
+                                        <div class="row">
+                                            <div class="col-4">
+                                                {{ customer_forms.add_in_charge.date|as_crispy_field }}
+                                            </div>
+                                            <div class="col-4">
+                                                {{ customer_forms.add_in_charge.employee|as_crispy_field }}
+                                            </div>
+                                            <div class="col-4">
+                                                {{ customer_forms.add_in_charge.in_charge_status|as_crispy_field }}
+                                            </div>
+                                            <div class="col-12">
+                                                {{ customer_forms.add_in_charge.notify_client|as_crispy_field }}
+                                            </div>
+                                            <div class="col-6">
+                                                {{ customer_forms.add_in_charge.value_from|as_crispy_field }}
+                                            </div>
+                                            <div class="col-6">
+                                                {{ customer_forms.add_in_charge.value_to|as_crispy_field }}
+                                            </div>
+                                            <div class="mt-12">
+                                                {{ customer_forms.add_in_charge.description|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        {% endcomment %}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save Acivity</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                        </form>
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20px;">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="checkboxall">
+                                            <label class="form-check-label mb-0" for="checkboxall">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th>Name</th>
+                                    <th>D.O.B</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for client_in_charge in client_in_charges %}
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input type="checkbox" name="chkbox" class="form-check-input" id="checkboxall1">
+                                            <label class="form-check-label mb-0" for="checkboxall1">&nbsp;</label>
+                                        </div>
+                                    </td>
+                                    <td>{{client_in_charge.first_name}}</td>
+                                    <td>{{client_in_charge.date_of_birth}}</td>
+                                    <td>{{client_in_charge.client.name}}</td>
+                                    <td>
+                                        <a href="{% url  'aix:client-in-charge-update' entity_slug=view.kwargs.entity_slug client_in_charge_pk=client_in_charge.uuid %}" class="btn-sm btn-dark">edit</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+{% endblock content_in_charges %}

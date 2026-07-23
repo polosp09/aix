@@ -1,0 +1,30 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-6">
+            <form action="{% url 'aix:jcd-delete' entity_slug=view.kwargs.entity_slug jcd_pk=jcd_model.uuid %}"
+                  method="post">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-content text-centered">
+                        <p class="title text-weight-light">Are you sure you want to delete
+                            Jobcard {{ jcd_model.jcd_number }}</p>
+                    </div>
+                    <div class="card-content text-centered">
+                        <p class="subtitle">All transactions associated with this Jobcard will be deleted.
+                            If you want to void the JOBCARD instead, click here</p>
+                    </div>
+                    <div class="card-content text-centered">
+                        <a href="{% url 'aix:jcd-detail' entity_slug=view.kwargs.entity_slug jcd_pk=jcd_model.uuid %}"
+                           class="btn btn-primary">{% trans 'Go Back' %}</a>
+                        <button type="submit" class="btn btn-danger">{% trans 'Delete' %}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

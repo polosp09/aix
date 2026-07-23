@@ -1,0 +1,41 @@
+
+{% block page_header %}
+    <div class="card">
+        <div class="card-body dexa-titles text-light dexa-border-bottom">
+            
+            <div class="row">
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            {% if work_order_task %}
+                            <span class="text-dark text-h2 pl-1">TASK: <b>{{ work_order_task }}</b></span>
+                            {% else %}
+                                {% if kpiops %}
+                                <span class="text-dark text-h2 pl-1"><b>KPI ACTIVITY</b></span>
+                                {% else %}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item text-center">
+                            {% if work_order_task %}
+                                {% for group in request.user.groups.all %}
+                                {% if group.name == 'TotalProjectManager' or group.name == 'OperationsManager' or group.name == 'ProjectManager' or group.name == 'Admins' %} 
+                                <a href="{% url  'aix:work-order-task-create-wo' entity_slug=view.kwargs.entity_slug work_order_pk=work_order_task.work_order.uuid %}" class="btn-sm btn-success">New Task</a>
+                                {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% if work_order_task_pk %}
+                                <a href="{% url  'aix:work-order-task-details' entity_slug=view.kwargs.entity_slug work_order_task_pk=work_order_task_pk %}" class="btn-sm btn-success">Back</a>
+                                <a href="{% url  'aix:kpi-ops-create-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=view.kwargs.work_order_task_pk %}" class="btn-sm btn-success">New Activity</a>
+                                {% else %}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_header%}

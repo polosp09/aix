@@ -1,0 +1,46 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+            <div class="row">
+                <div class="col-12"> 
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% block page_header %}
+                            {% include 'clients/page_header.html' %}
+                            {% endblock page_header %}
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Contacts</h3>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card bg-dark text-light">
+                                <div class="card-body">
+                                    <h3 class="mb-4 text-light"><i class="mdi mdi-alert-circle me-3"></i>Engagement</h3>
+                                    <p class="card-text">
+                                        <a href="{% url  'aix:engagement-done-by-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">DoneBy</a>
+                                        <a href="{% url  'aix:engagement-notify-with-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Notify-With</a>
+                                    </p>
+                                    <p>
+                                        <a href="{% url  'aix:engagement-type-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Engagement Types</a>
+                                        <a href="{% url  'aix:engagement-list' entity_slug=view.kwargs.entity_slug %}" class="btn btn-primary">Engagements</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{%endblock content%}

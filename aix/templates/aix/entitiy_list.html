@@ -1,0 +1,47 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-7">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-header-title">{% trans 'Companies' %}</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                {% for entity in entities %}
+                                <div class="col-md-4">
+                                    <div class="product-color mt-3">
+                                        <a href="#" class="not-active">
+                                            <div class="product-color-item">
+                                                <img src="{% static 'images/companies/img-2.png' %}" alt="img-1" class="avatar-md m-2">
+                                            </div>
+                                            <p>{{ entity.name }}</p>
+                                            <p>
+                                                <a href="{{ entity.get_dashboard_url }}" class="text-light btn-sm btn-primary">Dashboard</a> 
+                                                <a href="{{ entity.get_manage_url }}" class="text-light btn-sm btn-dark">Manage</a> 
+                                                <a href="{{ entity.get_delete_url }}" class="text-light btn-sm btn-danger">Delete</a>
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                            <footer class="card-footer mt-5 text-center">
+                                <a href="{% url 'aix:entity-create' %}" class="btn-sm btn-success">
+                                    <i class="mdi mdi-plus"></i> {% trans 'New Company' %}</a>
+                            </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}

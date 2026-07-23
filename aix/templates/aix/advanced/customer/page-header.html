@@ -1,0 +1,26 @@
+
+{% block page_header %}
+<div class="row">
+    <div class="col-12"> 
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h3 class="mb-4"><i class="mdi mdi-alert-circle-outline me-3"></i>Customer</h3>
+                        <p class="card-text">Manage all client info.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <h3 class="mb-4"><i class="mdi mdi-alert-circle me-3"></i>Options</h3>
+                        <p class="card-text">
+                            <a href="{% url 'aix:customer-list' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-dark">LIST</a>
+                            <a href="{% url 'aix:customer-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-info mb-2"><i class="mdi mdi-plus me-2"></i>Add Customer</a>
+                            <!--<a href="javascript:void(0);" class="btn-sm btn-info mb-2" data-bs-toggle="modal" data-bs-target="#new-customer"><i class="mdi mdi-plus me-2"></i>Add Customer</a>
+                            <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable">Scrollable modal</button>-->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_header%}

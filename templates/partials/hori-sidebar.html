@@ -1,0 +1,36 @@
+{% load static %}
+{% block sidebar %}
+		<div class="topnav">
+			<div class="container-fluid">
+				<nav class="navbar navbar-light navbar-expand-lg topnav-menu">
+					<div class="collapse navbar-collapse" id="topnav-menu-content">
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'dashboard' %}" key="t-dashboard"> <i class="ri-dashboard-line me-2"></i> Dashboard</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'dashboard' %}" class="waves-effect"> <i class="ri-dashboard-line"></i>
+									<span key="t-dashboards">Dashboard</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'customer-list' %}" class="waves-effect"> <i class="ri-user-2-line"></i>
+									<span key="t-dashboards">Customers</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'product-list' %}" class="waves-effect"> <i class="ri-bar-chart-fill"></i>
+									<span key="t-dashboards">Products</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'bill-list' %}" class="waves-effect"> <i class="ri-money-dollar-circle-line"></i>
+									<span key="t-dashboards">Bills</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</div>
+{% endblock sidebar %}

@@ -1,0 +1,64 @@
+{% load aix %}
+{% load i18n %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-header-title text-weight-light is-size-3">
+            <span class="icon is-large">
+                    {#{% icon 'bi:person-lines-fill' 36 %}#}</span>
+            {% trans 'All - Customer Invoices' %}</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-container">
+                <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
+                    <thead>
+                    <tr>
+                        <th>Invoice Number</th>
+                        <th>Status Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for invoice in invoices %}
+                        <tr>
+                            <td>{{ invoice.invoice_number }}</td>
+                            <td>{{ invoice.get_status_action_date }}</td>
+                            <td>{% currency_symbol %}{{ invoice.amount_due | currency_format }}</td>
+                            <td>{{ invoice.get_invoice_status_display }}
+                                <progress
+                                    class="progress {{ tx_digest.ratios.gross_profit_margin | fin_ratio_threshold_class:'gross_profit_margin' }}"
+                                    value="{{ invoice.amount_paid }}"
+                                    max="{{ invoice.amount_due }}">{{ amount_paid }}</progress>
+                            </td>
+                            <td>
+                                <div class="dropdown is-right is-hoverable" id="invoice-action-{{ invoice.uuid }}">
+
+                                    <div class="dropdown-trigger">
+                                        <button class="btn-sm is-rounded is-outlined is-dark"
+                                                aria-haspopup="true"
+                                                aria-controls="dropdown-menu">
+                                            <span>{% trans 'Actions' %}</span>
+                                            <span class="icon is-small">{#{% icon 'bi:arrow-down' 24 %}#}</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="dropdown-menu" id="dropdown-menu-{{ invoice.uuid }}" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="{% url 'aix:invoice-detail' entity_slug=entity_slug invoice_pk=invoice.uuid %}"
+                                            class="dropdown-item text-success">Details</a>
+                                            <a href="{% url 'aix:invoice-update' entity_slug=entity_slug invoice_pk=invoice.uuid %}"
+                                            class="dropdown-item text-success">Update</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

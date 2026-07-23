@@ -1,0 +1,24 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <h1 class="is-size-2">Pending Transactions</h1>
+                {% data_import_job_txs_pending %}
+            </div>
+            <div class="column is-12">
+                <h2 class="is-size-2">Imported Transactions</h2>
+                {% data_import_job_txs_imported %}
+            </div>
+            <div class="column is-12 text-centered">
+                <a class="btn btn-dark"
+                   href="{% url "aix:data-import-jobs-list" entity_slug=view.kwargs.entity_slug %}">Back</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

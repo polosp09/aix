@@ -1,0 +1,122 @@
+{% extends 'aix/layouts/content_layout_2.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="p-2">
+                            <h3>Search Filter</h3>
+                            <!-- <form method="GET" action="."> -->
+                            <form action="{% url 'aix:report-filter' entity_slug=entity_slug %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <div class="input-group">
+                                            <input class="form-control py-2 border-right-0 border" type="search" name="title_contains" placeholder="Title contains..." />
+                                            <span class="input-group-append">
+                                                <div class="input-group-text bg-transparent">
+                                                    <i class="fa fa-search"></i>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>        
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <div class="input-group">
+                                            <select id="report" name="report" class="form-control py-2 border-right-0 border" type="search" name="sort_by" placeholder="Order By...">
+                                                <option hidden selected value="" id="nullreport">Select field 1</option>
+                                                <option value="C">Status Reportc</option>
+                                                <!-- <option value="A">Work Orders</option>
+                                                <option value="B">Tasks</option>
+                                                <option value="C">Activities</option>
+                                                <option value="C">Daily Performance</option>
+                                                <option value="C">Weekly Performance</option>
+                                                <option value="C">Monthly Performance</option> -->
+                                            </select>
+                                            <span class="input-group-append">
+                                                <div class="input-group-text bg-transparent">
+                                                    <i class="fa fa-search"></i>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>        
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <div class="input-group">
+                                            <select id="sortby" class="form-control py-2 border-right-0 border dexa-forms" type="select" name="sortby" placeholder="Sort By...">
+                                                <option hidden selected value="" id="nullsortby">Select a Column</option>
+                                                <!-- <option value="1" parent="A">Order Number</option>
+                                                <option value="2" parent="A">Start Date</option>
+                                                <option value="3" parent="A">End Date</option>
+                                                <option value="3" parent="B">Trip Number</option>
+                                                <option value="4" parent="B">Start Date</option>
+                                                <option value="5" parent="C">Activity <Code></Code></option>
+                                                <option value="6" parent="C">Start Date</option> -->
+                                            </select>
+                                            <span class="input-group-append">
+                                                <div class="input-group-text bg-transparent">
+                                                    <i class="fa fa-search"></i>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>        
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="orderby">Order By</label>
+                                        <select id="orderby" class="form-control py-2 border-right-0 border dexa-forms" type="select" name="orderby" placeholder="Order By...">
+                                            <option hidden selected value="" id="nullorderby">Select a Column</option>
+                                            <!-- <option value="1" parent="A">Order Number</option>
+                                            <option value="2" parent="A">Start Date</option>
+                                            <option value="3" parent="A">End Date</option>
+                                            <option value="3" parent="B">Trip Number</option>
+                                            <option value="4" parent="B">Start Date</option>
+                                            <option value="5" parent="C">Activity <Code></Code></option>
+                                            <option value="6" parent="C">Start Date</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </form>
+                            <hr />
+
+                            <div class="row">
+                                {% if querysets %}
+                                <p>{{ queryset }}</p>
+                                {% endif %}
+                                <ul>
+                                {% for journal in queryset %}
+                                    <li>
+                                    {{ journal.sortby }}
+                                    <span>Author: {{ journal.author.name }}</span>
+                                    <span>
+                                        {% for cat in journal.categories.all %}
+                                        {{ cat }}
+                                        {% endfor %}
+                                    </span>
+                                    <span>Publish date: {{ journal.publish_date }}</span>
+                                    <span>View count: {{ journal.views }}</span>
+                                    <span>Reviewed: {{ journal.reviewed }}</span>
+                                    </li>
+                                    <hr />
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <div class="col-12">
+                <p>{{ entity_slug }}xx</p>
+            </div>
+            <!-- end row-->
+        </div>
+    </div> <!-- end row -->
+{%endblock content%}

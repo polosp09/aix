@@ -1,0 +1,385 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+        <div class="row m-0">
+            <div class="col-12 p-0">
+                {% block page_header %}
+                {% include '../page_header.html' %}
+                {% endblock page_header %}
+            </div>
+            <div class="col-7 p-0 dexa-white dexa-border">
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>ACTIVITY</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>TASK</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>DATE</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-danger text-h3 text-light text-center"><b>{{ activity.code}}</b></div>
+                    <div class="col-4 bg-danger text-h3 text-light text-center"><b>{{ activity.task.tripno}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ activity.activity_date}}</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>DISTANCE</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>START-LOCATION</b></div>
+                    <div class="col-4 toast-dark text-h4 text-light text-center"><b>END-LOCATION</b></div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ activity.task.tripdistance}} km</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ activity.from_location}}</b></div>
+                    <div class="col-4 bg-secondary text-h2 text-light text-center"><b>{{ activity.to_location}}</b></div>
+                </div>
+                <!-- <span class="col-lg-3 bg-danger pa-2 text-h2"><b>START-DATE: {{ activity.startdate}}</b></span>
+                <span class="col-lg-3 bg-danger pa-2 text-h2"><b>END-DATE: {{ activity.enddate}}</b></span> -->
+            <!-- </div>
+            <div class="col-7 dexa-white"> -->
+                <table width="100%">
+                    <tr>
+                        <td width="30%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ETD</b></th></tr>
+                                <tr><td>{{ activity.etd }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2.5%"></td> -->
+                        <td width="30%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ETA</b></th></tr>
+                                <tr><td>{{ activity.eta }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2.5%"></td> -->
+                        <td width="30%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ATD</b></th></tr>
+                                <tr><td>{{ activity.atd }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="30%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ATA</b></th></tr>
+                                <tr><td>{{ activity.ata }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td><p></p></td></tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>EST. TIME</b></th></tr>
+                                <tr><td>{{ activity.activity_time }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>ACTUAL. TIME</b></th></tr>
+                                <tr><td>{{ activity.activity_time }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>DISTANCE COVERED</b></th></tr>
+                                <tr><td>{{ activity.kms_passed }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>FUEL CONSUMED</b></th></tr>
+                                <tr><td>{{ activity.consol_fuel }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>OPERATORS</b></th></tr>
+                                <tr><td>{{ activity.operators }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>BANKSMEN</b></th></tr>
+                                <tr><td>{{ activity.banksmen }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <!-- <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG# 1501</b></th></tr>
+                                <tr><td>{{ activity.rigger1 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG# 1502</b></th></tr>
+                                <tr><td>{{ activity.rigger2 }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>RIG# 1503</b></th></tr>
+                                <tr><td>{{ activity.rigger3 }}</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table> -->
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>CARGO</b></th></tr>
+                                <tr><td>{{ activity.section2_ton_cargo }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th width="100%"><b>TIME</b></th></tr>
+                                <tr><td width="100%">{{ activity.section2_time_taken }}</td></tr>
+                            </table>
+                        </td>
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>LIFTS [No.#]</b></th></tr>
+                                <tr><td>{{ activity.section2_number_lifts }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                        <td width="25%">
+                            <table class="dexa-tablex w-100">
+                                <tr><th><b>LIFTS [TON]</b></th></tr>
+                                <tr><td>{{ activity.section2_ton_lifts }}</td></tr>
+                            </table>
+                        </td>
+                        <!-- <td width="2%"></td> -->
+                    </tr>
+                </table>
+                <div class="is-bg-light dexa-border-bottom mt-4 p-2">
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <b>Lifting Equipment Used</b>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <div class="level-item">
+                                {% for group in request.user.groups.all %}
+                                {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                <a href="{% url 'aix:work-order-activity-lifting-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Lifting Record</a>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Equipment</th>
+                                <th>Type</th>
+                                <th>Supervisors</th>
+                                <th>Operator</th>
+                                <th>Banksmen</th>
+                                <th>Equipment</th>
+                                <th>Status</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lifting in activity_digest.liftings %}
+                            <tr>
+                                <td>{{ lifting.equipment.name }}</td>
+                                <td>{{ lifting.equipment.vehicle_type }}</td>
+                                <td>{{ lifting.supervisor }}</td>
+                                <td>{{ lifting.operator.name }} {{ lifting.designation }}</td>
+                                <td>{% for op in lifting.operators.all %} {{op.name}} - {% endfor %}</td>
+                                <td>{{ lifting.status }}</td>
+                                <td>
+                                    <a href="{% url  'aix:work-order-activity-lifting-update-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=activity.uuid work_order_activity_lifting_pk=lifting.uuid %}" class="btn-sm btn">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="is-bg-light dexa-border-bottom mt-4 p-2">
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <b>Transport Equipment Used</b>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <div class="level-item">
+                                {% for group in request.user.groups.all %}
+                                {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                <a href="{% url 'aix:work-order-activity-transport-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Transport Record</a>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Equipment</th>
+                                <th>Type</th>
+                                <th>Driver</th>
+                                <th>Assistant</th>
+                                <th>Status</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transport in activity_digest.transports %}
+                            <tr>
+                                <td>{{ transport.vehicle.name }}</td>
+                                <td>{{ transport.vehicle.vehicle_type }}</td>
+                                <td>{{ transport.driver.name }} {{ transport.driver.designation }}</td>
+                                <td>{% for op in transport.assistants.all %} {{op.name}} - {% endfor %}</td>
+                                <td>{{ transport.status }}</td>
+                                <td>
+                                    <a href="{% url  'aix:work-order-activity-transport-update-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=activity.uuid work_order_activity_transport_pk=transport.uuid %}" class="btn-sm btn">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-5 p-0 dexa-white">
+                <div class="row ml-0">
+                    <div class="level dexa-border-bottom">
+                        <div class="level-left">
+                            <div class="level-item">
+                            </div>
+                        </div>
+                        <div class="level-right p-3">
+                            <div class="level-item text-center">
+                                <a href="{% url  'aix:work-order-activity-update-tsk' entity_slug=view.kwargs.entity_slug work_order_task_pk=activity.task.uuid work_order_activity_pk=activity.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                <a href="{% url 'aix:work-order-activity-details' entity_slug=view.kwargs.entity_slug work_order_activity_pk=activity.uuid %}"
+                                    class="btn-sm btn-dark is-fullwidth ml-1">{% trans 'Back' %}</a>
+                                <a href="{% url  'aix:work-order-activity-rpt' entity_slug=view.kwargs.entity_slug work_order_activity_pk=activity.uuid %}" 
+                                    class="card-footer-item btn-sm btn-danger text-center col-md-4 w-100 ml-1">Print Report</a>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="is-bg-light dexa-border-bottom">
+                        <h1 class="p-2">DESCRIPTION</h1>
+                        <p class="p-2">{{ activity.activity_description }}</p>
+                    </div>
+                    <div class="mt-2 is-bg-light dexa-border-bottom">
+                        <h1>COMMENTS</h1>
+                        <p class="p-2">{{ activity.comments }}</p>
+                    </div>
+                    <div class="mt-2 is-bg-light dexa-border-bottom">
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <b>Personnel involved in this activity</b> 
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item text-center pr-2">
+                                    {% for group in request.user.groups.all %}
+                                    {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                    <a href="{% url 'aix:work-order-activity-personnel-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Personnel</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Personnel</th>
+                                    <th>Designation</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Deployed</th>
+                                    <th>Relieved</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for personnel in activity_digest.personnel %}
+                                <tr>
+                                    <td>{{ personnel.employee.name }}</td>
+                                    <td>{{ personnel.employee.designation }}</td>
+                                    <td>{{ personnel.start_date }}</td>
+                                    <td>{{ personnel.end_date }}</td>
+                                    <td>{{ personnel.deploy_date }}</td>
+                                    <td>{{ personnel.relieve_date }}</td>
+                                    <td>
+                                        <a href="{% url  'aix:work-order-activity-personnel-update-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=personnel.activity.uuid work_order_activity_personnel_pk=personnel.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-2 is-bg-light dexa-border-bottom">
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <b>Assets involved in this activity</b>
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item pr-2">
+                                    {% for group in request.user.groups.all %}
+                                    {% if group.name == 'Supervisors' or group.name == 'Clerks' or group.name == 'Admins' %}
+                                    <a href="{% url 'aix:work-order-activity-asset-create-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk %}" class="btn-sm btn-success mb-2"><i class="mdi mdi-plus me-2"></i> Add Asset</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Type</th>
+                                    <th>Registration</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for asset in activity_digest.assets %}
+                                <tr>
+                                    <td>{{ asset.asset.name }}</td>
+                                    <td>{{ asset.asset.vehicle_type_name }}</td>
+                                    <td>{{ asset.asset.license_plate }}</td>
+                                    <td>{{ asset.start_date }}</td>
+                                    <td>{{ asset.end_date }}</td>
+                                    <td>{{ asset.status }}</td>
+                                    <td>
+                                        <a href="{% url  'aix:work-order-activity-asset-update-act' entity_slug=view.kwargs.entity_slug work_order_activity_pk=view.kwargs.work_order_activity_pk work_order_activity_asset_pk=asset.uuid %}" class="btn-sm btn-dark">Edit</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-2 is-bg-light">
+                        {% block content_documents %}
+                        {% include '../../details/documents.html' with entity_slug=view.kwargs.entity_slug wo=work_order wo_document_qs=activity_digest.documents upload='activity' %}
+                        {% endblock content_documents %}
+                    </div>
+                </div>
+                <div class="px-2">
+                </div>
+            </div>
+        </div>
+{%endblock content%}

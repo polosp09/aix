@@ -1,0 +1,122 @@
+{% extends 'aix/layouts/content_layout_1.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+{% load crispy_forms_tags%}
+{%block content%}
+
+    <div class="row">
+        {% if not work_orders %}
+        <div class="columns is-multiline is-centered">
+            <div class="column is-6">
+                <div class="card">
+                    {% if work_order %}
+                    <form action="{% url 'aix:work-order-update' entity_slug=view.kwargs.entity_slug work_order_pk=work_order.uuid %}" method="post">
+                    {% else %}
+                    <form action="{% url 'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" method="post">
+                    {% endif %}
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h2 class="card-header-title">
+                                        <span class="icon is-medium">
+                                           {# {% icon 'ic:baseline-production-quantity-limits' 36 %} #}
+                                        </span>{{ page_title }}</h2>
+                                        <div class="level-item">
+                                            <a href="{% url 'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                                <i class="mdi mdi-plus"></i> {% trans 'New Work Order' %}</a>
+                                        </div>
+                        </div>
+                        {% if form %}
+                        <div class="card-body dexa-form-table">
+                            <table>{{ form.as_table }}</table>
+                            <button type="submit" onclick="showLoader()"
+                                    class="btn btn-primary is-outlined is-fullwidth djetler_my_1">
+                                {% trans 'Save' %}
+                            </button>
+                            {% for group in request.user.groups.all %}
+                            {% if group.name == 'TotalProjectManager' or group.name == 'Admins' %}
+                            <a href="{% url 'aix:home' %}"
+                               class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                            {% endif %}
+                            {% if group.name == 'OperationsManager' or group.name == 'Supervisor' or group.name == 'Clerks' %}
+                            <a href="{% url 'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}"
+                                class="btn-sm btn-dark is-fullwidth">{% trans 'Back' %}</a>
+                            {% endif %}
+                            {% endfor %}
+                        {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+                    </form>
+                    <div id="save-loader">
+                        <img src="{% static 'images/Alternative.gif'%}" alt="img-2" height="20" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if work_orders %}
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-6">
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <h1 class="is-size-4 text-weight-thin">{% trans 'Work Order List' %}</h1>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <div class="level-item">
+                                <!-- <a href="{% url 'aix:work-order-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                    <i class="mdi mdi-plus"></i> {% trans 'New Work Order' %}</a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end col-->
+            </div>
+            <!-- end row-->
+            <div class="col-6">
+                <div class="card dexa-badge-lg">
+                    <table class="dexa-tablex">
+                        <tr>
+                            <th><a href="{% url 'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}">WORK ORDERS</a></td>
+                            <th><a href="{% url 'aix:invoice-list' entity_slug=view.kwargs.entity_slug %}">INVOICES</a></td>
+                            <th>JOB CARDS</td>
+                        </tr>
+                        <tr>
+                            <td><a href="{% url 'aix:work-order-list' entity_slug=view.kwargs.entity_slug %}">{{wo_digest.wo_qs_count}}</a></td>
+                            <td><a href="{% url 'aix:invoice-list' entity_slug=view.kwargs.entity_slug %}">{{wo_digest.invoices_count}}</a></td>
+                            <td>{{wo_digest.jcd_qs_count}}</td>
+                        </tr>
+                        <tr>
+                            <th><a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}">EQUIPMENT</a></td>
+                            <th><a href="{% url 'aix:asset-list' entity_slug=view.kwargs.entity_slug %}">ASSETS</a></td>
+                            <th><a href="{% url 'aix:employee-list' entity_slug=view.kwargs.entity_slug %}">PERSONNEL</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="{% url 'aix:equipment-list' entity_slug=view.kwargs.entity_slug %}">{{wo_digest.wo_asset_qs_count}}</a></td>
+                            <td><a href="{% url 'aix:asset-list' entity_slug=view.kwargs.entity_slug %}">{{wo_digest.wo_asset_qs_count}}</a></td>
+                            <td><a href="{% url 'aix:employee-list' entity_slug=view.kwargs.entity_slug %}">{{wo_digest.wo_personnel_qs_count}}</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div> <!-- end row -->
+{%endblock content%}
+{% block extra_javascript %}
+<script type="text/javascript">
+    function showLoaderOnClick(url) {
+        showLoader();   
+        // window.location=url;
+    }
+    function showLoader(){
+        var v = document.getElementById("save-loader");
+        v.className = "loading-spinner";
+        // alert(v.className)
+        // $("#load-icon").show();
+        setTimeout(function(){
+            v.className = "x";},3800);
+    }
+</script>
+{% endblock %}

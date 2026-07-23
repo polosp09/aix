@@ -1,0 +1,33 @@
+{% load aix %}
+{% load i18n %}
+
+<div class="table-container">
+    <table class="table is-fullwidth is-narrow is-striped django-ledger-table-bottom-margin-75">
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th>UOM</th>
+            <th>SKU</th>
+            <th>UPC</th>
+            <th>Earnings Account</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for pns in pns_list %}
+            <tr>
+                <td>{{ pns.name }}</td>
+                <td>{{ pns.uom }}</td>
+                <td>{{ pns.sku }}</td>
+                <td>{{ pns.upc }}</td>
+                <td>{{ pns.earnings_account }}</td>
+                <td>
+                    <a href="{% url 'aix:product-update' entity_slug=entity_slug item_pk=pns.uuid %}"
+                        class="btn-sm text-primary">{% trans 'Update' %}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,22 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <div class="column is-8-tablet is-6-desktop">
+            <div class="card">
+        <div class="card-body">
+                <form action="{% url 'aix:account-create' entity_slug=view.kwargs.entity_slug %}"
+                      method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary is-fullwidth djetler_my_1">Submit</button>
+                    <a class="btn btn-dark is-small is-fullwidth"
+                       href="{% url 'aix:account-list' entity_slug=view.kwargs.entity_slug %}">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

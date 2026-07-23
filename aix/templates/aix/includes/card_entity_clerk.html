@@ -1,0 +1,50 @@
+{% load static %}
+{% load aix %}
+{% now "Y" as current_year %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="product-color mt-3">
+                <a href="#" class="not-active">
+                    <div class="product-color-item mt-2">
+                        <img src="{% static 'images/logo_totalenergies.png' %}" alt="img-1" class="avatar-md m-2">
+                    </div>
+                </a>
+                <p class="title text-weight-light">
+                    {{ entity.name }}
+                </p>
+                <p class="subtitle">{{ entity.address_1 }}</p>
+                <!-- <p>Created: {{ entity.created | timesince }} ago</p> -->
+                <p class="m-5"></p>
+                <p class="is-text-centered">
+                    <table class="table is-list" width="40%">
+                        <tr>
+                            <td>WORk ORDERS</td>
+                            <td>TASKS</td>
+                        </tr>
+                        <tr>
+                        {% if wo_router %}
+                            <td>
+                            {% for wo in wos %}
+                            <p class="pb-1"><a href="{% url 'aix:work-order-details' entity_slug=entity.slug work_order_pk=wo.work_order.uuid %}" class="text-light btn-sm btn-primary">{{wo.work_order.order_no}}</a></p>
+                            {% endfor %}
+                            </td>
+                        {% endif %}
+                        {% if task_router %}
+                            <td>
+                            {% for tsk in tasks %}
+                            <p class="pb-1"><a href="{% url 'aix:work-order-task-details' entity_slug=entity.slug work_order_task_pk=tsk.task.uuid %}" class="text-light btn-sm btn-primary">{{tsk.task.tripno}}</a></p>
+                            {% endfor %}
+                            </td>
+                        {% endif %}
+                        </tr>
+                    </table>
+                    <a href="{% url 'aix:kpi-hse-list' entity_slug=entity.slug %}" class="text-light btn-sm btn-primary">HSE EVENTS</a>
+                    <!-- <a href="{{ entity.get_dashboard_url }}" class="text-light btn-sm btn-primary">Dashboard</a> 
+                    <a href="{% url 'aix:entity-dashboard-aix-year' entity_slug=entity.slug year=year month=month %}" class="text-light btn-sm btn-primary">Dashboard</a> -->
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

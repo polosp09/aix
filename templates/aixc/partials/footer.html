@@ -1,0 +1,20 @@
+{% load static %}
+{% block footer %}
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-6">
+							<script>
+								document.write(new Date().getFullYear())
+							</script>© aix+.</div>
+							<div class="col-sm-6">
+								<div class=" text-sm-end d-none d-sm-block">
+								{% if user.is_superuser %}
+									<a href="/admin" class="btn-sm btn-secondary">Admin</a> | 
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+{% endblock footer %}

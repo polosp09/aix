@@ -1,0 +1,37 @@
+{% extends 'aix/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load aix %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        {% block page_header %}
+        {% include './app/clients/page_header.html' %}
+        {% endblock page_header %}
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <h1 class="is-size-4 text-weight-thin">{% trans 'Clients List' %}</h1>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            <a href="{% url 'aix:customer-create' entity_slug=view.kwargs.entity_slug %}" class="btn-sm btn-success">
+                                <i class="mdi mdi-plus"></i> {% trans 'New Client' %}</a>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {% customer_table %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
